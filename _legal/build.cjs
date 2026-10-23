@@ -42,7 +42,12 @@ const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace
 for (const doc of DOCS) {
   const md = fs.readFileSync(path.join(__dirname, `${doc.id}.md`), 'utf8');
   if (/<!--/.test(md)) throw new Error(`${doc.id}.md 에 HTML 주석이 남아 있다 — 게시본이 아니다`);
-  const filled = md.replace(/YYYY-MM-DD/g, effective);
+  const filled = md
+    .replace(/YYYY-MM-DD/g, effective)
+    // `**"서비스"**란` 처럼 닫는 ** 앞이 따옴표·괄호이고 뒤에 한글이 붙으면 CommonMark 가 굵게로 보지 않아 ** 가 글자로 남는다
+    .replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>')
+    // 항목 안의 ①②③ 세부 항목은 줄을 나눠 적혀 있다 — 그대로 두면 한 문단으로 붙는다
+    .replace(/([^\n])\n(\s*[①-⑳])/g, '$1<br>\n$2');
   const title = filled.match(/^# (.+)$/m)[1].trim();
   const body = marked
     .parse(filled, { gfm: true })
