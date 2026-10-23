@@ -179,9 +179,11 @@ h1 .acc{background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-bac
 /* FOOTER */
 footer{background:var(--dark);color:rgba(255,255,255,.4);padding:36px 48px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 .ft-logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-size:15px;font-weight:800;color:#fff}
-.ft-links{display:flex;gap:24px}
+.ft-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px}
 .ft-links a{font-size:12px;transition:color .2s}
 .ft-links a:hover{color:rgba(255,255,255,.8)}
+/* 개인정보처리방침은 다른 링크와 구별되게 굵게 (개인정보 보호법 시행령 제31조 · legal/사업자정보-쿠키-기타-게시물.md §1-1) */
+.ft-links a.ft-privacy{font-weight:700;color:rgba(255,255,255,.75)}
 .ft-copy{font-size:11px;font-family:var(--mono)}
 
 @media(max-width:900px){
@@ -469,8 +471,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.4);padding:36px 48px;borde
   </div>
   <div class="ft-links">
     <a href="#">서비스 소개</a>
-    <a href="#">개인정보 처리방침</a>
-    <a href="#">이용약관</a>
+    <a href="https://pivit.work/terms/">이용약관</a>
+    <a class="ft-privacy" href="https://pivit.work/privacy/">개인정보처리방침</a>
+    <a href="https://pivit.work/policy/">운영정책</a>
     <a href="#">문의하기</a>
   </div>
   <div class="ft-copy">© 2026 Pivit · pivit.work</div>
