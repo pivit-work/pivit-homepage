@@ -1,0 +1,117 @@
+/* 공고 화면 (/notice · /notice/<번호>) — PW-2255.
+   본문 값은 기획 시안 pivit-specs 7. Homepage/pivit-notice.html v1.0(§9-R 실측) 그대로,
+   머리·꼬리는 이 사이트 첫 화면(index.html)의 nav · footer 그대로다. */
+:root{
+  --strong:#2c3744; --text:#596069; --sub:#687079; --muted:#b1b6be; --disabled:#d2d6db;
+  --bg:#f3f4f6; --bg-section:#f9fafb; --card:#ffffff; --hover:rgba(0,0,0,.03);
+  --brand-soft:#e1fef2; --brand-deep:#10774d;
+  --border-light:#e6e8ea;
+  --info-bg:#eff8ff; --info-text:#1570ef; --info-border:#b2ddff;
+  --r-md:8px; --r-lg:10px; --gutter:32px;
+  --focus:0 0 0 4px rgba(45,189,130,.24);
+  --font:'Pretendard','Noto Sans KR',system-ui,sans-serif;
+  /* 첫 화면 nav · footer 값 */
+  --hp-blue:#4F6AF5; --hp-purple:#8B5CF6; --hp-dark:#0A0F1E; --hp-text:#0F172A; --hp-sub:#64748B; --hp-border:#E2E8F0;
+  --display:'Syne',sans-serif; --mono:'DM Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--card);color:var(--text);font-size:16px;line-height:24px;font-weight:500;overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:var(--r-md)}
+
+/* 첫 화면 nav 그대로 */
+.hp-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--hp-border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.hp-logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:20px;color:var(--hp-text)}
+.hp-logo-icon{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--hp-blue),var(--hp-purple));display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800}
+.hp-nav-links{display:flex;gap:36px}
+.hp-nav-links a{font-size:14px;font-weight:500;color:var(--hp-sub);transition:color .2s}
+.hp-nav-links a:hover{color:var(--hp-text)}
+
+/* 첫 화면 footer 그대로 */
+.hp-footer{background:var(--hp-dark);color:rgba(255,255,255,.4);padding:36px 48px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:14px;line-height:1.6}
+.hp-ft-logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-size:15px;font-weight:800;color:#fff}
+.hp-ft-logo .hp-logo-icon{width:26px;height:26px;font-size:11px}
+.hp-ft-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px}
+.hp-ft-links a{font-size:12px;transition:color .2s}
+.hp-ft-links a:hover{color:rgba(255,255,255,.8)}
+.hp-ft-links a.ft-privacy{font-weight:700;color:rgba(255,255,255,.75)}
+.hp-ft-copy{font-size:11px;font-family:var(--mono)}
+
+/* 버튼 — 시안 §6 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;border:0;border-radius:var(--r-md);font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-md{min-height:36px;padding:8px 12px;font-size:14px;line-height:20px}
+.btn-ghost{background:var(--hover);color:var(--sub)}
+.btn-ghost:hover{background:rgba(0,0,0,.06)}
+
+/* ── 공고 본문 열 — 정책 §1 (폭 880 가운데) ─────────────────────────── */
+.nt{max-width:880px;margin:0 auto;padding:56px var(--gutter) 96px}
+.nt-head{display:flex;flex-direction:column;gap:8px;padding:8px 0 28px}
+.nt-title{font-size:30px;line-height:38px;font-weight:700;color:var(--text)}             /* §9-R .tl-page-title */
+.nt-desc{font-size:14px;line-height:20px;font-weight:500;color:var(--sub)}
+
+/* 목록 행 — §9-R .mtg-list(간격 2) · .mtg-row(r6) · .mtg-row-time(왼쪽 칸 + 구분선) · .mtg-row-body(pad 16×20 · gap 6) */
+.nt-list{display:flex;flex-direction:column;gap:2px}
+.nt-row{display:grid;grid-template-columns:88px minmax(0,1fr);background:var(--card);border:1px solid var(--border-light);border-radius:6px;cursor:pointer;transition:background .2s}
+.nt-row:hover{background:var(--hover)}
+.nt-no{display:flex;align-items:center;padding:12px 14px;border-right:1px solid var(--border-light);font-size:14px;line-height:20px;font-weight:600;color:var(--sub);white-space:nowrap}
+.nt-body{display:flex;flex-direction:column;gap:6px;padding:16px 20px;min-width:0}
+.nt-row-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nt-row-title{font-size:14px;line-height:20px;font-weight:500;color:var(--text);min-width:0}
+.nt-meta{display:flex;gap:6px;font-size:14px;line-height:20px;font-weight:400;color:var(--sub)}
+.nt-meta .end{color:var(--muted)}
+/* 분류 · 정정 표지 — §9-V 동작 배지 모양 */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:99px;background:var(--bg-section);border:1px solid var(--border-light);font-size:12px;line-height:16px;font-weight:600;color:var(--sub);white-space:nowrap}
+.tag.fix{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}
+
+/* 페이지 이동 */
+.nt-pager{display:flex;justify-content:center;gap:4px;margin-top:28px}
+.nt-pager button{min-width:36px;min-height:36px;padding:8px 10px;border:0;border-radius:var(--r-md);background:transparent;font-size:14px;line-height:20px;font-weight:600;color:var(--sub);cursor:pointer}
+.nt-pager button:hover{background:var(--hover)}
+.nt-pager button[aria-current="page"]{background:var(--brand-soft);color:var(--brand-deep)}
+.nt-pager button:disabled{color:var(--disabled);cursor:default;background:transparent}
+
+/* 빈 상태 · 오류 — §9-R .mtg-empty */
+.nt-empty{display:flex;flex-direction:column;align-items:center;gap:6px;padding:48px 20px;border-radius:12px;background:var(--bg-section);text-align:center}
+.nt-empty b{font-size:15px;line-height:22px;font-weight:600;color:var(--sub)}
+.nt-empty span{font-size:13px;line-height:20px;font-weight:400;color:var(--muted)}
+.nt-empty .btn{margin-top:14px}
+
+/* 로딩 */
+.sk{height:58px;border-radius:6px;background:linear-gradient(90deg,var(--bg-section),var(--bg),var(--bg-section));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* 본문 */
+.nt-back{display:inline-flex;align-items:center;gap:4px;font-size:14px;line-height:20px;font-weight:600;color:var(--sub);padding:8px 0}
+.nt-back:hover{color:var(--strong)}
+.nt-fix{display:flex;flex-direction:column;gap:4px;margin-top:20px;padding:12px 16px;border-radius:var(--r-md);background:var(--info-bg);border:1px solid var(--info-border);font-size:14px;line-height:20px;color:var(--info-text)}
+.nt-fix a{text-decoration:underline;font-weight:600}
+.nt-doc-head{display:flex;flex-direction:column;gap:10px;margin-top:24px;padding-bottom:20px;border-bottom:1px solid var(--border-light)}
+.nt-doc-tags{display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;font-weight:600;color:var(--sub)}
+.nt-doc-title{font-size:24px;line-height:32px;font-weight:700;color:var(--strong)}
+.nt-doc-info{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;line-height:20px;font-weight:400;color:var(--sub)}
+.nt-doc-info .end{color:var(--muted)}
+.nt-doc-body{margin-top:24px;font-size:16px;line-height:28px;font-weight:400;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
+.nt-file{display:flex;align-items:center;gap:12px;margin-top:28px;padding:14px 16px;border:1px solid var(--border-light);border-radius:var(--r-lg);background:var(--bg-section)}
+.nt-file .nm{flex:1;min-width:0;font-size:14px;line-height:20px;font-weight:600;color:var(--text);overflow-wrap:anywhere}
+.nt-file .sz{font-size:12px;line-height:18px;color:var(--muted);font-weight:400}
+.nt-doc-foot{margin-top:40px;padding-top:20px;border-top:1px solid var(--border-light)}
+
+.nt-file .err{display:block;margin-top:2px;font-size:12px;line-height:18px;color:var(--sub);font-weight:400}
+.nt-404 a.home{text-decoration:underline}
+
+@media (max-width:900px){
+  .hp-nav{padding:0 24px}
+  .hp-nav-links{display:none}
+  .hp-footer{flex-direction:column;text-align:center}
+}
+@media (max-width:860px){
+  :root{--gutter:16px}
+  .nt{padding-top:32px}
+}
+@media (max-width:560px){
+  .nt-row{grid-template-columns:minmax(0,1fr)}
+  .nt-no{border-right:0;padding:12px 16px 0}
+  .nt-body{padding:6px 16px 14px}
+  .nt-doc-title{font-size:20px;line-height:28px}
+}

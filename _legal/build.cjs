@@ -89,7 +89,7 @@ ${extraStyle}
 <main>
 ${leveled}
 </main>
-<footer>© 2026 Pivit · <a href="/">pivit.work</a></footer>
+<footer>© 2026 Pivit · <a href="/">pivit.work</a> · <a href="/notice/">공고</a></footer>
 </div>
 </body>
 </html>

@@ -1,0 +1,89 @@
+// node --test _notice/   — 공고 사본 동기화 (PW-2255)
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { plan, write, attachmentPath } from './sync.mjs';
+
+const API = 'https://app.test/api/public/notices';
+const pdf = Buffer.from('%PDF-1.4 대차대조표');
+
+function site() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'notice-'));
+  fs.mkdirSync(path.join(root, 'notice/data'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'notice/index.html'), '<html><head><title>공고 — Pivit</title></head></html>');
+  fs.writeFileSync(path.join(root, 'notice/data/list.json'), '{"items":[]}\n');
+  return root;
+}
+
+const one = { no: 1, category: 'general', title: '주주명부 기준일 설정 공고', body: '본문\n둘째 줄', publishedAt: '2027-01-05T01:00:00.000Z', periodBasis: 'fixed_date', periodEndsOn: '2027-01-20' };
+const three = { no: 3, category: 'settlement', title: '제1기 대차대조표 공고', body: '결산', publishedAt: '2027-03-31T01:00:00.000Z', periodBasis: 'settlement_two_years', periodEndsOn: '2029-03-30', attachment: { name: '제1기_대차대조표.pdf', size: pdf.length, url: '/api/public/notices/3/attachment' } };
+const row = (d) => ({ no: d.no, category: d.category, title: d.title, publishedAt: d.publishedAt, periodEndsOn: d.periodEndsOn, isCorrection: false, isCorrected: false });
+
+function fakeApi(details, { failList = false } = {}) {
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(url);
+    const json = (b) => new Response(JSON.stringify(b), { status: 200 });
+    if (url.startsWith(`${API}?page=`)) {
+      if (failList) return new Response('', { status: 502 });
+      return json({ items: details.map(row), page: 1, totalPages: 1, total: details.length });
+    }
+    if (url === 'https://app.test/api/public/notices/3/attachment') return new Response(pdf, { status: 200 });
+    const d = details.find((x) => url === `${API}/${x.no}`);
+    return d ? json(d) : new Response('', { status: 404 });
+  };
+  return { fetchImpl, calls };
+}
+
+test('목록 · 본문 · 첨부 · 공고별 주소 파일을 만든다', async () => {
+  const root = site();
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([three, one]).fetchImpl });
+  write(root, files);
+  const list = JSON.parse(fs.readFileSync(path.join(root, 'notice/data/list.json'), 'utf8'));
+  assert.deepEqual(list.items.map((i) => i.no), [3, 1]);
+  const d3 = JSON.parse(fs.readFileSync(path.join(root, 'notice/data/3.json'), 'utf8'));
+  assert.equal(d3.attachment.url, '/notice/files/3/' + encodeURIComponent('제1기_대차대조표.pdf'));
+  assert.ok(fs.readFileSync(path.join(root, attachmentPath(3, '제1기_대차대조표.pdf'))).equals(pdf));
+  assert.match(fs.readFileSync(path.join(root, 'notice/1/index.html'), 'utf8'), /<title>제1호 주주명부 기준일 설정 공고 — 공고 — Pivit<\/title>/);
+});
+
+test('API 가 실패하면 아무 파일도 쓰지 않는다 — 이전 사본이 그대로 열린다', async () => {
+  const root = site();
+  write(root, await plan({ api: API, root, fetchImpl: fakeApi([one]).fetchImpl }));
+  const before = fs.readFileSync(path.join(root, 'notice/data/list.json'), 'utf8');
+  await assert.rejects(plan({ api: API, root, fetchImpl: fakeApi([one], { failList: true }).fetchImpl }), /502/);
+  await assert.rejects(plan({ api: API, root, fetchImpl: async () => { throw new Error('연결 끊김'); } }), /연결 끊김/);
+  assert.equal(fs.readFileSync(path.join(root, 'notice/data/list.json'), 'utf8'), before);
+});
+
+test('사본에 있던 공고가 응답에서 빠지면 실패한다(지우지 않는다)', async () => {
+  const root = site();
+  write(root, await plan({ api: API, root, fetchImpl: fakeApi([three, one]).fetchImpl }));
+  await assert.rejects(plan({ api: API, root, fetchImpl: fakeApi([one]).fetchImpl }), /제3호/);
+  assert.ok(fs.existsSync(path.join(root, 'notice/data/3.json')));
+});
+
+test('사본과 본문이 다르면 실패한다 · 정정 관계가 느는 것은 받는다', async () => {
+  const root = site();
+  write(root, await plan({ api: API, root, fetchImpl: fakeApi([one]).fetchImpl }));
+  await assert.rejects(plan({ api: API, root, fetchImpl: fakeApi([{ ...one, body: '바뀐 본문' }]).fetchImpl }), /body/);
+  const two = { ...one, no: 2, title: '정정', corrects: { no: 1 }, publishedAt: '2027-01-06T00:00:00.000Z' };
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([two, { ...one, correctedBy: [{ no: 2 }] }]).fetchImpl });
+  assert.match(String(files.get('notice/data/1.json')), /"correctedBy"/);
+});
+
+test('같은 내용이면 파일을 다시 쓰지 않는다 · 첨부는 한 번만 받는다', async () => {
+  const root = site();
+  write(root, await plan({ api: API, root, fetchImpl: fakeApi([three]).fetchImpl }));
+  const again = fakeApi([three]);
+  assert.deepEqual(write(root, await plan({ api: API, root, fetchImpl: again.fetchImpl })), []);
+  assert.ok(!again.calls.some((u) => u.endsWith('/attachment')));
+});
+
+test('첨부 이름의 / 는 경로를 벗어나지 못한다', () => {
+  const p = attachmentPath(3, '../../index.html');
+  assert.ok(p.startsWith('notice/files/3/'));
+  assert.ok(!p.slice('notice/files/3/'.length).includes('/'));
+});

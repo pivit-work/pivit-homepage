@@ -1,0 +1,37 @@
+# 회사 공고 사본 동기화 (PW-2255) — 앱 공개 API 의 게시 공고를 이 사이트(notice/)에 옮긴다.
+# 공고 화면은 이 사본만 읽어 앱이 멈춰도 열린다. 설계: pivit-work openspec `pw-2255-company-notice-public` design.md.
+#
+# - 5분마다 돈다(GitHub 예약 작업은 붐빌 때 늦게 돈다). 게시 직후 바로 돌리려면 앱이 `notice-published`
+#   repository_dispatch 를 보낸다(콘솔 카드 PW-2284).
+# - 동기화가 실패하면(API 오류 · 사본에 있던 공고가 빠짐/바뀜) 아무것도 커밋하지 않는다 — 이전 사본이 그대로 서비스된다.
+name: notice-sync
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [notice-published]
+permissions:
+  contents: write
+concurrency:
+  group: notice-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node --test _notice/*.test.mjs
+      - run: node _notice/sync.mjs
+      - name: 바뀐 사본만 커밋
+        run: |
+          git add notice
+          if git diff --cached --quiet; then echo '바뀐 것 없음'; exit 0; fi
+          git config user.name 'pivit-notice-sync'
+          git config user.email 'notice-sync@pivit.work'
+          git commit -m '공고 사본 동기화 (notice-sync)'
+          git push
