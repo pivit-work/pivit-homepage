@@ -29,7 +29,7 @@ button{font-family:inherit}
 .hp-nav-links a:hover{color:var(--hp-text)}
 
 /* 첫 화면 footer 그대로 */
-.hp-footer{background:var(--hp-dark);color:rgba(255,255,255,.4);padding:36px 48px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:14px;line-height:1.6}
+.hp-footer{font-weight:400;background:var(--hp-dark);color:rgba(255,255,255,.4);padding:36px 48px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:14px;line-height:1.6}
 .hp-ft-logo{display:flex;align-items:center;gap:9px;font-family:var(--display);font-size:15px;font-weight:800;color:#fff}
 .hp-ft-logo .hp-logo-icon{width:26px;height:26px;font-size:11px}
 .hp-ft-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px}
@@ -97,6 +97,7 @@ button{font-family:inherit}
 .nt-file .sz{font-size:12px;line-height:18px;color:var(--muted);font-weight:400}
 .nt-doc-foot{margin-top:40px;padding-top:20px;border-top:1px solid var(--border-light)}
 
+.nt-file .err[hidden]{display:none}
 .nt-file .err{display:block;margin-top:2px;font-size:12px;line-height:18px;color:var(--sub);font-weight:400}
 .nt-404 a.home{text-decoration:underline}
 
