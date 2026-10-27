@@ -29,6 +29,8 @@ jobs:
       - run: node _notice/sync.mjs
       - name: 바뀐 사본만 커밋
         run: |
+          # 공개 저장소의 예약 작업은 60일 동안 커밋이 없으면 GitHub 이 꺼 버린다 — 45일이 넘으면 표시 파일을 한 번 고쳐 커밋한다.
+          if [ $(( $(date +%s) - $(git log -1 --format=%ct) )) -gt $((45*86400)) ]; then date -u +%F > _notice/keepalive.txt; git add _notice/keepalive.txt; fi
           git add notice
           if git diff --cached --quiet; then echo '바뀐 것 없음'; exit 0; fi
           git config user.name 'pivit-notice-sync'

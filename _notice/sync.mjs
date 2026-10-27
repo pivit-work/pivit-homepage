@@ -45,7 +45,8 @@ async function getBytes(fetchImpl, url) {
 
 /** 첨부 파일 자리 — 게시 때 이름 그대로(새 탭에 그 이름이 보인다). 경로를 벗어나는 글자만 막는다. */
 export function attachmentPath(no, name) {
-  const safe = name.replace(/[\\/]/g, '_').replace(/^\.+/, '_');
+  // GitHub Pages(Jekyll)는 . _ # 으로 시작하는 파일을 올리지 않는다 — 앞에 글자를 붙인다.
+  const safe = name.replace(/[\\/]/g, '_').replace(/^[._#]/, 'f$&');
   return `notice/files/${no}/${safe}`;
 }
 
@@ -73,6 +74,7 @@ export async function plan({ api, root, fetchImpl = fetch }) {
   if (dropped.length) throw new SyncError(`사본에 있던 공고가 API 응답에서 빠졌습니다: 제${dropped.join('·')}호`);
 
   const out = new Map();
+  const warnings = [];
   const template = fs.readFileSync(path.join(root, 'notice/index.html'), 'utf8');
   for (const item of items) {
     const d = await getJson(fetchImpl, `${api}/${item.no}`);
@@ -89,16 +91,22 @@ export async function plan({ api, root, fetchImpl = fetch }) {
       const rel = attachmentPath(d.no, d.attachment.name);
       copy.attachment = { name: d.attachment.name, size: d.attachment.size, url: '/' + rel.split('/').map(encodeURIComponent).join('/') };
       if (!fs.existsSync(path.join(root, rel))) {
-        const bytes = await getBytes(fetchImpl, new URL(d.attachment.url, apiOrigin).href);
-        if (bytes.length !== d.attachment.size)
-          throw new SyncError(`제${d.no}호 첨부 크기가 다릅니다(${bytes.length} ≠ ${d.attachment.size})`);
-        out.set(rel, bytes);
+        // 첨부 하나를 못 받아도 다른 공고는 올린다(정책 §8 E7 — 본문과 첨부는 따로 넘어진다). 빠진 첨부는 다음 회차에 다시 받는다.
+        try {
+          const bytes = await getBytes(fetchImpl, new URL(d.attachment.url, apiOrigin).href);
+          if (bytes.length !== d.attachment.size)
+            throw new SyncError(`크기가 다릅니다(${bytes.length} ≠ ${d.attachment.size})`);
+          out.set(rel, bytes);
+        } catch (e) {
+          warnings.push(`제${d.no}호 첨부를 받지 못했습니다 — ${e.message}`);
+        }
       }
     }
     out.set(`notice/data/${d.no}.json`, JSON.stringify(copy, null, 1) + '\n');
-    out.set(`notice/${d.no}/index.html`, template.replace(/<title>[^<]*<\/title>/, noticeTitleTag(d)));
+    out.set(`notice/${d.no}/index.html`, template.replace(/<title>[^<]*<\/title>/, () => noticeTitleTag(d)));
   }
   out.set('notice/data/list.json', JSON.stringify({ items }, null, 1) + '\n');
+  out.warnings = warnings;
   return out;
 }
 
@@ -128,7 +136,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   const api = (process.env.NOTICE_API || 'https://app.pivit.work/api/public/notices').replace(/\/+$/, '');
   try {
-    const changed = write(root, await plan({ api, root }));
+    const files = await plan({ api, root });
+    for (const w of files.warnings) console.log(`::warning::${w}`);
+    const changed = write(root, files);
     console.log(changed.length ? `바뀐 파일 ${changed.length}개:\n${changed.join('\n')}` : '바뀐 것 없음');
   } catch (e) {
     console.error(`공고 동기화 실패 — 사본은 그대로 둡니다: ${e.message}`);

@@ -83,7 +83,30 @@ test('같은 내용이면 파일을 다시 쓰지 않는다 · 첨부는 한 번
 });
 
 test('첨부 이름의 / 는 경로를 벗어나지 못한다', () => {
+  assert.equal(attachmentPath(3, '.hidden.pdf'), 'notice/files/3/f.hidden.pdf');
+  assert.equal(attachmentPath(3, '_x.pdf'), 'notice/files/3/f_x.pdf');
   const p = attachmentPath(3, '../../index.html');
   assert.ok(p.startsWith('notice/files/3/'));
   assert.ok(!p.slice('notice/files/3/'.length).includes('/'));
+});
+
+test('첨부 하나를 못 받아도 다른 공고는 올라간다 · 다음 회차에 다시 받는다', async () => {
+  const root = site();
+  const api = fakeApi([three, one]);
+  const broken = async (url) => (url.endsWith('/attachment') ? new Response('', { status: 503 }) : api.fetchImpl(url));
+  const files = await plan({ api: API, root, fetchImpl: broken });
+  assert.match(files.warnings[0], /제3호 첨부/);
+  write(root, files);
+  assert.ok(fs.existsSync(path.join(root, 'notice/data/1.json')));
+  assert.ok(fs.existsSync(path.join(root, 'notice/data/3.json')));
+  assert.ok(!fs.existsSync(path.join(root, attachmentPath(3, '제1기_대차대조표.pdf'))));
+  write(root, await plan({ api: API, root, fetchImpl: api.fetchImpl }));
+  assert.ok(fs.existsSync(path.join(root, attachmentPath(3, '제1기_대차대조표.pdf'))));
+});
+
+test('제목에 $ 글자가 있어도 title 이 깨지지 않는다', async () => {
+  const root = site();
+  const odd = { ...one, title: "가$'나$&다" };
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([odd]).fetchImpl });
+  assert.match(String(files.get('notice/1/index.html')), /<title>제1호 가\$'나\$&amp;다 — 공고 — Pivit<\/title>/);
 });
