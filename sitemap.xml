@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://pivit.work/</loc><lastmod>2026-10-28</lastmod><priority>1.0</priority></url>
+  <url><loc>https://pivit.work/resource/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/okr/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/one-on-one/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/feedback/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/snippet/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/approval/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/pricing/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
+  <url><loc>https://pivit.work/compare/</loc><lastmod>2026-10-28</lastmod><priority>0.8</priority></url>
   <url><loc>https://pivit.work/privacy/</loc><lastmod>2026-10-28</lastmod><priority>0.3</priority></url>
   <url><loc>https://pivit.work/terms/</loc><lastmod>2026-10-28</lastmod><priority>0.3</priority></url>
   <url><loc>https://pivit.work/policy/</loc><lastmod>2026-10-28</lastmod><priority>0.3</priority></url>

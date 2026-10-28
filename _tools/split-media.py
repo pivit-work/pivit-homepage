@@ -6,6 +6,7 @@ pivit-specs 의 시안(7. Homepage/pivit-homepage-v*.html)은 파일 하나로 �
 
   python3 _tools/split-media.py <시안.html>        # → index.html + assets/
   python3 _tools/split-media.py index.html         # 이미 올린 index.html 을 그 자리에서 정리
+  python3 _tools/split-media.py okr/index.html okr/index.html   # 출력 경로를 주면 그 파일로 쓴다(기능 페이지)
 
 파일 이름은 내용 해시라 같은 영상은 같은 이름이 되고, 다시 돌려도 결과가 같다.
 작은 것(기본 8KB 미만)과 base64 가 아닌 SVG 는 그대로 둔다.
@@ -17,7 +18,7 @@ EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif
 MIN_BYTES = 8 * 1024
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-def main(src: str) -> None:
+def main(src: str, dst: str = "") -> None:
     html = pathlib.Path(src).read_text(encoding="utf-8")
     assets = ROOT / "assets"
     assets.mkdir(exist_ok=True)
@@ -35,12 +36,13 @@ def main(src: str) -> None:
         return f"/assets/{name}"
 
     out = re.sub(r"data:([a-z]+/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=]+)", repl, html)
-    (ROOT / "index.html").write_text(out, encoding="utf-8")
+    target = pathlib.Path(dst) if dst else ROOT / "index.html"
+    target.write_text(out, encoding="utf-8")
     for name, n in moved:
         print(f"assets/{name}  {n:,} B")
-    print(f"index.html  {len(html.encode()):,} B → {len(out.encode()):,} B")
+    print(f"{target.name if not dst else dst}  {len(html.encode()):,} B → {len(out.encode()):,} B")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) not in (2, 3):
         sys.exit(__doc__)
-    main(sys.argv[1])
+    main(*sys.argv[1:])
