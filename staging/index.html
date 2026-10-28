@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 스테이징(pivit.work/staging/) — 첫 화면 새 시안을 운영 전에 확인하는 곳. 검색엔진에 잡히지 않게 막는다(robots.txt Disallow: /staging/ 와 함께) -->
+<meta name="robots" content="noindex, nofollow">
+<title>[스테이징] Pivit — 회사의 사람이 어디에 쓰이는지 보이는 조직 운영 체제</title>
+<meta name="description" content="Pivit 은 회사의 사람이 어느 프로젝트와 목표에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지, 그 시간이 회사 목표로 이어지는지를 팀이 남기는 기록으로 한눈에 보여 주는 조직 운영 체제입니다. 얼리 액세스 신청을 받고 있습니다.">
+<!-- AI 검색·검색엔진 노출(GEO) — 주소 · 공유 미리보기 · 구조화 데이터. FAQPage 는 아래 #faq 문항을 그대로 옮긴 것이니,
+     FAQ 문구를 고치면 여기 mainEntity 도 같이 고친다(페이지에 없는 답을 구조화 데이터에만 두지 않는다).
+     이미지 두 장(assets/og-image.png 1200×630 · assets/pivit-logo.png)은 배포 저장소 pivit-work/pivit-homepage 에 있다 -->
+<link rel="canonical" href="https://pivit.work/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pivit">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="https://pivit.work/">
+<meta property="og:title" content="Pivit — 회사의 사람이 어디에 쓰이는지 보이는 조직 운영 체제">
+<meta property="og:description" content="Pivit 은 회사의 사람이 어느 프로젝트와 목표에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지, 그 시간이 회사 목표로 이어지는지를 팀이 남기는 기록으로 한눈에 보여 주는 조직 운영 체제입니다. 얼리 액세스 신청을 받고 있습니다.">
+<meta property="og:image" content="https://pivit.work/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pivit — 회사의 사람이 어디에 쓰이는지 보이는 조직 운영 체제">
+<meta name="twitter:description" content="Pivit 은 회사의 사람이 어느 프로젝트와 목표에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지, 그 시간이 회사 목표로 이어지는지를 팀이 남기는 기록으로 한눈에 보여 주는 조직 운영 체제입니다. 얼리 액세스 신청을 받고 있습니다.">
+<meta name="twitter:image" content="https://pivit.work/assets/og-image.png">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://pivit.work/#org",
+   "name": "Pivit",
+   "alternateName": "피빗",
+   "url": "https://pivit.work/",
+   "logo": "https://pivit.work/assets/pivit-logo.png"
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://pivit.work/#website",
+   "name": "Pivit",
+   "url": "https://pivit.work/",
+   "inLanguage": "ko-KR",
+   "publisher": {
+    "@id": "https://pivit.work/#org"
+   }
+  },
+  {
+   "@type": "SoftwareApplication",
+   "@id": "https://pivit.work/#app",
+   "name": "Pivit",
+   "url": "https://pivit.work/",
+   "applicationCategory": "BusinessApplication",
+   "operatingSystem": "Web",
+   "inLanguage": "ko-KR",
+   "description": "Pivit 은 회사의 사람이 어느 프로젝트와 목표에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지, 그 시간이 회사 목표로 이어지는지를 팀이 남기는 기록으로 한눈에 보여 주는 조직 운영 체제입니다. 얼리 액세스 신청을 받고 있습니다.",
+   "publisher": {
+    "@id": "https://pivit.work/#org"
+   },
+   "featureList": [
+    "리소스 투입 현황 — 조직·프로젝트별 평균 투입과 비중, 「여유」·「쏠림」·「미입력」 상태",
+    "OKR — 회사·팀·개인 정렬, KR 드릴다운으로 KR 마다 기여 중인 팀원",
+    "1on1 — KR 실제 진척과 자가평가 비교, AI 진행 스크립트 7단계, 액션 아이템 정리",
+    "AI 피드백 — 스니핏·OKR·1on1 기록을 근거로 SBI 형식 초안",
+    "데일리 스니핏 — 하루 업무 기록과 헬스체크, Jira·GitHub 활동으로 초안 채우기",
+    "협업 도구 연동 — Slack·Notion·Jira·GitHub·Google Calendar",
+    "전자결재·워크플로우·휴가 관리 (곧 출시)"
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://pivit.work/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "얼리 액세스는 어떻게 신청하나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "회사 단위로 신청합니다. 운영팀이 신청 내용을 확인한 뒤, 순서대로 묶어서 초대 메일을 보내 드립니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "비용이 드나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "얼리 액세스 기간에는 무료입니다. 정식 출시 후에도 3개월 더 무료로 쓰실 수 있습니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "전자결재와 휴가 관리도 쓸 수 있나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "곧 출시합니다. 전자결재·워크플로우·휴가는 기본 요금제와 별도인 «전자결재 · 휴가 패키지»로 제공하고, 출시 시점은 따로 안내해 드립니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "투입 비율은 누가 정하고, 어디에 쓰이나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "팀원 본인이 적습니다. 기준은 프로젝트 규모가 아니라 본인의 가용 업무 시간 100%입니다. 스니핏 기록으로 만든 추정치를 참고할 수 있지만, 본인이 저장하기 전에는 반영되지 않습니다. 이 값은 평가 점수나 인건비 정산에 쓰지 않습니다. 회사의 사람이 어느 일에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지 보고 함께 정하기 위한 값입니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "인사 부서만 쓰는 도구인가요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "아닙니다. 대표와 조직장이 조직 현황·OKR·매니저 화면을 직접 보고, 팀원은 스니핏과 투입 비율로 자기 기록을 남깁니다. 정기 평가 운영처럼 회사 전체를 다루는 설정은 관리자 메뉴에 따로 있습니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "AI 가 알아서 업무를 재배분하나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "아닙니다. 모든 AI 기능은 사용자가 버튼을 눌렀을 때만 실행되고, AI 가 투입 비율이나 담당을 바꾸지 않습니다. AI 는 상태를 정리하고 1on1 에서 다룰 주제를 제안합니다. 실제 조정은 매니저와 팀원이 이야기한 뒤 팀원이 직접 저장합니다. AI 가 쓴 초안은 노란색(확인 전)으로 표시되고, 사람이 확인하면 초록색으로 바뀝니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "대표와 조직장은 누구의 정보를 볼 수 있나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "조직장은 자신이 맡은 조직의 구성원만 봅니다. 조직장에서 내려오면 그 순간 볼 수 있는 범위도 사라집니다. 볼 자격이 없는 기록은 화면뿐 아니라 AI 입력에도 들어가지 않습니다. 리소스의 「조직 현황」은 조회 전용이고, 대표는 전사를, 본부장·부문장은 자기 조직을 봅니다. 조직 단위 평균에는 팀원이 직접 추가한 업무 이름이나 KR 제목이 드러나지 않습니다."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "연동한 도구의 데이터는 어떻게 다루나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "외부 도구의 접속 토큰은 암호화(AES-256)해 저장합니다. Slack DM 은 직원 본인이 명시적으로 동의한 경우에만 가져오고, 동의를 철회하면 그 동의로 가져온 DM 은 복구할 수 없게 파기합니다. 연동을 해제하면 새로 가져오는 것만 멈추고, 그동안 가져온 기록은 남습니다. 남은 기록을 지우려면 고객지원으로 요청해 주세요."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<link rel="icon" type="image/png" href="/assets/9b06400edc4a.png"><!-- 심볼 — 디자인 시스템 문서 brand/symbol-black.png (머리 주석 결정 6) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap">
+<!--
+══════════════════════════════════════════════════════════════════════════════
+ pivit-homepage-v6.html — v5 를 «짧은 핵심 + 그림 + 펼쳐 보는 상세» 흐름으로 다시 짠 시안 (2026-10-28)
+ 실측 정합: arch-design-tokens.md §9-C (미리보기 셸 · v5 캡처 그대로) · 토큰 §1·§2·§4·§5·§6 — v5 의 :root 토큰 · 부품을 그대로 쓰고 새 색을 만들지 않았다
+══════════════════════════════════════════════════════════════════════════════
+ v5(pivit-homepage-v5.html)는 그대로 두었다 — 운영 교체 카드 PW-2334 가 v5 를 가리킨다.
+ ■ 지시 — David 2026-10-28 (이 세션에 직접) 「홈페이지 피드백이 글자가 너무 많다. 집중이 안 된다 이런 의견이 있고 이케아 설명서 처럼 텍스트를
+   읽지 않아도 이해할 수 있는 느낌이면 좋을 것 같다는 의견이 있네. 무조건 텍스틀 빼라는 이야기가 아니라 좀 더 간결하게 임팩트를 줄 수 있을
+   정도로 남기고 상세 내용은 클릭해서 추가로 보고 싶은사람만 보도록 말야. 이야기의 흐름도 좀 논리적으로 하고. 전반적으로 흐름이 있는 콘텐츠 성격으로.」
+ ■ 이야기 순서 (v5 → v6)
+   v5: 히어로 → 대표의 질문 → 기능 01~05 → 목표 관리 → 결재·휴가 → 데이터 출처 → 작동 방식(신청 4단계) → FAQ → 신청
+       어긋난 곳: «03 목표와 성과»와 «목표 관리» 섹션이 같은 질문(시간이 목표로 이어지나)을 두 번 답했고,
+       «어떻게 돌아가나»가 맨 뒤(작동 방식)에 있어 기능을 다 읽은 뒤에야 전체 그림이 나왔다.
+   v6: 히어로 → ① 질문 셋 → ② 작동 방식 한 장(기록 → 합산 → 확인 → 대화) → ③ 질문마다 답 01 · 02 · 03
+       → ④ 그다음은 대화(04 1on1 · 05 AI 피드백) → ⑤ 데이터는 어디서 오나 → ⑥ 결재 · 휴가(곧 출시) → FAQ → 신청
+     · 질문 카드 세 장이 답 01 · 02 · 03 과 1:1 이다. 카드를 누르면 그 답으로 내려간다.
+     · v5 «목표 관리» 섹션은 답 03 에 합쳤다(세팅 · 실시간 점검 · 평가 문단은 03 의 «자세히 보기» 안).
+     · v5 «작동 방식»(신청 → OKR 연결 → 기록 → 점검) 섹션은 없앴다. 신청 방법은 하단 신청 칸 · FAQ 첫 문항, OKR 연결은 답 03,
+       기록 빈도(매일 스니핏 · 매달 투입 비율)는 작동 방식 한 장 1단계가 같은 내용을 담는다. GNB «작동 방식»은 새 한 장(#flow)을 가리킨다.
+     · 히어로 아래 «회사 단위로 신청하고, 운영팀 확인 후 순서대로 초대» 문장은 하단 신청 칸 · FAQ 와 같은 문장이라 히어로에서는 뺐다(혜택 줄은 남겼다).
+ ■ 글 → 그림 · 펼침
+   · 블록마다 보이는 글은 «번호 · 질문 · 제목 한 줄 · 설명 한 문장»이다. v5 의 본문 · 목록 · 예시 카드 · 주의 문장은 지우지 않고
+     «자세히 보기»(<details>) 안으로 옮겼다. 닫힌 채로 열리고, 누른 사람만 본다.
+   · 보이는 채로 남긴 강조 한 줄 — 답 02 «투입 비율은 평가 점수나 인건비 정산에 쓰지 않습니다»(정책 §1-A.1). 대표 · 팀원 모두의 첫 의문이라 접지 않았다.
+   · 그림은 v5 부품(.org-u · .stack · .ra-st · .kr-mem · .ai-card · 영상 3개 · 히어로 캡처)을 그대로 쓰고, 설명 그림 셋을 새로 그렸다 —
+     ⓐ 작동 방식 한 장(원형 선 아이콘 넷 + 화살표) ⓑ 답 02 구성원별 상태(칩 · 투입 막대 · %) ⓒ 답 03 회사 → 팀 → 개인 KR 나무(정렬됨 · 미정렬).
+     셋 다 앱 한 화면을 본뜬 것이 아니라 설명 그림이다 — 색 · 둥글기 · 글자는 :root 토큰과 v5 부품 규칙만 쓴다(블록 주석에 근거 절).
+   · 아이콘은 한 벌의 선 아이콘(24 · 선 1.8 · currentColor)을 body 첫머리 <svg> symbol 로 두었다.
+     v5 데이터 출처 카드의 이모지 기호(✳ 👤 ◎ ⇄)는 플랫폼마다 모양이 달라 이 아이콘으로 바꿨다.
+   · 영상 셋(1on1 · 스니핏 · 워크플로우)은 접지 않고 보이게 두었다 — «읽지 않아도 이해되는» 쪽이 영상이다. 셋 다 전체 폭(최대 960px)이다.
+     히어로 미리보기도 영상이다(아래 «v6 덧붙임»).
+ ■ 세는 법 — 보이는 글자 수 = Playwright(Chromium) 1440×900 에서 header.gnb · main > section · footer 의 innerText 를 공백 정규화한 길이의 합.
+   닫힌 <details> 안 글은 innerText 에 들지 않는다. 같은 스크립트로 v5 와 v6 을 쟀다.
+   1440px: v5 8,418자 · 페이지 높이 12,763px → v6 3,046자 · 11,013px (보이는 글 −64%)
+   390px : v5 8,405자 · 18,364px → v6 3,033자 · 12,098px. 펼침을 모두 연 v6 은 9,306자(1440px)로, v5 를 모두 연 9,488자와 거의 같다.
+   (값은 아래 «v6 덧붙임» 반영 뒤 2026-10-28 에 다시 잰 것이다. 첫 판은 3,032자 · 11,013px 였다.)
+   데스크톱 높이가 덜 준 것은 영상 셋을 전체 폭으로 보이게 둔 몫이다. 두 폭 모두 가로 넘침 0px · 콘솔 오류 0건(펼침을 모두 연 상태 포함).
+ ■ 바꾸지 않은 것 — head(제목 · 설명 · canonical · OG · JSON-LD), FAQ 8문항(JSON-LD FAQPage 와 짝), 하단 신청 칸, 푸터, 영상 3개 · 히어로 캡처, 문구의 근거.
+   주장은 새로 만들지 않았다. 보이는 한 문장은 v5 문장을 줄인 것이고, 블록마다 v5 근거 주석을 옮겼다.
+   작동 방식 한 장 4단계의 문장도 v5 의 기능 문장(매일 스니핏 · 월 1회 투입 · 사람 · 팀 · 조직 롤업 · 조직 현황 · OKR 진척 · 1on1 · 피드백 · 액션 아이템 재확인)을 줄인 것이다.
+ ■ v6 덧붙임 — David 2026-10-28 (이 세션에 직접) 「리소스 섹션에 샘플 화면 좀 더 상세하게 볼 수 있게 이것도 영상으로 해줘.」
+   → 같은 날 「근데 내가 말한 건 [히어로 미리보기 캡처] 이 영역인데」 · 「촬영을 데브 서버로 하는 거 맞아?」 · 「1.로하자 내가 데모 시연 조직 만들었어」.
+   히어로의 dev 실화면 캡처(정지 이미지)를 dev 데모 조직의 실화면 녹화(assets/resource-demo.mp4 · 13.2초 · 1920×1200 · 30fps · H.264)로 바꿨다.
+   녹화 방법 · 넣은 데이터는 히어로 미리보기 주석에 있다.
+   경위: 이 세션이 처음에 «리소스 섹션»을 답 01 로 읽어 답 01 그림을 HTML 재현 영상으로 바꿨고(5b15ae42 · 원본 장면 pivit-resource-demo.html),
+   이 판에서 답 01 은 첫 판(75e9b54e) 그림으로 되돌리고 HTML 재현 장면 파일은 지웠다 — 실화면과 크기 · 간격 · 범례 모양이 달랐다.
+ ■ 미정 자리 — v5 와 같다(연동 범위 한 줄은 답 ⑤ «자세히 보기» 안 · 사업자등록번호 · 통신판매업 신고번호 · 전화는 푸터).
+ ─── 아래는 v5 머리 주석 그대로 ───
+══════════════════════════════════════════════════════════════════════════════
+ pivit-homepage-v5.html — v4 에 «결재 · 휴가» 섹션을 더한 시안 (2026-10-28)
+══════════════════════════════════════════════════════════════════════════════
+ v4(pivit-homepage-v4.html)는 그대로 두었다. 아래 «v5 에서 바뀐 것» 밖의 주석 · 마크업은 v4 와 같다.
+ ■ v5 에서 바뀐 것 — David 2026-10-28 (이 세션에 직접) 「홈페이지 신규버전으로 전자결재, 워크플로우, 휴가관리 기능도 포함해서 넣자. 질문해.」
+   이 세션이 질문 넷을 드렸고 같은 날 답을 받았다(선택지 문면 그대로):
+     ① 비중 = 「섹션 하나 추가」 — 히어로 · «사람이 어디에 쓰이는가» 메시지는 그대로, 목표 관리 다음에 섹션 하나. GNB 메뉴는 늘리지 않는다
+     ② 출시 시점 = 「둘 다 «곧 출시»」 — 전자결재 · 워크플로우 · 휴가 카드 모두 «곧 출시» 배지
+        (전자결재는 spec-approval-workflow.md §9 의 1.5 단계 · 휴가 신청은 전자결재 위에서 돈다 — spec-leave.md §7)
+     ③ 요금 = 「«별도 패키지»만 표기」 — 가격 · 얼리 액세스와의 관계는 쓰지 않는다(단가 미정 — spec-billing.md §2.4-C · §10-16)
+     ④ 강조 = 「노코드 워크플로우 + AI」 · 「연차 자동 계산」 · 「다른 기능과 연결」 (「결재 템플릿 13종」은 고르지 않으셨다 — 전자결재 카드에 한 구절로만 둔다)
+   같은 날 덧붙인 지시 「워크플로우는 동적 이미지로 워크플로우의 움직임을 구현한 샘플 영상을 첨부해줘.」 →
+     워크플로우 카드에 샘플 영상(14초 · 자동 재생 · 소리 없음 · 반복). 원본 장면 pivit-workflow-demo.html → 녹화본 assets/workflow-demo.mp4.
+     이 파일에는 같은 mp4 를 data URI 로 넣었다 — 기획 뷰어가 시안을 한 파일로 불러와 상대 경로 파일을 못 열 수 있어서다(로고 · 히어로 이미지와 같은 방식).
+     «움직임 줄이기» 설정이면 재생하지 않고 마지막 장면(미리 실행이 끝난 모습)에 멈춘다.
+   섹션 배경 교차 — 새 섹션(회색)이 목표 관리(흰색) 다음에 들어가 뒤 섹션의 교차를 한 칸씩 뒤집었다:
+     데이터 출처 회색→흰색(흰 배경에서 안 보이는 .src 카드에 .prob 과 같은 배경 · 테두리) · 작동 방식 흰색→회색 · FAQ 회색→흰색 · 하단 CTA 흰색→회색.
+   문구의 근거(섹션 주석에도 적었다):
+     워크플로우 — spec-approval-workflow.md §3 성공 기준 1(예시 문장 · 개발 요청 없이) · §0 결재형 / 자동화형 · §5.7 AI 대화 · §5.9 · §7-E 미리 실행 칸(막힘은 켜기를 막는다)
+     전자결재   — 같은 문서 §3 성공 기준 2 · 3 · §5.4 결재라인(사람 규칙 · 기안자의 결재자 바꾸기 · 추가) · §5.5 부재 · 대결 · §6.3-A 결재형 기본 템플릿
+     휴가 · 연차 — spec-leave.md §1 · §1-1(1차 범위 ①②③) · §5-3 사용 단위 · §6-2 · §6-3 기준 · §6-13 소멸 · 사용 촉진 · §8 잔여 일괄 입력(CSV · XLSX)
+     다른 기능과 연결 — spec-leave.md §10 10-1 · 10-2 · 10-3 · 10-4 · 10-8 (내보내는 값 = 승인된 휴가 구간)
+     패키지     — spec-billing.md §2.4-C · spec-approval-workflow.md §2.1 (기본 요금제와 별도 · 함께 켜고 함께 끈다)
+   쓰지 않은 것 — 패키지 가격 · 무료 체험 기간 · 얼리 액세스에 패키지가 드는지(답 ③) · 출시 날짜 ·
+     «리소스 가용성에 휴가 반영»(spec-leave.md §10 내보내는 곳에 리소스 화면이 없다 — 질문 선택지에는 적었으나 정본 근거가 없어 뺐다) ·
+     법정 연차 계산의 Earnest 검토 상태(spec-leave.md §6 «검토 전»이지만 «근로기준법에 따라 계산한다»는 목표는 §1 이 정한 것이라 그대로 쓴다) ·
+     ERP · 회계 연동(업체별 어댑터는 «연동 상대가 생길 때» — §9).
+ ■ v5 덧붙임 — David 2026-10-28 (이 세션에 직접) 「데일리 스니핏을 작성하는 시연 영상도 추가해봐.」
+   «데이터는 어디서 오나» 섹션의 데일리 스니핏 카드를 넓혀 글 옆에 샘플 영상(15초 · 자동 재생 · 소리 없음 · 반복)을 넣었다.
+     원본 장면 pivit-snippet-demo.html → 녹화본 assets/snippet-demo.mp4 · 이 파일에는 워크플로우 영상과 같은 이유로 data URI 로 넣었다.
+     장면 = [오늘 활동으로 초안 채우기] → AI 가 칸을 노란(미확인)으로 채움 → 칸마다 [확인] → 프로젝트 선택 → 컨디션은 사람이 적음 → 등록 → 제출 완료
+     (A. daily-snippet/daily-snippet-spec.md §6.0 · screen-daily-snippet-write.policy.md §5-A · §3-B.1 · §7).
+     «움직임 줄이기» 설정이면 워크플로우 영상과 같이 재생하지 않고 마지막 장면(제출 완료)에 멈춘다.
+   카드 배치 — 넓은 스니핏 카드가 한 줄을 차지해 1on1 · OKR 두 장이 남으므로, 격자를 6칸으로 바꾸고 보통 카드를 3칸씩(반 줄) 쓰게 했다.
+     연동 카드(.wide)는 그대로 한 줄이다. 860px 이하에서는 종전처럼 한 줄에 하나다.
+   카드 문구는 종전 두 문장을 그대로 두고 초안 · 확인 · 컨디션 한 문장을 더했다. «곧 출시» 배지는 달지 않는다 — 활동 초안은 이미 개발됐다:
+     개발 카드 PW-1154(「오늘 활동으로 초안 채우기」) 상태 «완료» · 앱 저장소 pivit-work/pivit-work 8ff8efea(2026-10-27) 에
+     backend/src/snippet/snippets/snippets.controller.ts `@Post('ai-draft')` 와 frontend design-page 타입 `onAiDraft` 가 있다 (확인: 2026-10-28).
+     ⚠ 영상의 «프로젝트» 칸(policy §3-B.1)은 앱 화면에 아직 없다 — 같은 앱 커밋의 snippet-body.dto.ts 가 `projectIds` 를 «지금 화면이 보내지 않는다»고 적는다.
+       카드의 «프로젝트 태그로 투입 비율 추정치를 만듭니다»는 v4 부터 있던 문장이고, 영상은 기획 정본대로 그렸다.
+   모바일 제목 줄바꿈 — 560px 이하에서 제목의 <br> 을 숨겨 앞뒤 낱말이 붙던 것(v4 부터 · 예: 「기록이판단의」)을, <br> 앞에 공백을 넣어 고쳤다.
+     같은 원인인 제목 다섯 곳(문제 · 기능 · 목표 관리 · 데이터 출처 · 하단 CTA)을 함께 고쳤다. 결재 · 휴가 제목은 v5 에서 처음부터 공백이 있었다.
+   배경 톤 — 2026-10-28 히어로 · 하단 신청 섹션에 앱 로그인 화면 그라데이션(654a565e)을 입혔다가, 같은 날 David 「아까 적용한 그래디언트 색상은 빼주고」로
+     되돌렸다. 배경은 v4 와 같은 회색(--bg) · 흰(--card) 섹션 교차이고, 신청 박스도 v4 의 민트 박스(--brand-faint)다.
+   푸터 사업자 정보 — David 2026-10-28 「문의 메일은 cs@pivit.work 법인명은 주식회사 피빗, 영문 PIVIT Inc.」 · 처리방침 외 약관은 «관련 세션에서 찾아서».
+     링크 주소 = legal/행정처리-절차.md D48(처리방침 /privacy · 이용약관 /terms · 운영정책 /policy). 대표자 · 주소 · 호스팅 · 보호책임자 =
+     legal/사업자정보-쿠키-기타-게시물.md §1-1 공개 문안. 이메일만 §1-1 의 support@ 대신 David 가 준 cs@pivit.work 를 썼다.
+     사업자등록번호 · 통신판매업 신고번호 · 전화는 법인 설립 뒤 채운다(D48) — 미정 으로 남겼다.
+     쿠키 정책 · 오픈소스 라이선스 · 이메일무단수집거부 링크는 §1-1 목록에 있으나 게시 주소가 정해지지 않아(D48 은 네 문서만 정했다) 넣지 않았다.
+   1on1 샘플 영상 — David 2026-10-28 「1on1도 샘플 영상으로 안 되나? 스크립트 중심으로 하고 액션 플랜까지 나오도록」.
+     «04 · 1on1» 예시 칸의 정지 스크립트 카드를 영상으로 바꿨다(KR 실제 · 자가평가 표는 그대로). 원본 장면 pivit-1on1-demo.html → assets/1on1-demo.mp4 · data URI.
+     장면 = 준비에서 [진행 스크립트 생성] → 진행 중 7단계를 넘기며 멘트 · 질문 → 랩업 액션 합의 → 완료 화면 AI 액션아이템(담당 · 기한).
+     본문 셋째 줄에 «미팅이 끝나면 AI 가 액션아이템을 뽑는다»(screen-oneonone-session.policy.md §6.1 · §6.3)를 더했다.
+   AI 피드백 — David 2026-10-28 「AI 피드백과 그것의 장점도 넣어줘. AI가 데이터를 기반으로 피드백을 주게 되며 사람들은 더 공정하다고 느낀다고.」
+     기능 블록 «05 · AI 피드백»을 1on1 블록 다음에 새로 두었다(근거는 그 블록 주석). «더 공정하다고 느낀다»는 지시 문장이며 정본에 같은 문장은 없다
+     (G. 성과평과 & feedback/spec-feedback.md · feedback-ai-spec.md 에서 「공정」 0건 · 확인 2026-10-28) — 수치나 조사 결과처럼 쓰지 않았다.
+
+ ─── 아래는 v4 머리 주석 그대로 ───
+ pivit-homepage-v4.html — PIVIT 홈페이지 전면 개편 시안 (2026-10-20)
+══════════════════════════════════════════════════════════════════════════════
+ v2·v3 는 그대로 두고 참고만 했다. v3 의 시냅스 캔버스·다크 톤·Syne 서체는 계승하지 않는다.
+
+ ■ David 결정 (2026-10-20, 이 시안을 만든 세션에 직접 답함 — 전언 없음)
+   1. ~~포지셔닝 = 매니저 리소스 화면 중심~~ → 같은 날 개정(아래 1-A·1-B). 스니핏·원온원·OKR·피드백은 데이터원/후속 기능으로 둔다.
+   1-A. [2026-10-20 · David → 메인 세션 → 이 세션] 문구 전면 재작성 — 관점을 매니저에서 대표(CEO)로. 목표관리 설명은 SH 님 관점으로.
+   1-B. [2026-10-20 · David → 메인 세션 → 이 세션 · 1-A 를 정정] 대표는 과부하에 관심이 없다. 과부하 프레임을 전부 걷어내고
+        ⓐ 사람이 어느 프로젝트·목표에 쓰이는가 ⓑ 덜 쓰이는 사람(정본 상태 「여유」)이 누구인가 ⓒ 투입이 목표로 이어지고 누가 성과를 내는가
+        세 가지를 «한눈에» 보여 준다. 「놀고 있다」는 말은 쓰지 않되 «덜 쓰이는 사람을 찾는다»는 내용은 숨기지 않는다.
+        (1-A·1-B 의 근거 사슬: 메인 세션 코디네이터의 메시지가 David 님 지시의 «뜻»을 전한 것이 유일한 근거다 — 원문은 이 세션이 보지 않았다)
+   2. 시각 톤 = 앱 토큰 기반 새 디자인 (아래 토큰 표).
+   3. 히어로 미리보기 = 실제 리소스 화면을 본뜬다 (아래 「미리보기의 근거」).
+   4. 주 CTA 전부 /beta · 문구 「베타 신청하기」.
+      → [2026-10-27 · David → 이 세션 직접 · spec-beta-program.md D14] 주 CTA 전부 https://app.pivit.work/early-access?from=nav|hero|cta · 문구 「얼리 액세스 신청하기」.
+        얼리 액세스 신청은 베타 신청과 같은 신청서 · 같은 처리(혜택 포함)이고 program 필드로만 가른다 — 그래서 혜택 · 작동 방식 · FAQ 의 「베타」도 「얼리 액세스」로 바꿨다(숫자 · 조건은 그대로).
+      → [2026-10-27 · David 「C안으로 해」 · spec-beta-program.md D16] 얼리 액세스 혜택은 베타와 다르다 — 출시 후 3개월 무료 · 연간 단가 구간 없음.
+        첫 화면 · FAQ · 하단 CTA 의 «6개월» 문구를 «3개월»로 바꾸고 하단의 «그다음 6개월 · 연간 단가» 줄을 뺐다.
+   5. 베타 혜택 = 「베타 기간 무료 · 정식 출시 후 할인」. 할인율·기간은 미정이라 숫자를 쓰지 않는다.
+      → 2026-10-21 형태·기간 확정: 출시 후 6개월 무료 + 이어서 6개월 월간도 연간 단가(Starter·Growth) — spec-billing.md §2.7.3-A · spec-beta-program.md D4.
+        «혜택이 끝나면 정가»는 쓰지 않는다(정가 인상 동의 절차를 탄다 — 같은 절 5). 출시일은 여전히 미정이라 날짜를 쓰지 않는다.
+      신청은 회사 단위 · 운영팀 확인 후 배치로 초대 (심사 기준은 쓰지 않는다).
+   6. [2026-10-21 · David → 이 세션 직접] 로고·브랜드 타이포를 확정 로고로 바꾼다. 임시 「P」 박스 + 「Pivit」 글자 세 곳(GNB·미리보기 사이드바·푸터)을
+      가로형 로고 이미지 하나로 바꿨다 — 소문자 «pivit» 워드마크가 이미지에 들어 있어 글자를 따로 쓰지 않는다.
+      로고 근거: Discord #design 2026-03-31 JuLee 「로고 최종 결정 · 2안」(메시지 1488580782695120956) · 2026-04-01 「이거 쓰시면 됩니다」(1488888816293904585).
+      파일: [2026-10-21 · David 「심볼이랑 로고 여기서 써」] 디자인 시스템 문서 https://pivit-work.github.io/design-system-docs/ 의 Symbol·Logo 절
+        brand/logo-black.png(1048×368) → --logo 로 인라인(GNB·사이드바·푸터) · brand/symbol-black.png(512×557) → 파비콘.
+        세 곳 모두 밝은 배경이라 -white 판은 쓰지 않았다. 위 두 메시지의 2안과 모양이 같은 것을 눈으로 대조했다(2026-10-21).
+      서체: 같은 사이트 foundation/typography 가 「Pretendard 기반 · Display 24~72px · Text 12~20px」로 정한다 — 본문은 이미 Pretendard 라 바꾸지 않았다.
+   7. [2026-10-21 · David → 이 세션 직접] 「목표도 분기가 아니라 실시간」 — 목표 관리 「중간 점검」 카드를 실시간 점검으로 고쳤다.
+   8. [2026-10-21 · David → 이 세션 직접] 1on1 도 정량 목표(KR)를 근거로 하고 AI 가 진행 스크립트까지 만들어 생산적인 1on1 이 된다는 내용을 넣는다
+      → 기능 블록 「04 · 1on1」 신설 (근거는 그 블록 주석).
+   9. [2026-10-21 · David → 이 세션 직접] 히어로 리소스 미리보기를 dev 실화면 최신 캡처로 바꾼다 · 「니가 다 넣을 수는 없나? 샘플로」 —
+      dev 조직 P1 에 샘플 데이터를 넣고 찍었다(상세는 히어로 img 주석). 아래 「미리보기의 근거」는 HTML 재현 시절의 기록으로 남긴다.
+
+ ■ 토큰 — 값의 SSOT 는 scripts/pivit_tokens.py (TOKENS_SCRIPT 의 var(..., fallback) 의 fallback 값),
+   의미·사용법은 기획서-UX-UI-UserFlow/arch-design-tokens.md §1·§2·§3·§4·§5·§6·§7·§8.
+   HTML 이라 window.PIVIT 이 주입되지 않으므로 아래 :root 변수로 옮겼다.
+   tokens.css(design-system-docs) 는 링크하지 않았다 — 공개 홈페이지가 문서 사이트 CSS 에 기대면
+   그 사이트가 바뀔 때 홈페이지가 함께 바뀐다. 값은 pivit_tokens.py 의 fallback 과 같으므로,
+   그 파일이 바뀌면 이 표를 같이 고친다.
+
+   | CSS 변수            | pivit_tokens.py 키 (P.color.*) | DS 토큰                         | 값       |
+   |---------------------|--------------------------------|---------------------------------|----------|
+   | --strong            | strong                         | foreground-fgPrimary            | #2c3744  |
+   | --text              | text                           | text-textPrimary                | #596069  |
+   | --sub               | sub                            | text-textSecondary              | #687079  |
+   | --muted             | muted                          | text-textTertiary               | #b1b6be  |
+   | --disabled          | disabled                       | text-textQuaternary             | #d2d6db  |
+   | --on-brand          | onBrand                        | base-white                      | #ffffff  |
+   | --bg                | bg                             | background-bgPrimary            | #f3f4f6  |
+   | --bg-section        | bgSection                      | background-bgSecondary          | #f9fafb  |
+   | --card              | card                           | background-bgQuaternary         | #ffffff  |
+   | --hover             | hover                          | (리터럴)                        | rgba(0,0,0,.03) |
+   | --brand             | brand                          | background-bgBrandSolid         | #2dbd82  |
+   | --brand-hover       | brandHover                     | background-bgBrandSolidHover    | #21a67a  |
+   | --brand-soft        | brandSoft                      | background-bgBrandSecondary     | #e1fef2  |
+   | --brand-faint       | brandFaint                     | background-bgBrandPrimary       | #f1fffa  |
+   | --brand-text        | brandText                      | text-textBrandTertiary          | #21a67a  |
+   | --brand-deep        | brandDeep                      | text-textBrandSecondary         | #10774d  |
+   | --border            | border                         | border-borderPrimary            | #d2d6db  |
+   | --border-light      | borderLight                    | border-borderSecondary          | #e6e8ea  |
+   | --brand-border      | brandBorder                    | brand-200                       | #b3fade  |
+   | --success(-bg/-border) | success·successBg·successBorder | bgSuccessSolid·bgSuccessPrimary·success-200 | #079455·#ecfdf3·#abefc6 |
+   | --warning(-bg/-border) | warning·warningBg·warningBorder | bgWarningSolid·bgWarningPrimary·warning-200 | #dc6803·#fffaeb·#fedf89 |
+   | --error(-bg/-border/-text) | error·errorBg·errorBorder·errorText | bgErrorSolid·bgErrorPrimary·error-200·textErrorPrimary | #f04438·#fef3f2·#fecdca·#d92d20 |
+   | --info-bg/-text/-border | infoBg·infoText·infoBorder | blue-50·blue-600·blue-200       | #eff8ff·#1570ef·#b2ddff |
+   | --font / --mono     | P.font / P.mono                | §2 Pretendard / DM Mono         |          |
+   | --r-sm..--r-xxl     | P.radius sm4·md8·lg10·xl16·xxl24 | §4                            |          |
+   | --shadow-md         | P.shadow.md                    | §9 본표 그림자                  | 0 4px 12px rgba(10,13,18,.18) |
+
+   토큰 밖 값 — 전부 §7 「보존」 대상이거나 정본이 직접 정한 값이다(임의 hex 아님):
+   | --spare*            | 상태 「여유」 #0EA5E9 / #F0F9FF / #BAE6FD / 점 #38BDF8 — screen-resource-allocation.policy.md §5-1 · manager-app.jsx classifyStatus (§7 보존 info blue) |
+   | --critical*         | 상태 「승인 필요」 #b42318 / #fee4e2 — 같은 정책 §5-1 (error 한 단계 진한 값) |
+   | --ai / --ai-bg      | AI 보라 #7A5AF8 / #EBE9FE — arch-design-tokens.md §9-C Summary 카드 (§7 보존) |
+   | --ai-accent         | AI·추정 보라 #8B5CF6 — §7 보존 · 정책 §5-3.4 추정 마커 |
+   | 프로젝트 색 4종     | #6366F1 · #2563EB · #0E7490 · #B45309 — manager-app.jsx AllocationScreen PROJECTS (§7 보존 식별색) |
+   | --btn2-hover        | #c8f5e2 — §6 secondary 버튼 hover |
+   | --shadow-frame      | §5 shadow-2xl 0 24px 48px -12px rgba(10,13,18,.18) |
+   | --focus             | §5 브랜드 focus ring 0 0 0 4px rgba(45,189,130,.24) |
+
+ ■ 미리보기의 근거 — 「리소스 투입 › 조직 현황」 탭 (대표 계정 · 전사 루트) — 2026-10-20 「팀 현황」에서 교체
+   정본: I. 매니저-뷰/Resource-투입현황/screen-resource-allocation.policy.md v1.26 §3-0·§3-3·§4-3·§5-1·§5-6 (§5-6.1 「CEO / admin → 전사」)
+   화면 기획: I. 매니저-뷰/manager-app.jsx 의 AllocationScreen → OrgResourceView (구 resource-allocation.jsx)
+   교체 사유: 메시지 ⓐ(조직·프로젝트별로 사람이 어디에 쓰이는가)를 한 화면에 담는 정본 화면이 이 탭이고, 대표의 관할 루트가 전사다.
+     팀 현황은 직속 1뎁스뿐이라 대표 관점을 담지 못한다(§5-6 배경).
+   셸: arch-design-tokens.md §9-C (app.dev.pivit.work/manager 실측 · 2026-08-12 / 2026-09-07)
+     aside 240 · padding 8px 20px 20px / inner 200 · padding 12 · radius 24 · bg rgba(243,244,246,.5)
+     menu-item 34 높이 · padding 9px 8px · radius 8 · 14/700 · 활성 bg #e6e8ea / 비활성 색 #687079
+     top-nav 68 · padding 16px 40px 12px 12px / 검색바 202×40 · radius 10 · bg #eeeff1
+     main.manager-page padding 0 50px 60px 12px
+   GNB 항목: arch-nav-routing-policy.md §1 (상단 9 + 하단 3) — manager-app.jsx NAV_ITEMS 와 같은 라벨·아이콘
+   ⚠ 리소스 투입 화면 «본문»은 §9 에 실측이 없다(§9 대응표에 행 없음 · 확인 2026-10-20). 그래서 본문 치수는
+     manager-app.jsx AllocationScreen 의 인라인 값(스탯 카드 r16·16px 18px · 행 카드 r14 · 4px 컬러바 · StackBar 10)을 따랐다.
+   ⚠ 스탯 카드 「과부하 인원」(§3-3 네 번째 카드)을 미리보기에서 뺐다 — 결정 1-B. 앱 화면 변경 제안이 아니다.
+   ⚠ 조직 현황 스탯에 「여유 인원 수」는 없다(정본에 없음 · 팀 현황 §4-2 에만 있다). 여유는 구성원 행의 상태 배지로 보인다.
+   ⚠ 「리소스 뷰」(manager-app.jsx ResourceScreen · 구 resource-view.jsx)는 정책서·IA 등재가 없는 화면이라
+     (screen-manager-view.policy.md §3-1 M3) 본뜨지 않았고, 이 페이지에서 그 이름을 쓰지 않는다.
+   지표·용어는 그 정본에 있는 것만 쓴다: 조직 인원 · 입력 n/m · 평균 투입 % · 미입력 · 인원 n · 입력 n · 평균 투입 n% ·
+     개인 항목(§5-6.2) · 여유 · 적정 · 👁 조회 전용 · 내 입력 / 팀 현황 / 조직 현황. 사람·회사·프로젝트 이름은 예시 데이터다
+     (프로젝트 이름 4종은 manager-app.jsx PROJECTS 에서 가져왔다). 예시 수치는 §5-6.2 산식(미입력 분모 제외)으로 맞췄다
+     — 본부 92·74·66 + 직속 85·40·55, 입력 39명 → 평균 80%.
+
+ ■ 문구의 근거 (섹션 순) — 회의록은 «관점»의 근거이고 «기능»의 근거가 아니다. 기능 주장은 전부 정본 절을 단다
+   히어로      — team-wiki 회의록/meeting-20260808-3.md §2 (조직 운영 체제 · HR 표현 최소화) · team-wiki 회의록/meeting-20260404.md §2 ·
+                 기능: 정책 §5-6 · §5-1 · okr-policy.md §6.0 · screen-manager-view.policy.md §7-2
+   대표의 질문 — team-wiki 회의록/meeting-20260404.md §2·§3 · team-wiki 회의록/meeting-20260808-3.md §1 (현상과 방향을 섞지 않는다)
+   ⓐ 어디에    — 정책 §5-6 (조직 현황 · 프로젝트별 평균 비중 · 조회 전용) · §5-5.1 (투입 대상 3종) · §5-6.2 (개인 항목 묶음) ·
+                 O. 프로젝트-원장/spec-project-ledger.md §3-3 · screen-project-detail.policy.md (참여 인원 · 계획 합계 · 실제 합계)
+   ⓑ 덜 쓰이는 — 정책 §5-1 (여유 70% 미만 = 신규 프로젝트 배정 가능 · 쏠림 80% · 적정) · §4-2 (팀 현황 여유 카드) · §3-3 (미입력) ·
+                 §1-A.1 (가용시간 100% · 자기신고 · 평가·정산 금지) · §5-3 (스니핏 추정 · 참고치 · 최근 7일 · 태그 3건 이상)
+   ⓒ 목표·성과 — screen-manager-view.policy.md §7-2 (KR 진척 · 기여 중인 팀원) · §7-0 (조직 축) · §6-2·§6-3 (AI 브리핑) ·
+                 spec-manager-view.md §11.3 · arch-ai-data-spec.md §1
+   목표 관리   — team-wiki 회의록/meeting-20260404.md §5 (KPI 분모 · 사일로 · 큰 목표 공유) · §3 (일찍 보는 갭) ·
+                 team-wiki 회의록/meeting-20260308.md (세 단계) · team-wiki 회의록/meeting-20260422.md (계층) · team-wiki 회의록/meeting-20260322.md ·
+                 기능: okr-policy.md §6.0 · screen-okr-setup-wizard.policy.md §3-4 · okr-policy.md §1.2.4-F · arch-design-tokens.md §9-I ·
+                 spec-feedback.md §0 · spec-eval-cycle.md 개요
+   데이터 출처 — 정책 §5-3 · §5-5.3 · screen-manager-view.policy.md §6-3 · §7-2 · spec-feedback.md §0 ·
+                 협업툴-연동-화면-기획/integrations-spec.md §1·§7·§8 · team-wiki 회의록/meeting-20260808-3.md §1 (현업 조직장이 직접 쓰는 도구)
+   작동 방식   — David 결정 5 · okr-policy.md §6.0 · 2. Pivit-work-IA/pivit-ia-spec.md (「개인 입력 빈도가 월 1회 수준」) · team-wiki 회의록/meeting-20260308.md
+   FAQ         — 각 <details> 위 주석 · 「인사 부서만 쓰나요」는 team-wiki 회의록/meeting-20260808-3.md §1·§2 + arch-nav-routing-policy.md §1-A
+   푸터        — legal/사업자정보-쿠키-기타-게시물.md §1-1 (개인정보처리방침 링크 구별 표시 · 사업자 정보 자리)
+
+ ■ 앱 셸과 일부러 다르게 한 부분 (사유)
+   | 무엇                         | 앱 / 정본                       | 이 시안                         | 사유 |
+   |------------------------------|---------------------------------|---------------------------------|------|
+   | 히어로·섹션 제목 크기        | 앱 페이지 제목 30/38 (§9)       | §2 displayLg 48/60 · displayMd 36/44 (모바일 30/38) | 마케팅 페이지의 첫 문장은 앱 제목보다 커야 읽힌다. 크기는 §2 스케일 안에서만 골랐다 |
+   | 상단 GNB                     | 앱은 좌측 사이드바 240          | 상단 가로 바 64                 | 비로그인 공개 페이지다. 앱 셸(사이드바)은 미리보기 안에만 그린다 |
+   | 섹션 배경                    | 앱 페이지 배경 #f3f4f6 단일     | --bg 와 --card 를 섹션마다 번갈아 | 긴 스크롤에서 섹션 경계를 보이게 한다. 둘 다 토큰이다 |
+   | 미리보기 프레임 그림자       | 셸 그림자 1곳(P.shadow.md)      | §5 shadow-2xl                   | 제품 화면을 페이지 위에 띄워 보이게 하려는 것. §5 정의값이다 |
+   | 미리보기 폭 1024px 미만      | 앱은 사이드바 고정              | 사이드바·검색바를 숨긴다        | 모바일(≤390)에서 가로 스크롤 없이 본문을 읽히게 한다 |
+   | 미리보기 데이터              | 앱은 실제 팀                    | 예시 인물·예시 수치             | 공개 페이지라 실제 구성원 이름을 쓰지 않는다 |
+   | 조직 현황 스탯 카드          | 4장(조직 인원·평균 투입·과부하 인원·미입력 · §3-3) | 3장(과부하 인원 생략) | 결정 1-B — 홈페이지는 과부하를 주장하지 않는다. 앱 화면은 그대로 둔다 |
+   | 범례 글꼴                    | AllocationScreen 범례·카운트 = T.mono | Pretendard + tabular-nums | DM Mono 에 한글이 없어 프로젝트 이름이 고정폭 대체 글꼴로 벌어진다. 숫자 큰 값(%·스탯)은 DM Mono 유지 |
+   | 다크 모드                    | tokens-dark.css 존재            | 라이트만                        | 앱 기본이 라이트이고 다크 문안·검수 범위가 정해지지 않았다 |
+
+ ■ 미정 자리 — 화면에 보이게 남겼다
+   ① ~~정식 출시 후 할인율·기간~~ (2026-10-21 확정 — 위 5)  ② 베타에서 제공하는 연동 범위(연동별 Phase 가 다르다 — integrations-spec.md §7)
+   ③ 사업자 정보 중 사업자등록번호 · 통신판매업 신고번호 · 전화(상호 · 대표자 · 주소는 2026-10-28 채움 — 위 «푸터 사업자 정보»)
+   ④ ~~법인명(저작권 줄)~~ (2026-10-28 확정 — 주식회사 피빗 · PIVIT Inc.)
+   ⑤ ~~개인정보 처리방침·이용약관 링크 주소~~ (2026-10-28 — legal D48)  ⑥ ~~문의 이메일~~ (2026-10-28 확정 — cs@pivit.work)
+
+ ■ 쓰지 않은 것 (근거 없음 · 결정으로 뺌)
+   「Growth 플랜 3개월 무료」 · 「기업 요금제 자체 서버 배포」(bbf4b41a 가 결제 정본 §2.7.2 와 근거 부재로 뺐다) ·
+   대기 인원 수·고객사 로고·후기 · STT·AI 제공사 이름 · 기본 체험 14일(§2.7.2 — 베타는 §2.7.3 「운영자가 연 체험」이라 같은 페이지에
+   두 체험 조건을 함께 쓰면 신청자가 어느 쪽인지 헷갈린다) · 「AI 체크인」(정본에 그 이름의 기능이 없다).
+   [2026-10-20 결정 1-B] 과부하 프레임 전부 — 과부하·초과·승인 필요·130%·주 52시간·초과 알림 수신자·확인 완료·「업무 부하 조정」 어젠다.
+     정본(정책 §5-1·§5-7)에는 그대로 있다. 이 페이지가 주장하지 않을 뿐이다.
+   [정본에 없어 뺀 주장] 「대표가 오늘 봐야 할 팀을 AI 가 보내 준다」(team-wiki 회의록/meeting-20260308.md — 기획서 폴더에 대응 기능 0건) ·
+     「누가 성과를 내는가」의 판정·순위 · 「투입 대비 성과」 단일 지표 · 「OKR 은 보상과 연동하지 않는다」(team-wiki 회의록/meeting-20260404.md §5 의
+     관점이지만 F. OKR/*.md 에 「보상」 0건이고 정기 평가는 OKR 달성도를 업적 근거로 인용한다 — spec-eval-cycle.md) ·
+     「Initiative 담당 수 팀 평균 1.5배 경고」(spec-manager-view.md §10 에만 있고 현행 screen-manager-view.policy.md §4-2 에 없다).
+══════════════════════════════════════════════════════════════════════════════
+-->
+<style>
+:root{
+  /* 색 — scripts/pivit_tokens.py P.color.* 의 fallback 값 (머리 주석 표) */
+  --strong:#2c3744; --text:#596069; --sub:#687079; --muted:#b1b6be; --disabled:#d2d6db; --on-brand:#ffffff;
+  --bg:#f3f4f6; --bg-section:#f9fafb; --card:#ffffff; --hover:rgba(0,0,0,.03);
+  --brand:#2dbd82; --brand-hover:#21a67a; --brand-soft:#e1fef2; --brand-faint:#f1fffa; --brand-text:#21a67a; --brand-deep:#10774d;
+  --border:#d2d6db; --border-light:#e6e8ea; --brand-border:#b3fade;
+  --success:#079455; --success-bg:#ecfdf3; --success-border:#abefc6;
+  --warning:#dc6803; --warning-bg:#fffaeb; --warning-border:#fedf89;
+  --error:#f04438; --error-bg:#fef3f2; --error-border:#fecdca; --error-text:#d92d20;
+  --info-bg:#eff8ff; --info-text:#1570ef; --info-border:#b2ddff;
+  /* 정본이 직접 정한 값 · §7 보존 (머리 주석 「토큰 밖 값」) */
+  --spare:#0EA5E9; --spare-bg:#F0F9FF; --spare-border:#BAE6FD; --spare-dot:#38BDF8;
+  --critical:#b42318; --critical-bg:#fee4e2;
+  --ai:#7A5AF8; --ai-bg:#EBE9FE; --ai-accent:#8B5CF6;
+  --p1:#6366F1; --p2:#2563EB; --p3:#0E7490; --p4:#B45309;
+  --btn2-hover:#c8f5e2;
+  /* 형상 — P.radius · P.shadow · §5 */
+  --r-sm:4px; --r-md:8px; --r-lg:10px; --r-xl:16px; --r-xxl:24px;
+  --shadow-md:0 4px 12px rgba(10,13,18,.18);
+  --shadow-frame:0 24px 48px -12px rgba(10,13,18,.18);
+  --focus:0 0 0 4px rgba(45,189,130,.24);
+  --font:'Pretendard','Noto Sans KR',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,Menlo,monospace;
+  /* 확정 로고(가로형 · 검정 · 1048×368) — 디자인 시스템 문서 brand/logo-black.png 원본 그대로 인라인. 출처는 머리 주석 결정 6 */
+  --logo:url("/assets/8146e8cda8cb.png");
+  /* 컨테이너 — §3 데스크톱 max 1280 / padding 32, 모바일 padding 16 */
+  --container:1280px; --gutter:32px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--card);color:var(--text);font-size:16px;line-height:24px;font-weight:500;overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+img,svg{display:block}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:var(--r-md)}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+.ph{display:inline-flex;align-items:center;gap:4px;padding:1px 8px;border-radius:9999px;border:1px dashed var(--warning);background:var(--warning-bg);color:var(--warning);font-size:12px;line-height:18px;font-weight:600;white-space:normal}
+
+/* ── 버튼 — §6 (radius 8 · 600 · gap 4 · transition .2s) ───────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;border:0;border-radius:var(--r-md);font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-md{min-height:36px;padding:8px 12px;font-size:14px;line-height:20px}
+.btn-lg{min-height:44px;padding:10px 16px;font-size:16px;line-height:24px}
+.btn-xl{min-height:48px;padding:12px 20px;font-size:16px;line-height:24px}
+.btn-primary{background:var(--brand);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:var(--brand-soft);color:var(--brand-text)}
+.btn-secondary:hover{background:var(--btn2-hover)}
+.btn-ghost{background:var(--hover);color:var(--sub)}
+.btn-ghost:hover{background:rgba(0,0,0,.06)}
+
+/* ── GNB ─────────────────────────────────────────────────────────── */
+.gnb{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light)}
+.gnb .wrap{display:flex;align-items:center;height:64px;gap:32px}
+.logo{display:inline-flex;align-items:center}
+.logo-img{display:block;width:80px;height:28px;background:var(--logo) left center/contain no-repeat}
+.gnb-links{display:flex;gap:4px;margin-left:8px}
+.gnb-links a{padding:8px 12px;border-radius:var(--r-md);font-size:14px;line-height:20px;font-weight:600;color:var(--sub);transition:all .2s}
+.gnb-links a:hover{background:var(--hover);color:var(--strong)}
+.gnb-cta{margin-left:auto}
+
+/* ── 공통 섹션 ───────────────────────────────────────────────────── */
+section{padding:96px 0}
+.sec-bg{background:var(--bg)}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:9999px;background:var(--brand-faint);border:1px solid var(--brand-border);color:var(--brand-deep);font-size:14px;line-height:20px;font-weight:600}
+.sec-head{max-width:760px;margin-bottom:48px}
+.sec-head .eyebrow{margin-bottom:16px}
+.sec-title{font-size:36px;line-height:44px;font-weight:700;color:var(--strong);letter-spacing:-.4px}
+.sec-desc{margin-top:16px;font-size:18px;line-height:28px;color:var(--sub);font-weight:500}
+
+/* ── 히어로 ──────────────────────────────────────────────────────── */
+.hero{background:var(--bg);padding:80px 0 96px}
+.hero-copy{max-width:880px;margin:0 auto;text-align:center}
+.hero h1{margin-top:20px;font-size:48px;line-height:60px;font-weight:700;color:var(--strong);letter-spacing:-.8px}
+.hero h1 em{font-style:normal;color:var(--brand-text)}
+.hero-sub{margin:20px auto 0;max-width:680px;font-size:18px;line-height:28px;color:var(--text)}
+.hero-cta{margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-note{margin-top:16px;font-size:14px;line-height:20px;color:var(--sub);font-weight:500}
+.hero-note b{color:var(--brand-deep);font-weight:600}
+.hero-preview{margin-top:56px}
+.pv-caption{margin-top:16px;text-align:center;font-size:12px;line-height:18px;color:var(--muted);font-weight:400}
+
+/* ── 제품 미리보기 (앱 셸 §9-C + 리소스 투입 팀 현황) ──────────────── */
+.pv{background:var(--bg);border:1px solid var(--border-light);border-radius:var(--r-xl);box-shadow:var(--shadow-frame);overflow:hidden;text-align:left}
+.pv-chrome{display:flex;align-items:center;gap:6px;height:36px;padding:0 16px;background:var(--card);border-bottom:1px solid var(--border-light)}
+.pv-chrome i{width:10px;height:10px;border-radius:50%;background:var(--border-light)}
+.pv-shot{display:block;width:100%;height:auto}
+.pv-app{display:grid;grid-template-columns:240px minmax(0,1fr)}
+.pv-side{padding:8px 20px 20px}
+.pv-side-inner{width:200px;padding:12px;border-radius:var(--r-xxl);background:rgba(243,244,246,.5);display:flex;flex-direction:column;gap:2px;min-height:100%}
+.pv-side-logo{display:flex;align-items:center;padding:4px 4px 14px}
+.pv-side-logo .logo-img{width:76px;height:27px} /* §9-K 셸 로고 이미지 76×27 */
+.pv-mi{display:flex;align-items:center;gap:12px;height:34px;padding:9px 8px;border-radius:var(--r-md);font-size:14px;line-height:16px;font-weight:700;color:var(--sub)}
+.pv-mi span:first-child{width:16px;text-align:center;font-size:13px}
+.pv-mi.on{background:var(--border-light);color:var(--text)}
+.pv-side-gap{flex:1;min-height:24px}
+.pv-body{min-width:0}
+.pv-top{height:68px;padding:16px 40px 12px 12px;display:flex;align-items:center;justify-content:flex-end;gap:12px}
+.pv-ic{width:36px;height:36px;border-radius:var(--r-lg);background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:14px}
+.pv-search{width:202px;height:40px;border-radius:var(--r-lg);background:#eeeff1;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;color:var(--muted)}
+.pv-main{padding:0 50px 60px 12px}
+/* 리소스 투입 페이지 헤더 — 정책 §3-0 · AllocationScreen 헤더 */
+.ra-head{display:flex;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.ra-badge{width:52px;height:52px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--brand-soft),var(--brand-faint));border:1px solid var(--brand-border);display:flex;align-items:center;justify-content:center;font-size:22px}
+.ra-title{font-size:26px;line-height:31px;font-weight:800;color:var(--strong)}
+.ra-meta{margin-top:4px;font-size:12.5px;line-height:18px;font-weight:600;color:var(--sub);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ra-meta .mon{color:var(--brand-deep)}
+.ra-role{font-size:10px;font-weight:700;padding:2px 8px;border-radius:9999px;background:var(--bg);color:var(--sub);border:1px solid var(--border-light)}
+.ra-ctrl{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ra-tabs{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border-light)}
+.ra-tab{padding:7px 14px;border-radius:9px;border:1px solid transparent;font-size:12.5px;font-weight:700;color:var(--muted);background:transparent}
+.ra-tab.on{border-color:var(--border-light);background:var(--card);color:var(--strong);box-shadow:0 1px 4px rgba(10,13,18,.08)}
+.ra-edit{padding:8px 14px;border-radius:9999px;font-size:12px;font-weight:700;background:var(--brand-faint);color:var(--brand-deep);border:1px solid var(--brand-border)}
+/* 팀 컨텍스트 칩 · 스탯 카드 — 정책 §3-2·§4-2 */
+.ra-team{display:inline-flex;align-items:center;gap:8px;padding:7px 16px 7px 9px;border-radius:9999px;background:var(--card);border:1px solid var(--brand-border);margin-bottom:16px}
+.ra-team b{width:24px;height:24px;border-radius:7px;background:var(--brand-soft);color:var(--brand-deep);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.ra-team span{font-size:12.5px;font-weight:700;color:var(--brand-deep)}
+.ra-stats{display:grid;grid-template-columns:1.35fr 1fr 1fr 1.1fr;gap:14px;margin-bottom:18px}
+.ra-stat{border-radius:var(--r-xl);padding:16px 18px;background:var(--card);border:1px solid var(--border-light)}
+.ra-stat .l{font-size:12px;line-height:18px;font-weight:700;color:var(--sub)}
+.ra-stat .v{font-family:var(--mono);font-size:38px;line-height:44px;font-weight:500;color:var(--strong)}
+.ra-stat .s{font-size:11px;line-height:16px;font-weight:700;margin-top:2px}
+.ra-stat.total{background:var(--success-bg);border-color:var(--success-bg)}
+.ra-stat.total .l,.ra-stat.total .v{color:var(--brand-deep)}
+.ra-stat.spare .v{color:var(--spare)}
+.ra-stat.skew .v{color:var(--warning)}
+.ra-stat.over{background:var(--error-bg);border-color:var(--error-border)}
+.ra-stat.over .l,.ra-stat.over .v,.ra-stat.over .s{color:var(--error-text)}
+/* 조직 현황 — 정책 §3-3·§4-3 (조회 전용 배지 · 브레드크럼 · 미입력 warning 틴트 · 레벨 뱃지) */
+.ra-view{padding:8px 14px;border-radius:9999px;font-size:12px;font-weight:700;background:var(--bg);color:var(--sub);border:1px solid var(--border-light)}
+.ra-crumb{display:flex;gap:6px;align-items:center;margin-bottom:16px;font-size:12.5px;font-weight:700;color:var(--sub)}
+.ra-crumb .on{padding:6px 14px;border-radius:9999px;background:var(--brand-faint);border:1px solid var(--brand-border);color:var(--brand-deep)}
+.ra-stats.three{grid-template-columns:1.35fr 1fr 1fr}
+.ra-stat .v small{font-size:18px;margin-left:2px}
+.ra-stat.total .s{color:var(--brand-deep)}
+.ra-stat.miss{background:var(--warning-bg);border-color:var(--warning-border)}
+.ra-stat.miss .l,.ra-stat.miss .v{color:var(--warning)}
+.ra-sec-h{margin:4px 0 10px;font-size:12px;line-height:18px;font-weight:700;color:var(--sub)}
+.ra-lv{font-size:10px;font-weight:700;padding:1px 6px;border-radius:9999px;background:var(--bg);color:var(--sub);border:1px solid var(--border-light)}
+.s-brand{--sc:var(--strong);--sbg:var(--brand-faint);--sbd:var(--brand-border);--dot:var(--brand)}
+.s-miss{--sc:var(--warning);--sbg:var(--warning-bg);--sbd:var(--warning-border);--dot:var(--warning)}
+/* 팀원 행 카드 */
+.ra-row{position:relative;background:var(--card);border-radius:14px;border:1px solid var(--border-light);margin-bottom:12px;overflow:hidden}
+.ra-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--dot)}
+.ra-row-main{padding:14px 18px 12px 24px;cursor:pointer}
+.ra-row-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ra-no{font-family:var(--mono);font-size:11px;font-weight:500;padding:3px 8px;border-radius:var(--r-md);background:var(--sbg);color:var(--sc)}
+.ra-av{width:30px;height:30px;border-radius:var(--r-md);background:var(--brand-soft);color:var(--brand-text);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.ra-name{font-size:15px;line-height:20px;font-weight:700;color:var(--strong)}
+.ra-job{font-size:11px;color:var(--muted)}
+.ra-st{display:inline-flex;align-items:center;gap:4px;font-size:10px;line-height:14px;font-weight:700;padding:2px 8px;border-radius:9999px;background:var(--sbg);color:var(--sc);border:1px solid var(--sbd)}
+.ra-st::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--dot)}
+.ra-ack{padding:3px 10px;border-radius:9999px;cursor:pointer;border:1px solid var(--error-border);background:var(--critical-bg);color:var(--error-text);font-size:10px;font-weight:700}
+.ra-acked{font-size:10px;font-weight:700;color:var(--muted)}
+.ra-pct{margin-left:auto;display:flex;align-items:baseline;gap:2px;color:var(--sc)}
+.ra-pct b{font-family:var(--mono);font-size:27px;line-height:27px;font-weight:500}
+.ra-pct small{font-family:var(--mono);font-size:12px;font-weight:500}
+.ra-caret{font-size:10px;color:var(--muted);margin-left:6px}
+.ra-bar-line{display:flex;align-items:center;gap:14px;margin-top:10px}
+.stack{flex:1;display:flex;height:10px;border-radius:9999px;overflow:hidden;background:var(--bg);border:1px solid var(--border-light)}
+.stack i{display:block;height:100%}
+/* 범례·카운트 — 앱 JSX 는 T.mono 이지만 DM Mono 에 한글 글리프가 없어 한글이 고정폭 대체 글꼴로 벌어진다.
+   본문 글꼴 + 고정폭 숫자로 바꿨다(머리 주석 사유표 「범례 글꼴」). */
+.ra-cnt{font-size:10.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ra-legend{display:flex;gap:4px 10px;flex-wrap:wrap;margin-top:6px}
+.ra-legend span{font-size:11px;line-height:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.ra-detail{display:none;border-top:1px solid var(--bg);padding:16px 18px 16px 24px;background:var(--bg)}
+.ra-row.open .ra-detail{display:block}
+.ra-detail h5{font-size:12px;font-weight:800;color:var(--strong);margin-bottom:10px}
+.cmt{padding:10px 12px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--border-light);display:flex;gap:10px}
+.cmt-av{width:28px;height:28px;border-radius:50%;background:var(--brand-soft);color:var(--brand-text);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.cmt-who{font-size:12px;font-weight:700;color:var(--strong)}
+.cmt-who span{font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:400;margin-left:6px}
+.cmt-txt{font-size:12px;line-height:19px;color:var(--strong);margin-top:3px}
+.cmt-reply{margin:8px 0 0 14px;padding:6px 0 0 14px;border-left:2px solid var(--bg);font-size:12px;line-height:19px;color:var(--sub)}
+.cmt-reply b{color:var(--strong);font-weight:700;font-size:11px;margin-right:6px}
+/* 상태 변수 묶음 — 정책 §5-1 · classifyStatus */
+.s-crit{--sc:var(--error-text);--sbg:var(--critical-bg);--sbd:var(--error-border);--dot:var(--error-text)}
+.s-over{--sc:var(--error-text);--sbg:var(--error-bg);--sbd:var(--error-border);--dot:var(--error)}
+.s-spare{--sc:var(--spare);--sbg:var(--spare-bg);--sbd:var(--spare-border);--dot:var(--spare-dot)}
+.s-skew{--sc:var(--warning);--sbg:var(--warning-bg);--sbd:var(--warning-border);--dot:var(--warning)}
+.s-ok{--sc:var(--success);--sbg:var(--success-bg);--sbd:var(--success-border);--dot:var(--success)}
+
+/* ── 문제 제기 ───────────────────────────────────────────────────── */
+.prob-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.prob{background:var(--bg-section);border:1px solid var(--border-light);border-radius:var(--r-xl);padding:28px}
+.prob-no{font-family:var(--mono);font-size:14px;line-height:20px;color:var(--brand-text);font-weight:500}
+.prob h3{margin-top:12px;font-size:20px;line-height:30px;font-weight:700;color:var(--strong)}
+.prob p{margin-top:8px;font-size:16px;line-height:24px;color:var(--text)}
+.prob .ans{margin-top:20px;padding-top:16px;border-top:1px solid var(--border-light);font-size:14px;line-height:20px;color:var(--brand-deep);font-weight:600}
+
+/* ── 기능 상세 ───────────────────────────────────────────────────── */
+.feat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:56px;align-items:center;padding:48px 0;border-top:1px solid var(--border-light)}
+.feat:first-of-type{border-top:0;padding-top:0}
+.feat.rev .feat-copy{order:2}
+.feat-wide{grid-column:1/-1;order:3;width:100%;max-width:960px;justify-self:center}
+.feat-tag{font-size:14px;line-height:20px;color:var(--brand-text);font-weight:600;font-variant-numeric:tabular-nums}
+.feat h3{margin-top:8px;font-size:30px;line-height:38px;font-weight:700;color:var(--strong);letter-spacing:-.3px}
+.feat-copy > p{margin-top:16px;font-size:16px;line-height:26px;color:var(--text)}
+.feat-list{margin-top:20px;list-style:none;display:flex;flex-direction:column;gap:12px}
+.feat-list li{display:flex;gap:10px;font-size:15px;line-height:22px;color:var(--text)}
+.feat-list li::before{content:"";flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--brand-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.2l2.6 2.6L13 6.4' fill='none' stroke='%2321a67a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat}
+.feat-note{margin-top:20px;padding:12px 16px;border-radius:var(--r-lg);background:var(--bg-section);border:1px solid var(--border-light);font-size:14px;line-height:21px;color:var(--sub)}
+.feat-note b{color:var(--strong);font-weight:600}
+.card{background:var(--card);border:1px solid var(--border-light);border-radius:var(--r-xl);padding:24px}
+.vis{background:var(--bg);border-radius:var(--r-xxl);padding:24px}
+/* 상태 표 */
+.st-table{display:flex;flex-direction:column;gap:8px}
+.st-line{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;align-items:center;padding:10px 12px;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--border-light)}
+.st-line .ra-st{justify-self:start;font-size:12px;line-height:18px;padding:2px 10px}
+.st-line p{font-size:14px;line-height:20px;color:var(--text)}
+.st-line p b{font-family:var(--mono);font-weight:500;color:var(--strong)}
+.alert-flow{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.af{padding:12px 14px;border-radius:var(--r-lg);border:1px solid var(--sbd);background:var(--sbg)}
+.af h6{font-size:13px;line-height:18px;font-weight:700;color:var(--sc)}
+.af p{margin-top:4px;font-size:12px;line-height:18px;color:var(--text)}
+/* 추정 배너 — 정책 §5-3.4 (보라) */
+.est{margin-top:12px;padding:12px 14px;border-radius:var(--r-lg);background:#F5F3FF;border:1px solid #DDD6FE}
+.est-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;line-height:18px;font-weight:700;color:#6D28D9}
+.est-h .btn{margin-left:auto;min-height:26px;padding:4px 12px;font-size:12px;line-height:18px;background:var(--card);color:#6D28D9;border:1px solid #DDD6FE}
+.est-p{margin-top:6px;font-size:12px;line-height:18px;color:var(--text)}
+.org-mini{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.org-u{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--border-light);flex-wrap:wrap}
+.org-u .n{font-size:13px;font-weight:700;color:var(--strong)}
+.org-u .lv{font-size:10px;font-weight:700;padding:1px 6px;border-radius:9999px;background:var(--bg);color:var(--sub);border:1px solid var(--border-light)}
+.org-u .avg{margin-left:auto;font-family:var(--mono);font-size:16px;color:var(--strong)}
+.org-u .stack{flex-basis:100%}
+.mini-h{font-size:12px;line-height:18px;font-weight:600;color:var(--muted);margin-bottom:8px}
+/* AI 브리핑 — screen-manager-view.policy.md §6-3 (AI 보라 §9-C) */
+.ai-card{background:var(--card);border:1px solid var(--border-light);border-radius:var(--r-xl);overflow:hidden}
+.ai-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border-light);flex-wrap:wrap}
+.ai-head .who{font-size:15px;font-weight:700;color:var(--strong)}
+.ai-head .tabs{display:flex;gap:4px;margin-left:auto}
+.ai-head .tabs span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:var(--r-md);color:var(--muted)}
+.ai-head .tabs span.on{background:var(--ai-bg);color:var(--ai)}
+.ai-body{padding:18px}
+.ai-empty{text-align:center;padding:28px 12px}
+.ai-empty p{font-size:14px;line-height:20px;color:var(--sub);margin-bottom:14px}
+.ai-gen{background:var(--ai-accent);color:var(--on-brand)}
+.ai-gen:hover{background:var(--ai)}
+.ai-sum{padding:14px 16px;border-radius:var(--r-xl);background:var(--ai-bg);color:var(--ai)}
+.ai-sum .l{font-size:12px;line-height:18px;font-weight:600}
+.ai-sum p{margin-top:4px;font-size:14px;line-height:24px;font-weight:500}
+.ai-ag-h{margin:16px 0 8px;font-size:12px;line-height:18px;font-weight:700;color:var(--sub)}
+.ai-ag{padding:12px 14px;border-radius:var(--r-lg);border:1px solid var(--border-light);background:var(--bg-section);margin-bottom:8px}
+.ai-ag b{display:block;font-size:14px;line-height:20px;color:var(--strong);font-weight:700}
+.ai-ag span{display:block;margin-top:2px;font-size:13px;line-height:19px;color:var(--sub)}
+.ai-foot{margin-top:12px;font-size:12px;line-height:18px;color:var(--muted)}
+/* v5 ⓔ AI 피드백 — 근거 줄(칩은 .ra-st 재사용) */
+.fb-src{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:12px}
+.fb-src-l{font-size:12px;line-height:18px;font-weight:700;color:var(--sub);margin-right:2px}
+.ai-sum p b{font-weight:700}
+.is-hidden{display:none}
+/* v5 ⓒ 목표와 성과 — KR 드릴다운 예시. 칩 트랙은 arch-design-tokens.md §9-C 「KR 선택 칩 실측」, 나머지는 이 파일의 .stack · .ra-av · 토큰 */
+.kr-obj{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.kr-obj span{font-size:12px;line-height:18px;font-weight:600;color:var(--muted)}
+.kr-obj b{font-size:16px;line-height:24px;font-weight:700;color:var(--text)}
+.kr-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:4px;border-radius:12px;background:var(--hover)}
+.kr-card{padding:4px 8px;border-radius:var(--r-lg);min-width:0}
+.kr-card.on{background:var(--card)}
+.kr-card .h{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0}
+.kr-card .h span{font-size:12px;line-height:18px;font-weight:600;color:var(--muted)}
+.kr-card .h b{font-size:14px;line-height:20px;font-weight:700;color:var(--text)}
+.kr-card .t{font-size:14px;line-height:20px;font-weight:700;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kr-card.on .t{color:var(--text)}
+.kr-prog{margin-top:12px;padding:12px 16px 14px;border-radius:var(--r-xl);background:var(--card);border:1px solid var(--border-light)}
+.kr-prog-top{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.kr-prog-top .l{font-size:12px;line-height:18px;font-weight:600;color:var(--sub)}
+.kr-prog-top b{font-family:var(--mono);font-size:27px;line-height:30px;font-weight:500;color:var(--strong)}
+.kr-prog-top small{margin-left:auto;font-size:12px;line-height:18px;color:var(--muted)}
+.kr-mems{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kr-mem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--border-light);min-width:0}
+.kr-mem b{display:block;font-size:14px;line-height:20px;color:var(--strong)}
+.kr-mem div span{display:block;font-size:12px;line-height:17px;color:var(--sub);word-break:keep-all}
+
+/* ── 데이터 출처 ─────────────────────────────────────────────────── */
+.src-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.src{background:var(--card);border-radius:var(--r-xl);padding:24px;display:flex;flex-direction:column}
+.src-ic{width:40px;height:40px;border-radius:var(--r-lg);background:var(--brand-faint);border:1px solid var(--brand-border);display:flex;align-items:center;justify-content:center;font-size:18px}
+.src h3{margin-top:16px;font-size:18px;line-height:28px;font-weight:700;color:var(--strong)}
+.src p{margin-top:6px;font-size:15px;line-height:23px;color:var(--text)}
+.src .to{margin-top:auto;padding-top:16px;font-size:13px;line-height:19px;color:var(--brand-deep);font-weight:600}
+.src.wide{grid-column:span 3}
+.tools{margin-top:14px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.tool{padding:12px 14px;border-radius:var(--r-lg);background:var(--bg-section);border:1px solid var(--border-light)}
+.tool b{display:block;font-size:14px;line-height:20px;color:var(--strong);font-weight:700}
+.tool span{display:block;margin-top:4px;font-size:12px;line-height:18px;color:var(--sub)}
+.tool-note{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;line-height:19px;color:var(--sub)}
+.next-line{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;line-height:20px;color:var(--sub)}
+.next-line b{color:var(--strong);font-weight:600}
+/* v5 — 데이터 출처 섹션이 흰 배경이 되어 카드에 .prob 과 같은 배경 · 테두리를 준다(머리 주석 «섹션 배경 교차») */
+section:not(.sec-bg) .src{background:var(--bg-section);border:1px solid var(--border-light)}
+/* v5 — 데일리 스니핏 카드에 작성 샘플 영상(머리 주석 «v5 덧붙임»). 넓은 카드 + 반 줄 카드 둘 + 넓은 카드 → 6칸 격자 */
+.src-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.src{grid-column:span 3}
+.src.wide,.src.demo{grid-column:span 6}
+.src.demo{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:center}
+.src.demo .to{margin-top:0;padding-top:16px}
+
+/* ── v5 결재 · 휴가 — 카드는 .src(흰 카드 r16) · 연결 목록은 .tools · 배지는 info 토큰(§1) ── */
+.ops-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.ops{background:var(--card);border-radius:var(--r-xl);padding:28px;display:flex;flex-direction:column}
+.ops.wide{grid-column:span 2;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:center}
+.ops-top{display:flex;align-items:center;gap:8px}
+.ops-name{font-size:14px;line-height:20px;color:var(--brand-text);font-weight:600}   /* DM Mono 에 한글이 없어 고정폭 대체 글꼴로 벌어진다 — 본문 서체(머리 주석 v4 «범례 글꼴»과 같은 이유) */
+.soon{display:inline-flex;align-items:center;padding:1px 8px;border-radius:9999px;background:var(--info-bg);border:1px solid var(--info-border);color:var(--info-text);font-size:12px;line-height:18px;font-weight:600}
+.ops h3{margin-top:12px;font-size:20px;line-height:30px;font-weight:700;color:var(--strong)}
+.ops p{margin-top:8px;font-size:16px;line-height:24px;color:var(--text)}
+.ops ul{margin-top:16px;list-style:none;display:flex;flex-direction:column;gap:8px}
+.ops li{position:relative;padding-left:18px;font-size:15px;line-height:23px;color:var(--text)}
+.ops li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+.ops li b{color:var(--strong);font-weight:600}
+.ops-video{display:block;width:100%;aspect-ratio:3/2;border-radius:var(--r-lg);border:1px solid var(--border-light);background:var(--card);box-shadow:var(--shadow-frame);object-fit:cover}
+.ops-cap{margin-top:10px;font-size:13px;line-height:19px;color:var(--sub)}
+.ops.links{grid-column:span 2}
+.ops.links .tools{margin-top:16px}
+.ops-note{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;line-height:20px;color:var(--sub)}
+.ops-note b{color:var(--strong);font-weight:600}
+
+/* ── 작동 방식 ───────────────────────────────────────────────────── */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:s}
+.step{position:relative;padding:24px;border-radius:var(--r-xl);background:var(--bg-section);border:1px solid var(--border-light)}
+.step-n{font-family:var(--mono);width:32px;height:32px;border-radius:var(--r-md);background:var(--brand);color:var(--on-brand);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500}
+.step .who{margin-top:16px;font-size:12px;line-height:18px;font-weight:600;color:var(--muted)}
+.step h3{margin-top:4px;font-size:18px;line-height:28px;font-weight:700;color:var(--strong)}
+.step p{margin-top:6px;font-size:15px;line-height:23px;color:var(--text)}
+
+/* ── FAQ ─────────────────────────────────────────────────────────── */
+.faq-list{max-width:880px;display:flex;flex-direction:column;gap:12px}
+.faq{background:var(--card);border-radius:var(--r-xl);border:1px solid var(--border-light)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px 24px;font-size:17px;line-height:26px;font-weight:700;color:var(--strong)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";margin-left:auto;flex-shrink:0;width:28px;height:28px;border-radius:var(--r-md);background:var(--hover);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--sub);font-weight:500;transition:transform .2s}
+.faq[open] summary::after{transform:rotate(45deg)}
+.faq-a{padding:0 24px 22px;font-size:15px;line-height:25px;color:var(--text)}
+.faq-a p+p{margin-top:8px}
+
+/* ── 베타 CTA ────────────────────────────────────────────────────── */
+.beta{padding:96px 0}
+.beta-box{border-radius:var(--r-xxl);background:var(--brand-faint);border:1px solid var(--brand-border);padding:64px 48px;text-align:center}
+.beta-box h2{font-size:36px;line-height:44px;font-weight:700;color:var(--strong);letter-spacing:-.4px}
+.beta-perk{margin-top:20px;display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:9999px;background:var(--card);border:1px solid var(--brand-border);font-size:16px;line-height:24px;font-weight:700;color:var(--brand-deep)}
+.beta-desc{margin:16px auto 0;max-width:620px;font-size:16px;line-height:26px;color:var(--text)}
+.beta-box .btn{margin-top:28px}
+.beta-sub{margin-top:14px;font-size:13px;line-height:19px;color:var(--sub);display:flex;gap:8px;justify-content:center;flex-wrap:wrap;align-items:center}
+
+/* ── 푸터 ────────────────────────────────────────────────────────── */
+footer{background:var(--bg);padding:48px 0 40px;border-top:1px solid var(--border-light)}
+.ft-top{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.ft-links{display:flex;gap:4px 20px;flex-wrap:wrap;margin-left:auto}
+.ft-links a{font-size:14px;line-height:20px;color:var(--sub);font-weight:500}
+.ft-links a:hover{color:var(--strong)}
+.ft-links a.privacy{color:var(--strong);font-weight:700}
+.ft-biz{margin-top:24px;font-size:12px;line-height:20px;color:var(--muted);font-weight:400}
+.ft-biz .ph{margin:2px 0}
+.tool-scope:empty{display:none}
+.biz-i:has(.biz-v:empty){display:none}
+.biz-i.sep::before{content:" · "}
+.ft-copy{margin-top:12px;font-size:12px;line-height:18px;color:var(--muted)}
+
+/* ── 반응형 ──────────────────────────────────────────────────────── */
+@media (max-width:1100px){
+  .pv-app{grid-template-columns:minmax(0,1fr)}
+  .pv-side{display:none}
+  .pv-main{padding:0 24px 32px}
+  .pv-top{padding:16px 24px 12px}
+  .feat{grid-template-columns:minmax(0,1fr);gap:32px}
+  .feat.rev .feat-copy{order:0}
+  .tools{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  :root{--gutter:16px}
+  section,.beta{padding:64px 0}
+  .hero{padding:56px 0 64px}
+  .hero h1{font-size:36px;line-height:44px}
+  .sec-title,.beta-box h2{font-size:30px;line-height:38px}
+  .gnb-links{display:none}
+  .prob-grid,.src-grid{grid-template-columns:minmax(0,1fr)}
+  .ops-grid{grid-template-columns:minmax(0,1fr)}
+  .ops.wide{grid-column:auto;grid-template-columns:minmax(0,1fr);gap:20px}
+  .ops.links{grid-column:auto}
+  .src.wide{grid-column:auto}
+  .src,.src.demo{grid-column:auto}
+  .src.demo{grid-template-columns:minmax(0,1fr);gap:20px}
+  .ra-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ra-ctrl{margin-left:0;width:100%}
+  .beta-box{padding:48px 24px}
+  .ft-links{margin-left:0}
+}
+@media (max-width:560px){
+  .hero h1{font-size:30px;line-height:38px;letter-spacing:-.4px}
+  .hero-sub,.sec-desc{font-size:16px;line-height:24px}
+  .hero-cta .btn{width:100%}
+  .sec-title br,.beta-box h2 br{display:none}
+  .feat h3{font-size:24px;line-height:32px}
+  .pv-search{display:none}
+  .pv-top{height:56px;padding:12px 16px}
+  .pv-main{padding:0 12px 20px}
+  .ra-badge{width:40px;height:40px;font-size:18px;border-radius:12px}
+  .ra-title{font-size:20px;line-height:26px}
+  .ra-stat{padding:12px 14px}
+  .ra-stat .v{font-size:30px;line-height:36px}
+  .ra-row-main{padding:12px 12px 10px 18px}
+  .ra-pct b{font-size:22px;line-height:22px}
+  .ra-job{display:none}
+  .ra-detail{padding:12px 12px 12px 18px}
+  .vis{padding:16px;border-radius:var(--r-xl)}
+  .st-line{grid-template-columns:minmax(0,1fr)}
+  .alert-flow{grid-template-columns:minmax(0,1fr)}
+  .tools,.steps{grid-template-columns:minmax(0,1fr)}
+  .kr-mems{grid-template-columns:minmax(0,1fr)}
+  .faq summary{padding:16px 18px;font-size:16px;line-height:24px}
+  .faq-a{padding:0 18px 18px}
+  .gnb .wrap{gap:12px}
+}
+</style>
+<style>
+/* ═══ v6 — 짧은 핵심 + 그림 + 펼쳐 보는 상세 (머리 주석 «v6 에서 바뀐 것»). 색 · 둥글기 · 글자는 위 :root 토큰만 쓴다 ═══ */
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.lead{margin-top:12px;font-size:18px;line-height:28px;color:var(--sub)}
+.center{text-align:center}
+/* 선 아이콘 — 24 · 선 1.8 · currentColor. 상자는 v5 .src-ic 와 같은 brand-faint · brand-border */
+.ic{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic-box{width:56px;height:56px;border-radius:var(--r-xl);background:var(--brand-faint);border:1px solid var(--brand-border);color:var(--brand-deep);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic-box .ic{width:28px;height:28px}
+
+/* ① 질문 카드 — 누르면 답으로 내려간다 */
+.q-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.q{display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding:32px 28px;border-radius:var(--r-xl);background:var(--bg-section);border:1px solid var(--border-light);transition:all .2s}
+.q:hover{border-color:var(--brand-border);background:var(--brand-faint)}
+.q h3{font-size:24px;line-height:34px;font-weight:700;color:var(--strong);letter-spacing:-.2px}
+.q .go{margin-top:auto;font-size:14px;line-height:20px;font-weight:600;color:var(--brand-deep)}
+
+/* ② 작동 방식 한 장 — 원형 아이콘 4개 + 화살표 */
+.flow{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.fs{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px}
+.fs-n{font-family:var(--mono);font-size:14px;line-height:20px;font-weight:500;color:var(--brand-text)}
+.fs .ic-box{width:96px;height:96px;border-radius:9999px;background:var(--card);margin:12px 0 16px}
+.fs .ic-box .ic{width:40px;height:40px}
+.fs:not(:last-child)::after{content:"→";position:absolute;top:58px;right:-14px;width:28px;text-align:center;font-size:24px;line-height:32px;color:var(--brand)}
+.fs .who{font-size:13px;line-height:18px;font-weight:600;color:var(--muted)}
+.fs h3{margin-top:2px;font-size:22px;line-height:32px;font-weight:700;color:var(--strong)}
+.fs p{margin-top:6px;font-size:15px;line-height:22px;color:var(--text)}
+.flow-loop{margin-top:40px;text-align:center;font-size:15px;line-height:22px;color:var(--sub);font-weight:600}
+
+/* ③~⑤ 장 머리 — 큰 번호 · 질문 · 제목 · 한 문장 */
+.ch-no{font-family:var(--font);font-size:44px;line-height:48px;font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums}   /* DM Mono 의 0 은 빗금이 있어 «Ø1»로 읽힌다 — 본문 서체 */
+.ch-q{margin-top:8px;font-size:15px;line-height:22px;font-weight:700;color:var(--brand-deep)}
+.feat-copy > p.one,.talk-copy p.one{margin-top:12px;font-size:18px;line-height:28px;color:var(--text)}
+.feat-copy > p.keep{margin-top:12px;display:inline-block;padding:6px 12px;border-radius:var(--r-md);background:var(--bg-section);border:1px solid var(--border-light);font-size:14px;line-height:20px;font-weight:600;color:var(--strong)}
+#features .feat{border-top:0;padding:56px 0}
+#features .feat:first-child{padding-top:0}
+#features .feat:last-child{padding-bottom:0}
+
+/* 자세히 보기 — <details>. 닫혀 있으면 안의 글은 보이지 않는다 */
+.more{margin-top:20px}
+.more.center{margin-top:28px;text-align:center}
+.more summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:8px 14px;border-radius:var(--r-md);background:var(--hover);color:var(--sub);font-size:14px;line-height:20px;font-weight:600;transition:all .2s}
+.more summary::-webkit-details-marker{display:none}
+.more summary::after{content:"+";font-size:16px;line-height:16px}
+.more[open] summary::after{content:"−"}
+.more summary:hover{background:rgba(0,0,0,.06);color:var(--strong)}
+.more summary .c,.more[open] summary .o{display:none}
+.more[open] summary .c{display:inline}
+.more-body{margin-top:12px;padding:24px;border-radius:var(--r-xl);background:var(--card);border:1px solid var(--border-light);font-size:15px;line-height:24px;color:var(--text);text-align:left}
+section:not(.sec-bg) .more-body{background:var(--bg-section)}
+.more.center .more-body{max-width:880px;margin-left:auto;margin-right:auto}
+.more-body > * + *{margin-top:12px}
+.more-body .feat-list{margin-top:12px}
+.more-body b{color:var(--strong);font-weight:700}
+
+/* 답 02 그림 — 사람별 상태 칩 · 투입 막대 · % (칩 색 = v5 .s-* 상태 변수) */
+.pp{display:flex;flex-direction:column;gap:10px}
+.pp-row{display:grid;grid-template-columns:64px 64px minmax(0,1fr) 48px;gap:12px;align-items:center;padding:14px 16px;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--border-light)}
+.pp-row .nm{font-size:14px;line-height:20px;font-weight:700;color:var(--strong)}
+.pp-row .ra-st{justify-self:start;font-size:12px;line-height:18px;padding:2px 10px}
+.pp-row .pct{font-family:var(--mono);font-size:18px;line-height:24px;font-weight:500;text-align:right;color:var(--sc)}
+.stack.empty{border-style:dashed;background:transparent}
+
+/* 답 03 그림 — 회사 → 팀 → 개인 KR 나무 */
+.tree{display:flex;flex-direction:column;gap:10px}
+.tn{position:relative;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r-lg);background:var(--card);border:1px solid var(--border-light);min-width:0}
+.tn b{font-size:14px;line-height:20px;font-weight:700;color:var(--strong);min-width:0}
+.tn .ra-st,.tn .end{margin-left:auto;flex-shrink:0}
+.tn .end{font-family:var(--mono);font-size:16px;line-height:20px;color:var(--strong)}
+.tn .ra-lv{flex-shrink:0}
+.tn.l2{margin-left:28px}
+.tn.l3{margin-left:56px}
+.tn.l2::before,.tn.l3::before{content:"";position:absolute;left:-18px;top:-12px;height:34px;width:14px;border-left:2px solid var(--brand-border);border-bottom:2px solid var(--brand-border);border-bottom-left-radius:6px}
+.tn.off{margin-top:6px;border-style:dashed;background:transparent}
+.tn .ra-st.flag::before{display:none}   /* «⚐ 미정렬»은 정본 표시(okr-policy.md §1.2.4-F)에 깃발이 있어 칩의 점을 뺀다 */
+
+/* ④ 대화 · 영상 블록 — 글은 가운데, 영상은 전체 폭(최대 960 · v5 «1on1 샘플 영상 사이즈» 결정) */
+.talk{display:flex;flex-direction:column;align-items:center}
+.talk-copy{max-width:720px;text-align:center}
+.talk-copy h3{margin-top:8px;font-size:30px;line-height:38px;font-weight:700;color:var(--strong);letter-spacing:-.3px}
+.talk-media{width:100%;max-width:960px;margin-top:32px}
+.talk-media .ops-cap{text-align:center}
+.talk + .feat{margin-top:96px;padding-top:0;border-top:0}
+
+/* ⑤ 데이터 출처 — 아이콘 넷 */
+.src-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.src-c{display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 20px;border-radius:var(--r-xl);background:var(--bg-section);border:1px solid var(--border-light)}
+.src-c h3{margin-top:16px;font-size:18px;line-height:28px;font-weight:700;color:var(--strong)}
+.src-c p{margin-top:4px;font-size:14px;line-height:21px;color:var(--sub)}
+
+/* ⑥ 결재 · 휴가 — 카드 셋 · 연결 칩 줄 */
+.ops3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.ops-c{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:28px;border-radius:var(--r-xl);background:var(--card)}
+.ops-c h3{font-size:20px;line-height:30px;font-weight:700;color:var(--strong)}
+.link-line{margin-top:40px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px}
+.link-line .ll-h{font-size:14px;line-height:20px;font-weight:700;color:var(--strong);margin-right:4px}
+.link-line .ra-st{font-size:12px;line-height:18px;padding:3px 10px}
+.ops-note.center{justify-content:center}
+
+@media (max-width:1100px){
+  .src-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .q-grid,.ops3{grid-template-columns:minmax(0,1fr)}
+  .q{padding:24px}
+  .q h3 br{display:none}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+  .fs:nth-child(2)::after{display:none}
+  .talk-copy h3{font-size:24px;line-height:32px}
+  .talk + .feat{margin-top:64px}
+  #features .feat{padding:40px 0}
+}
+@media (max-width:560px){
+  .ch-no{font-size:36px;line-height:40px}
+  .feat-copy > p.one,.talk-copy p.one,.lead{font-size:16px;line-height:24px}
+  .fs{padding:0 6px}
+  .fs .ic-box{width:76px;height:76px}
+  .fs .ic-box .ic{width:32px;height:32px}
+  .fs:not(:last-child)::after{top:46px;right:-12px}
+  .fs h3{font-size:20px;line-height:28px}
+  .fs p{font-size:14px;line-height:20px}
+  .fs p br{display:none}
+  .src-row{grid-template-columns:minmax(0,1fr)}
+  .pp-row{grid-template-columns:auto minmax(0,1fr) auto}
+  .pp-row .stack{grid-column:1/-1;grid-row:2}
+  .tn{flex-wrap:wrap}
+  .tn.l2{margin-left:20px}
+  .tn.l3{margin-left:40px}
+  .tn.l2::before,.tn.l3::before{left:-14px;width:10px}
+  .more-body{padding:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- v6 선 아이콘 한 벌 — 24 · 선 1.8 · currentColor (머리 주석 «글 → 그림 · 펼침») -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.4 2.7-5.7 6-5.7s6 2.3 6 5.7"/><circle cx="17" cy="9" r="2.4"/><path d="M16.6 13.9c2.5.2 4.4 2.2 4.4 4.9"/></symbol>
+  <symbol id="i-userplus" viewBox="0 0 24 24"><circle cx="10" cy="8" r="3.5"/><path d="M3.5 19.5c0-3.5 2.9-6 6.5-6 1.4 0 2.7.4 3.7 1"/><path d="M18 14v6M15 17h6"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.5l8.5 4.7L12 13 3.5 8.2 12 3.5z"/><path d="M3.5 12.6L12 17.4l8.5-4.8"/><path d="M3.5 16.6L12 21.4l8.5-4.8"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 19V6.5A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v7a1.5 1.5 0 0 1-1.5 1.5H9L5 19z"/><path d="M8.5 9h7M8.5 12h4.5"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 7.5V3.5M15 7.5V3.5"/><path d="M7 7.5h10v3.5a5 5 0 0 1-10 0V7.5z"/><path d="M12 16v4.5"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H15a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h6.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10.5a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5z"/><path d="M13.5 3.5V8h4.5"/><path d="M9.5 14l2 2 3.5-4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
+</svg>
+
+<!-- ═══ GNB — v6: 작동 방식(#flow) · 기능(#features) · FAQ. 순서는 페이지에 나오는 순서 ═══ -->
+<header class="gnb">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="pivit 홈"><span class="logo-img" role="img" aria-label="pivit"></span></a>
+    <nav class="gnb-links" aria-label="주요 메뉴">
+      <a href="#flow">작동 방식</a>
+      <a href="#features">기능</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="https://app.pivit.work/early-access?from=nav" class="btn btn-md btn-primary gnb-cta">얼리 액세스 신청하기</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ═══ 히어로 — v5 와 같은 메시지 ⓐⓑⓒ · 설명 문단을 한 문장으로 줄였다(v5 원문은 아래 «자세히» 대신 질문 섹션이 이어 받는다)
+     문구 근거는 v5 그대로: team-wiki 회의록/meeting-20260808-3.md §2 · meeting-20260404.md §2 ·
+     ⓐ screen-resource-allocation.policy.md §5-6 · ⓑ 같은 정책 §5-1 · ⓒ okr-policy.md §6.0 · screen-manager-view.policy.md §7-2 · 혜택 David 결정 4·5 ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">대표를 위한 조직 운영 체제</span>
+      <h1>우리 회사의 사람과 시간,<br><em>한눈에 보입니다</em></h1>
+      <p class="hero-sub">누가 어디에 시간을 쓰는지, 새 일을 맡길 사람은 누구인지, 그 시간이 목표로 이어지는지. 팀이 남기는 기록으로 한 화면에 봅니다.</p>
+      <div class="hero-cta">
+        <a href="https://app.pivit.work/early-access?from=hero" class="btn btn-lg btn-primary">얼리 액세스 신청하기</a>
+        <a href="#flow" class="btn btn-lg btn-ghost">작동 방식 보기</a>
+      </div>
+      <p class="hero-note"><b>얼리 액세스 기간 무료 · 정식 출시 후 3개월 더 무료</b></p>
+    </div>
+    <!-- 제품 미리보기 — [2026-10-28 David 「리소스 섹션에 샘플 화면 좀 더 상세하게 볼 수 있게 이것도 영상으로 해줘.」 · 「내가 말한 건 [히어로 캡처] 이 영역」 ·
+         「근데 지금 촬영을 데브 서버로 하는 거 맞아?」 → 「1.로하자 내가 데모 시연 조직 만들었어」]
+         v5 의 dev 실화면 캡처(정지 이미지 · 결정 9)를 dev 실화면 «녹화»로 바꿨다 — assets/resource-demo.mp4 (13.2초 · 1920×1200 = 캡처와 같은 16:10 · data URI).
+         녹화: app.dev.pivit.work/okr/my-resource?tab=org · David 가 만든 데모 조직 «주식회사 피빗_1»(대표 계정 m+4@pivit.work · 51명) · 1440×900 ·
+           Playwright 로 한 프레임씩 찍었다(정지 구간은 한 장을 늘림). 화면 위에 커서 그림만 얹었고 클릭은 실제로 했다.
+         장면 = 조직 현황 전사(스탯 · 본부 행) → 개발본부 › 를 누름 → 구성원 모달(22명)을 아래로 훑음 → «여유»(55%) 구성원에서 멈춤.
+         데이터: 이 세션이 2026-10-28 데모 조직에 프로젝트 넷(결제 개편 · 엔터프라이즈 도입 · 모바일 앱 리뉴얼 · 데이터 파이프라인 — 색은 §7 보존 식별색)을 만들고
+           구성원 48명의 10월 투입값을 대신 로그인으로 저장했다(미입력 3명 · 과부하 0명 — 결정 1-B). 대표 이외 1명은 관리자급이라 대신 로그인이 막혀 미입력이다.
+         실화면이라 스탯 «과부하 인원»(값 0) 카드가 보인다 — v5 캡처와 같다. -->
+    <div class="hero-preview">
+      <div class="pv" role="img" aria-label="Pivit 리소스 투입 조직 현황 탭 예시 — 본부별 평균 투입과 프로젝트 비중, 여유 상태 구성원">
+        <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+        <video class="pv-shot" data-demo-video autoplay muted loop playsinline preload="auto" aria-label="리소스 투입 조직 현황 샘플 영상 — 전사 화면에서 본부별 평균 투입과 프로젝트 비중을 보고, 개발본부를 눌러 구성원 22명의 상태와 투입 비율을 훑어 내려간 뒤, 합계 55% 로 «여유» 상태인 구성원에서 멈추는 모습" src="/assets/59eb75378c30.mp4"></video>
+      </div>
+      <p class="pv-caption">리소스 투입 › 조직 현황 (데모 조직의 실제 화면 · 예시 인물)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ① 대표가 묻는 세 가지 — v5 #problem 을 질문 한 줄씩으로. 카드를 누르면 답 01·02·03 으로 내려간다
+     근거(v5 그대로): team-wiki 회의록/meeting-20260404.md §2·§3 · meeting-20260808-3.md §1 ·
+     ⓐ 정책 §5-6 · ⓑ §5-1 · §4-2 · §3-3 · ⓒ okr-policy.md §6.0 · §1.2.4-F · screen-manager-view.policy.md §7-2 ═══ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">대표가 묻는 세 가지</span>
+      <h2 class="sec-title">인원과 비용 다음에 알고 싶은 것</h2>
+    </div>
+    <div class="q-grid">
+      <a class="q" href="#ch1">
+        <span class="ic-box"><svg class="ic"><use href="#i-users"/></svg></span>
+        <h3>사람이 어디에 <br>쓰이고 있나?</h3>
+        <span class="go">01 · 조직·프로젝트별 투입 ↓</span>
+      </a>
+      <a class="q" href="#ch2">
+        <span class="ic-box"><svg class="ic"><use href="#i-userplus"/></svg></span>
+        <h3>새 일을 맡길 사람이 <br>있나?</h3>
+        <span class="go">02 · 「여유」 인원 ↓</span>
+      </a>
+      <a class="q" href="#ch3">
+        <span class="ic-box"><svg class="ic"><use href="#i-target"/></svg></span>
+        <h3>그 시간이 목표로 <br>이어지나?</h3>
+        <span class="go">03 · OKR 정렬 · KR 별 기여 ↓</span>
+      </a>
+    </div>
+    <details class="more center">
+      <summary><span class="o">왜 이 세 가지인가</span><span class="c">접기</span></summary>
+      <div class="more-body">
+        <p>조직이 커질수록 대표에게 올라오는 숫자는 인원수와 비용으로 줄어듭니다. 판단에 필요한 것은 어느 일에 누가 얼마나 붙어 있고, 덜 쓰이는 사람은 없는지, 그 일이 목표에 다가가고 있는지입니다.</p>
+        <ul class="feat-list">
+          <li>한 사람이 여러 프로젝트에 걸쳐 있으면, 회사 전체에서 어느 일에 얼마만큼의 사람이 들어가 있는지 어느 보고서에도 합쳐져 있지 않습니다.</li>
+          <li>새 일을 맡길 수 있는 사람이 있는데도 보이지 않으면, 사람을 더 뽑거나 이미 바쁜 사람에게 일을 얹게 됩니다.</li>
+          <li>모두 바빠도 회사 목표와 이어져 있지 않으면 목표는 그대로입니다. 매일의 기록이 쌓여 있어야 성과를 기억이 아니라 사실로 이야기할 수 있습니다.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══ ② 작동 방식 한 장 — 기록 → 합산 → 확인 → 대화 (v6 신설 그림 ⓐ)
+     1 기록: 정책 §5-5 (월 1회 투입 비율 · 자기신고) · daily-snippet-spec.md (하루 한 번) · pivit-ia-spec.md (「개인 입력 빈도가 월 1회 수준」)
+     2 합산: 정책 §5-6 (사람 · 팀 · 조직 롤업)  3 확인: 정책 §5-6 · arch-design-tokens.md §9-I (OKR 대시보드)
+     4 대화: screen-oneonone-session.policy.md §6.1 · §6.3 (액션아이템 → 다음 1on1 준비에서 확인) · spec-feedback.md §0
+     v5 «작동 방식»(신청 4단계) 섹션은 없앴다 — 머리 주석 «이야기 순서» ═══ -->
+<section id="flow" class="sec-bg">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">작동 방식</span>
+      <h2 class="sec-title">기록하면 모이고, 보이고, <br>대화로 이어집니다</h2>
+    </div>
+    <ol class="flow">
+      <li class="fs">
+        <span class="fs-n">1</span>
+        <span class="ic-box"><svg class="ic"><use href="#i-pen"/></svg></span>
+        <span class="who">팀원</span>
+        <h3>기록</h3>
+        <p>매일 스니핏, <br>매달 투입 비율</p>
+      </li>
+      <li class="fs">
+        <span class="fs-n">2</span>
+        <span class="ic-box"><svg class="ic"><use href="#i-layers"/></svg></span>
+        <span class="who">Pivit</span>
+        <h3>합산</h3>
+        <p>사람 · 팀 · 조직 <br>단위로 모읍니다</p>
+      </li>
+      <li class="fs">
+        <span class="fs-n">3</span>
+        <span class="ic-box"><svg class="ic"><use href="#i-eye"/></svg></span>
+        <span class="who">대표 · 조직장</span>
+        <h3>확인</h3>
+        <p>조직 현황과 <br>OKR 진척을 한 화면에</p>
+      </li>
+      <li class="fs">
+        <span class="fs-n">4</span>
+        <span class="ic-box"><svg class="ic"><use href="#i-chat"/></svg></span>
+        <span class="who">조직장 · 팀원</span>
+        <h3>대화</h3>
+        <p>1on1 과 피드백으로 <br>다음 일을 정합니다</p>
+      </li>
+    </ol>
+    <p class="flow-loop">↻ 1on1 에서 정한 액션 아이템은 다음 1on1 준비 화면에서 다시 확인합니다</p>
+  </div>
+</section>
+
+<!-- ═══ ③ 질문마다 답 01 · 02 · 03 — v5 #features 01~03 + v5 #goals 를 합쳤다 ═══ -->
+<section id="features">
+  <div class="wrap">
+
+    <!-- 답 01 — 정책 §5-6 (조직 현황 · CEO/admin = 전사 루트 · 조회 전용 · 프로젝트별 평균 비중) · §5-5.1 · §5-6.2 ·
+         O. 프로젝트-원장/spec-project-ledger.md §3-3 · screen-project-detail.policy.md (참여 인원 · 계획 합계 · 실제 합계)
+         그림: v5 .org-u · .stack · .ra-legend 재사용. 본부 평균 92 · 74 · 66 은 v5 머리 주석 «미리보기의 근거»의 예시 수치, 프로젝트 4종은 manager-app.jsx PROJECTS -->
+    <div class="feat" id="ch1">
+      <div class="feat-copy">
+        <div class="ch-no">01</div>
+        <div class="ch-q">사람이 어디에 쓰이고 있나?</div>
+        <h3>조직과 프로젝트마다, 사람이 얼마나 붙어 있는지 봅니다</h3>
+        <p class="one">전사에서 본부 · 팀으로 내려가며 평균 투입과 프로젝트 비중을 봅니다.</p>
+        <details class="more">
+          <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+          <div class="more-body">
+            <p>팀원은 한 달에 한 번, 자기 업무 시간이 어느 프로젝트와 목표에 쓰였는지 비율로 적습니다. Pivit 은 그 값을 사람·팀·조직 단위로 모아 보여 줍니다.</p>
+            <p>대표는 「조직 현황」 탭에서 전사부터 본부·팀으로 내려가며 조직마다 평균 투입 %와 프로젝트별 비중을 봅니다. 프로젝트 상세의 리소스 탭에서는 참여 인원과 함께, 계획한 비율과 실제로 쓴 비율을 나란히 봅니다.</p>
+            <ul class="feat-list">
+              <li>투입 항목으로 내 OKR 의 KR 을 불러올 수 있어, 시간이 어느 목표에 쓰였는지도 기록으로 남습니다.</li>
+              <li>조직 현황은 조회 전용입니다. 대표는 전사를, 본부장·부문장은 자기 조직을 봅니다.</li>
+              <li>조직 단위 평균에는 팀원이 직접 추가한 업무 이름이나 KR 제목이 드러나지 않고 「개인 항목」으로 묶입니다.</li>
+            </ul>
+            <div class="mini-h" style="margin-top:16px">프로젝트 상세 › 리소스 탭 — 계획과 실제 (예시)</div>
+            <div class="st-table">
+              <div class="st-line"><span class="ra-st s-brand">이도윤</span><p>계획 <b>35%</b> / 실제 <b>50%</b> (+15%p)</p></div>
+              <div class="st-line"><span class="ra-st s-brand">김태오</span><p>계획 <b>40%</b> / 실제 <b>40%</b></p></div>
+              <div class="st-line"><span class="ra-st s-brand">박서연</span><p>계획 <b>20%</b> / 실제 <b>10%</b> (−10%p)</p></div>
+            </div>
+            <p class="feat-note" style="margin-top:12px">참여 인원 3명 · 계획 합계 95% · 실제 합계 100% (이번 달). 계획과 실제의 차이는 평가 근거가 아니라 대화의 재료입니다.</p>
+          </div>
+        </details>
+      </div>
+      <div class="vis">
+        <div class="mini-h">조직 현황 — 본부별 평균 투입과 프로젝트 비중 (예시)</div>
+        <div class="org-mini">
+          <div class="org-u"><span class="n">제품본부</span><span class="lv">본부</span><span class="avg">92%</span>
+            <div class="stack"><i style="width:34%;background:var(--p1)"></i><i style="width:30%;background:var(--p2)"></i><i style="width:18%;background:var(--p3)"></i><i style="width:10%;background:var(--p4)"></i></div></div>
+          <div class="org-u"><span class="n">사업본부</span><span class="lv">본부</span><span class="avg">74%</span>
+            <div class="stack"><i style="width:44%;background:var(--p4)"></i><i style="width:20%;background:var(--p1)"></i><i style="width:10%;background:var(--p3)"></i></div></div>
+          <div class="org-u"><span class="n">경영지원본부</span><span class="lv">본부</span><span class="avg">66%</span>
+            <div class="stack"><i style="width:36%;background:var(--p3)"></i><i style="width:30%;background:var(--p2)"></i></div></div>
+        </div>
+        <div class="ra-legend" style="margin-top:12px"><span style="color:var(--p4)">● 파트너 연동</span><span style="color:var(--p1)">● AI 리포트 엔진</span><span style="color:var(--p3)">● 온보딩 자동화</span><span style="color:var(--p2)">● 데이터 파이프라인</span></div>
+      </div>
+    </div>
+
+    <!-- 답 02 — 정책 §5-1 (여유: total < 70 · 「신규 프로젝트 배정 가능」 · 쏠림: 한 프로젝트 > 80 · 적정) · §4-2 · §3-3 · §1-A.1 (평가·정산 금지) · §5-3 (스니핏 추정)
+         그림 ⓑ(v6 신설) — 사람별 상태 칩 · 투입 막대 · %. 칩 색은 v5 .s-spare · .s-skew · .s-ok · .s-miss (정책 §5-1 상태색). 이름 · 수치는 예시
+         ⚠ 상태 5종 중 과부하 · 승인 필요는 v5 와 같이 다루지 않는다(David 2026-10-20 결정 1-B) -->
+    <div class="feat rev" id="ch2">
+      <div class="feat-copy">
+        <div class="ch-no">02</div>
+        <div class="ch-q">새 일을 맡길 사람이 있나?</div>
+        <h3>투입 70% 미만이면 「여유」로 바로 보입니다</h3>
+        <p class="one">한 일에 80% 넘게 묶이면 「쏠림」, 아직 적지 않았으면 「미입력」입니다.</p>
+        <p class="keep">투입 비율은 평가 점수나 인건비 정산에 쓰지 않습니다.</p>
+        <details class="more">
+          <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+          <div class="more-body">
+            <p>투입 합계가 70%에 못 미치는 사람에게는 「여유」 상태가 붙습니다. 새 프로젝트를 맡을 수 있다는 뜻입니다. 팀 현황에는 여유 인원 수가 맨 위 카드로 나오고, 조직 현황에서는 구성원마다 상태가 보입니다.</p>
+            <ul class="feat-list">
+              <li>한 프로젝트에 80% 넘게 묶여 있는 사람은 「쏠림」으로 따로 표시합니다. 다른 일로 넓힐 여지가 있는 사람입니다.</li>
+              <li>아직 비율을 적지 않은 사람은 「미입력」으로 조직마다 셉니다. 평균에서는 빼고 계산합니다.</li>
+              <li>최근 7일 스니핏에 프로젝트 태그가 3건 이상이면 추정치를 함께 보여 줍니다. 추정치는 참고용이고, 본인이 저장해야 반영됩니다.</li>
+            </ul>
+            <p>투입 비율은 본인의 가용 시간 100%를 기준으로 팀원이 직접 적는 값이고, 일을 어디에 더 맡길지 함께 정하기 위한 재료입니다.</p>
+            <div class="mini-h" style="margin-top:16px">내 입력 — 스니핏 기반 추정 (예시)</div>
+            <div class="card" style="padding:16px">
+              <div class="ra-row-top">
+                <span class="ra-name">이번 달 내 투입</span>
+                <span class="ra-pct" style="--sc:var(--spare)"><b>55</b><small>%</small></span>
+              </div>
+              <div class="ra-bar-line"><div class="stack"><i style="width:30%;background:var(--p4)"></i><i style="width:25%;background:var(--p1)"></i></div></div>
+              <div class="ra-legend"><span style="color:var(--p4)">● 파트너 연동 30%</span><span style="color:var(--p1)">● AI 리포트 엔진 25%</span></div>
+              <div class="est">
+                <div class="est-h">◆ 스니핏 기반 추정 · 최근 7일 · 태그된 스니핏 6건<button type="button" class="btn">추정치 적용</button></div>
+                <div class="est-p">파트너 연동 60% · AI 리포트 엔진 40% — 적용해도 저장하기 전까지는 반영되지 않습니다.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+      <div class="vis">
+        <div class="mini-h">구성원별 상태 — 이번 달 (예시)</div>
+        <div class="pp">
+          <div class="pp-row s-spare"><span class="nm">김하늘</span><span class="ra-st">여유</span>
+            <div class="stack"><i style="width:25%;background:var(--p1)"></i><i style="width:20%;background:var(--p2)"></i></div><b class="pct">45%</b></div>
+          <div class="pp-row s-skew"><span class="nm">정우진</span><span class="ra-st">쏠림</span>
+            <div class="stack"><i style="width:85%;background:var(--p4)"></i><i style="width:5%;background:var(--p1)"></i></div><b class="pct">90%</b></div>
+          <div class="pp-row s-ok"><span class="nm">한서준</span><span class="ra-st">적정</span>
+            <div class="stack"><i style="width:45%;background:var(--p2)"></i><i style="width:40%;background:var(--p3)"></i></div><b class="pct">85%</b></div>
+          <div class="pp-row s-miss"><span class="nm">오지민</span><span class="ra-st">미입력</span>
+            <div class="stack empty"></div><b class="pct">—</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 답 03 — v5 «03 · 목표와 성과»와 v5 #goals(목표 관리)를 합쳤다
+         기능: okr-policy.md §6.0 · screen-okr-setup-wizard.policy.md §3-4 (정렬됨 · 팀 OKR 미반영 · 상위 OKR 미연결 · 개인 OKR 미작성) ·
+               okr-policy.md §1.2.4-F (전사 노드 「⚐ 미정렬 n」) · arch-design-tokens.md §9-I (OKR 대시보드) ·
+               screen-manager-view.policy.md §7-2 (선택 KR 진척률 · 기여 중인 팀원) · §7-0 · §6-3 (AI 브리핑) · arch-ai-data-spec.md §1 ·
+               spec-feedback.md §0 · spec-eval-cycle.md 개요
+         관점: team-wiki 회의록/meeting-20260404.md §3 · §5 · meeting-20260308.md · meeting-20260422.md · meeting-20260322.md
+         그림 ⓒ(v6 신설) — 회사 → 팀 → 개인 KR 나무 + 기여 팀원. 칩은 v5 .ra-st(s-ok · s-skew), 나무 선은 --brand-border.
+           «정렬됨»은 설정 화면(§3-4)의 판정 이름, «⚐ 미정렬»은 OKR 대시보드 전사 노드(§1.2.4-F)의 표시다 — 한 그림에 모은 설명 그림이고 앱 한 화면이 아니다.
+           KR 이름 · 수치는 v5 03 예시(온보딩 완료율 62% · 이도윤 · 박서연 · 최민준)와 맞췄고 회사 KR 두 줄은 예시다.
+         ⚠ v5 와 같이 「누가 성과를 내는가」의 판정 · 순위, 「보상과 OKR 연동」은 쓰지 않는다(v5 머리 주석 «쓰지 않은 것») -->
+    <div class="feat" id="ch3">
+      <div class="feat-copy">
+        <div class="ch-no">03</div>
+        <div class="ch-q">그 시간이 목표로 이어지나?</div>
+        <h3>회사 목표에서 개인까지, 이어졌는지 지금 봅니다</h3>
+        <p class="one">아무 팀도 이어 받지 않은 회사 KR 에는 「미정렬」이 붙고, KR 마다 기여 중인 팀원이 보입니다.</p>
+        <details class="more">
+          <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+          <div class="more-body">
+            <p>달성률만 보는 목표 관리에서는 목표를 낮게 잡을수록 점수가 좋아지고, 팀마다 자기 숫자만 지키게 됩니다. Pivit 은 회사의 큰 목표를 모든 조직이 함께 보고, 팀과 개인이 그 맥락에서 자기 목표를 세우는 OKR 을 기본으로 둡니다. 그래서 투입 비율에 KR 을 불러오면, 누구의 시간이 어느 회사 목표를 향하는지까지 이어서 볼 수 있습니다.</p>
+            <ul class="feat-list">
+              <li><b>목표 세팅</b> — 팀과 개인의 KR 은 위 단계의 KR 을 가리켜 연결됩니다. 설정 화면은 사람마다 「정렬됨」인지, 팀 OKR 이나 상위 OKR 과 끊겨 있는지, 아직 개인 OKR 을 쓰지 않았는지를 보여 줍니다.</li>
+              <li><b>실시간 점검</b> — 목표 100 에 80 이 나올 일은 일찍 보일수록 대응할 시간이 생깁니다. KR 진척이 갱신되는 대로 OKR 대시보드가 전사부터 팀·개인까지 지금의 진척을 한 화면에 보여 줍니다.</li>
+              <li><b>KR 드릴다운</b> — 매니저 화면에서 KR 하나를 고르면 그 KR 의 진척률과, 거기에 기여하고 있는 팀원이 함께 나옵니다. 본부장·부문장은 하위 조직으로 내려가며 같은 방식으로 봅니다.</li>
+              <li><b>AI 브리핑</b> — 조직장이 팀원을 열고 「AI 브리핑 생성」을 누르면, 최근 스니핏·OKR 진척·1on1 기록을 읽고 지금 상태를 2~3문장으로 정리합니다. 다음 1on1 에서 다룰 어젠다를 최대 3개까지 제안합니다.</li>
+              <li><b>피드백 · 평가</b> — 1on1 과 피드백으로 대화를 이어 가고, 정기 평가 때는 그동안의 OKR·스니핏·받은 피드백·1on1 기록이 근거로 모입니다.</li>
+            </ul>
+            <p>AI 는 버튼을 눌렀을 때만 실행됩니다. 스스로 투입값이나 담당을 바꾸지 않습니다. 조직장은 자신이 맡은 조직의 구성원만 볼 수 있고, 볼 자격이 없는 기록은 AI 입력에도 들어가지 않습니다.</p>
+            <div class="mini-h" style="margin-top:16px">팀원 상세 › 이도윤 › AI 브리핑 (예시)</div>
+            <div class="ai-card">
+              <div class="ai-head">
+                <span class="ra-av">이</span><span class="who">이도윤</span>
+                <div class="tabs"><span class="on">AI 브리핑</span><span>스니핏</span><span>헬스 트렌드</span><span>1on1</span></div>
+              </div>
+              <div class="ai-body">
+                <div class="ai-sum">
+                  <div class="l">✦ 종합 브리핑</div>
+                  <p>이도윤님은 최근 2주 스니핏 9건 중 7건이 「온보딩 완료율」 KR 과 연결돼 있고, 이 KR 의 진척이 4주 사이 35%에서 62%로 올랐습니다. 지난 1on1 의 액션 아이템도 모두 닫혔습니다. 이번 성과를 인정하고 다음 분기에 맡을 범위를 1on1 에서 이야기하는 것을 권장합니다.</p>
+                </div>
+                <div class="ai-foot">조직장이 「AI 브리핑 생성」을 눌렀을 때만 만들어지고, 1on1 추천 어젠다가 함께 붙습니다. AI 가 만든 내용이니 1on1 전에 확인해 주세요.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+      <div class="vis">
+        <div class="mini-h">회사 → 팀 → 개인 KR (예시)</div>
+        <div class="tree">
+          <div class="tn"><span class="ra-lv">회사</span><b>신규 입사자 첫 달 정착률 90%</b><span class="ra-st s-ok">정렬됨</span></div>
+          <div class="tn l2"><span class="ra-lv">팀</span><b>온보딩 완료율 80%</b><span class="end">62%</span></div>
+          <div class="tn l3"><span class="ra-lv">개인</span><b>온보딩 체크리스트 개편</b><span class="ra-st s-ok">정렬됨</span></div>
+          <div class="tn off"><span class="ra-lv">회사</span><b>파트너 매출 비중 30%</b><span class="ra-st s-skew flag">⚐ 미정렬</span></div>
+        </div>
+        <div class="mini-h" style="margin-top:16px">「온보딩 완료율」에 기여 중인 팀원 3명</div>
+        <div class="kr-mems">
+          <div class="kr-mem"><span class="ra-av">이</span><div><b>이도윤</b><span>Initiative 2건</span></div></div>
+          <div class="kr-mem"><span class="ra-av">박</span><div><b>박서연</b><span>Initiative 1건</span></div></div>
+          <div class="kr-mem"><span class="ra-av">최</span><div><b>최민준</b><span>Initiative 1건</span></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ ④ 그다음은 대화 — 04 1on1 · 05 AI 피드백 (v5 #features 04 · 05) ═══ -->
+<section id="talk" class="sec-bg">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">그다음은 대화</span>
+      <h2 class="sec-title">본 것을 대화로 옮깁니다</h2>
+    </div>
+
+    <!-- 04 1on1 — D. 1on1-기획/screen-oneonone-session.policy.md §4.1.3 (KR별 actual vs selfEval · 「미팅에서 논의 권장」) · §4.2.6 ·
+         §4.1.2-A (매니저 수동 「✦ 진행 스크립트 생성」 · 매니저 전용) · §5.2.1 · arch-1on1-ai-spec.md NEW-07 (고정 7단계 · 어조 가드) · §6.1 · §6.3 (액션아이템)
+         영상 = pivit-1on1-demo.html 녹화본(assets/1on1-demo.mp4 와 같은 파일 · data URI) · 전체 폭(최대 960px) — v5 와 같은 이유(글자가 작아진다) -->
+    <div class="talk" id="ch4">
+      <div class="talk-copy">
+        <div class="ch-no">04</div>
+        <div class="ch-q">1on1</div>
+        <h3>숫자에서 시작해, 액션 아이템으로 끝납니다</h3>
+        <p class="one">실제 진척과 자가평가의 차이를 놓고, AI 가 짠 7단계 스크립트로 진행합니다.</p>
+      </div>
+      <div class="talk-media">
+        <video class="ops-video" data-demo-video autoplay muted loop playsinline preload="auto" aria-label="1on1 샘플 영상 — 준비 화면에서 진행 스크립트 생성을 누르면 7단계가 만들어지고, 미팅 중 AI 대화 내비게이터로 아이스브레이킹부터 랩업까지 단계마다 할 말과 추천 질문을 보며 넘긴 뒤, 미팅이 끝나면 AI 가 담당과 기한이 붙은 액션 아이템 네 개를 뽑는 모습" src="/assets/9de3c0c9c2a3.mp4"></video>
+        <div class="ops-cap">샘플 영상 · 예시 인물과 내용입니다. 스크립트는 매니저 화면에만 보입니다.</div>
+      </div>
+      <details class="more center">
+        <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+        <div class="more-body">
+          <p>1on1 준비 화면에는 팀원의 KR 별 실제 진척이 OKR 에서 자동으로 들어오고, 팀원이 적은 자가평가가 나란히 놓입니다. 둘이 어긋나면 「미팅에서 논의 권장」이 붙어, 느낌이 아니라 정량 목표를 놓고 대화를 시작합니다.</p>
+          <div class="st-table" style="margin-top:12px">
+            <div class="st-line"><span class="ra-st s-brand">KR 1</span><p>온보딩 완료율 · 실제 <b>62%</b> / 자가평가 <b>80%</b><br><span style="color:var(--warning);font-weight:600">▲ 실제보다 18%p 높게 자가 평가 — 미팅에서 논의 권장</span></p></div>
+            <div class="st-line"><span class="ra-st s-brand">KR 2</span><p>파트너 연동 3건 · 실제 <b>67%</b> / 자가평가 <b>65%</b></p></div>
+          </div>
+          <ul class="feat-list">
+            <li>매니저가 「진행 스크립트 생성」을 누르면 AI 가 브리핑·주제·팀원의 준비 내용·이전 1on1 을 읽고, 아이스브레이킹부터 마무리까지 7단계 스크립트를 만듭니다. 단계마다 권장 시간, 「이렇게 말해 보세요」 멘트, 추천 질문이 들어 있습니다.</li>
+            <li>미팅 전에 만들어 두면 시작하자마자 단계를 넘기며 읽을 수 있습니다. 준비에 쓰던 시간이 대화로 돌아갑니다.</li>
+            <li>미팅이 끝나면 AI 가 대화에서 담당과 기한이 붙은 액션 아이템을 뽑아 둡니다. 다음 1on1 준비 화면에서 다시 확인하니, 대화가 매번 처음부터 시작되지 않습니다.</li>
+          </ul>
+          <p class="feat-note"><b>스크립트는 매니저만 보는 참고용입니다.</b> AI 는 버튼을 눌렀을 때만 실행되고, 몰입도 점수를 그대로 읊거나 평가하는 말투는 쓰지 않습니다.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- 05 AI 피드백 — G. 성과평과 & feedback/spec-feedback.md §1 · §2 · feedback-ai-spec.md §2 · §6
+         ⚠ «더 공정하다고 느낀다»는 David 2026-10-28 지시 문장이다 — 정본에 같은 문장 · 수치가 없어 «근거를 확인할 수 있어서»라는 이유와 함께 쓴다(v5 와 같다) -->
+    <div class="feat" id="ch5">
+      <div class="feat-copy">
+        <div class="ch-no">05</div>
+        <div class="ch-q">AI 피드백</div>
+        <h3>기억이 아니라 기록으로 피드백합니다</h3>
+        <p class="one">스니핏 · OKR · 1on1 을 근거로 AI 가 초안을 만들고, 매니저가 고쳐 보냅니다. 받는 사람도 근거를 볼 수 있어 더 공정하다고 느낍니다.</p>
+        <details class="more">
+          <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+          <div class="more-body">
+            <p>피드백을 쓸 때 「✦ AI 추천 받기」를 누르면, AI 가 그 팀원의 스니핏 · OKR 진척 · 1on1 기록을 근거로 상황 · 행동 · 영향(SBI) 형식의 초안을 만듭니다. 매니저는 초안을 고쳐서 보냅니다.</p>
+            <ul class="feat-list">
+              <li>최근 기억에 남은 일만 말하게 되는 편향을 줄입니다. 그 기간에 실제로 한 일이 근거로 함께 묶입니다.</li>
+              <li>피드백이 데이터에 근거해 있으니, 받는 사람도 «왜 이런 피드백인지»를 확인할 수 있고 더 공정하다고 느낍니다.</li>
+              <li>칭찬이나 지적으로 끝나지 않고, 다음에 해 주었으면 하는 «기대 행동»까지 적습니다. 팀원은 받은 피드백에 바로 답을 남길 수 있습니다.</li>
+              <li>1on1 에서 나눈 이야기는 피드백으로 이어집니다. 등급이나 순위 없이 대화로 주고받는 상시 피드백입니다.</li>
+            </ul>
+            <p class="feat-note"><b>AI 는 버튼을 눌렀을 때만 초안을 만듭니다.</b> 보내는 내용은 매니저가 확인하고 고친 것입니다.</p>
+          </div>
+        </details>
+      </div>
+      <div class="vis">
+        <div class="mini-h">피드백 작성 › ✦ AI 추천 받기 (예시)</div>
+        <div class="ai-card">
+          <div class="ai-head">
+            <span class="ra-av">이</span><span class="who">이도윤 님에게 · KR1 온보딩 완료율</span>
+          </div>
+          <div class="ai-body">
+            <div class="fb-src"><span class="fb-src-l">근거</span><span class="ra-st s-brand">스니핏 9건 · 최근 2주</span><span class="ra-st s-brand">KR1 35% → 62%</span><span class="ra-st s-brand">1on1 10/28</span></div>
+            <div class="ai-sum">
+              <div class="l">✦ AI 초안 · SBI</div>
+              <p><b>상황</b> 10월 온보딩 체크리스트 개편에서 · <b>행동</b> 진행 단계 저장을 먼저 제안하고 리뷰 코멘트를 당일에 모두 반영해 머지까지 끝냈습니다 · <b>영향</b> 4주 사이 온보딩 완료율이 35%에서 62%로 올랐습니다.</p>
+            </div>
+            <div class="ai-ag-h">기대 행동</div>
+            <div class="ai-ag"><b>남은 18%p 계획</b><span>목표 80% 까지의 계획을 11/5 까지 정리해 공유해 주세요.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ⑤ 데이터는 어디서 오나 — v5 #data. 근거(v5 그대로): 정책 §5-3 · §5-5.3 · screen-manager-view.policy.md §6-3 · §7-2 ·
+     daily-snippet-spec.md §6.0 · screen-daily-snippet-write.policy.md §5-A · §3-B.1 · §7 · 협업툴-연동-화면-기획/integrations-spec.md §1 · §7 · §8 ·
+     team-wiki 회의록/meeting-20260808-3.md §1 ═══ -->
+<section id="data">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">데이터는 어디서 오나</span>
+      <h2 class="sec-title">보고서를 따로 만들지 않습니다</h2>
+      <p class="lead">팀이 일하며 이미 남기는 기록이 그대로 근거가 됩니다.</p>
+    </div>
+    <div class="src-row">
+      <div class="src-c"><span class="ic-box"><svg class="ic"><use href="#i-note"/></svg></span><h3>데일리 스니핏</h3><p>하루 한 번 업무 기록과 헬스체크</p></div>
+      <div class="src-c"><span class="ic-box"><svg class="ic"><use href="#i-chat"/></svg></span><h3>1on1</h3><p>지난 대화와 액션 아이템</p></div>
+      <div class="src-c"><span class="ic-box"><svg class="ic"><use href="#i-target"/></svg></span><h3>OKR</h3><p>KR 진척과 투입 항목</p></div>
+      <div class="src-c"><span class="ic-box"><svg class="ic"><use href="#i-plug"/></svg></span><h3>협업 도구</h3><p>Slack · Notion · Jira · GitHub · Google Calendar</p></div>
+    </div>
+    <!-- 스니핏 초안 영상 — pivit-snippet-demo.html 녹화본(assets/snippet-demo.mp4 · data URI) -->
+    <div class="talk" style="margin-top:56px">
+      <div class="talk-copy">
+        <div class="ch-q">데일리 스니핏</div>
+        <h3>버튼 한 번으로 그날 활동이 초안이 됩니다</h3>
+        <p class="one">AI 가 채운 칸은 본인이 확인해야 제출되고, 컨디션은 본인이 적습니다.</p>
+      </div>
+      <div class="talk-media">
+          <video class="ops-video" data-demo-video autoplay muted loop playsinline preload="auto" aria-label="스니핏 작성 샘플 영상 — 오늘 활동으로 초안 채우기를 누르면 Jira와 GitHub 활동으로 요약, 태그, 한 일, 이유, 가치, 잘 된 점이 노란 미확인 칸으로 채워지고, 칸마다 확인을 눌러 초록이 된 뒤 프로젝트를 고르고 컨디션 8점을 직접 적어 등록하는 모습" src="/assets/38b9eb468477.mp4"></video>
+        <div class="ops-cap">샘플 영상 · 예시 인물과 활동입니다. 초안은 버튼을 눌러야 만들어지고, 확인하지 않은 AI 칸이 남으면 제출되지 않습니다.</div>
+      </div>
+      <details class="more center">
+        <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+        <div class="more-body">
+          <p>대표에게 올리는 보고서를 따로 만들게 하지 않습니다. 하루 기록, 1on1, OKR, 쓰고 있는 협업 도구가 그대로 근거가 됩니다. 기록은 조직장과 팀원이 일하면서 직접 남기는 것이고, 관리 부서만 보는 데이터가 아닙니다.</p>
+          <ul class="feat-list">
+            <li><b>데일리 스니핏</b> — 팀원이 하루 한 번 남기는 업무 기록과 헬스체크입니다. 스니핏에 붙인 프로젝트 태그로 투입 비율 추정치를 만듭니다. Jira · GitHub 계정을 이어 두면 [오늘 활동으로 초안 채우기] 한 번으로 그날 활동이 칸마다 채워집니다. → 투입 추정 · AI 브리핑</li>
+            <li><b>원온원(1on1)</b> — 지난 대화와 액션 아이템이 다음 1on1 의 맥락이 됩니다. AI 브리핑은 최근 3회의 기록을 함께 읽습니다. → AI 브리핑 · 1on1 추천 어젠다</li>
+            <li><b>OKR</b> — 내 OKR 의 KR 을 투입 항목으로 불러올 수 있습니다. 매니저는 KR 드릴다운에서 KR 마다 팀원별 기여를 봅니다. → 투입 항목 · KR 드릴다운 · AI 브리핑</li>
+            <li><b>협업 도구 연동</b> — 관리자가 회사 단위로 연결하면, 이미 쓰고 있는 도구의 활동이 1on1 브리핑과 스니핏 초안의 재료가 됩니다.</li>
+          </ul>
+          <div class="tools">
+            <div class="tool"><b>Slack</b><span>멘션 · 채널 활동 · 반응</span></div>
+            <div class="tool"><b>Notion</b><span>작성·수정한 페이지 · 코멘트</span></div>
+            <div class="tool"><b>Jira</b><span>할당 이슈 · 완료율 · 블로커</span></div>
+            <div class="tool"><b>GitHub</b><span>커밋 · PR · 코드 리뷰</span></div>
+            <div class="tool"><b>Google Calendar</b><span>미팅 밀도 · 집중 시간 · 개인 설정에서 연결</span></div>
+          </div>
+          <div class="tool-note">
+            <span>Slack DM 은 직원 본인이 동의한 경우에만 가져옵니다.</span>
+            <span class="tool-scope"></span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ⑥ 결재 · 휴가 — v5 #ops (David 답 ①~④ · v5 머리 주석 «v5 에서 바뀐 것»). 세 카드 모두 «곧 출시» · 요금은 «별도 패키지»만
+     워크플로우 — spec-approval-workflow.md §3 성공 기준 1 · §0 · §5.7 · §5.9 · §7-E · 영상 = pivit-workflow-demo.html 녹화본(assets/workflow-demo.mp4 · data URI)
+     전자결재   — 같은 문서 §3 성공 기준 2 · 3 · §5.4 · §5.5 · §6.3-A
+     휴가 · 연차 — spec-leave.md §1 · §1-1 · §5-3 · §6-2 · §6-3 · §6-13 · §8 (⚠ §6 계산 규칙은 노무 검토 전 — 세부 산식은 쓰지 않는다)
+     다른 기능과 연결 — spec-leave.md §10 10-1 · 10-2 · 10-3 · 10-4 · 10-8 · 요금 — spec-billing.md §2.4-C · spec-approval-workflow.md §2.1 ═══ -->
+<section id="ops" class="sec-bg">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">결재 · 휴가</span>
+      <h2 class="sec-title">결재와 휴가도 같은 자리에서</h2>
+    </div>
+    <div class="ops3">
+      <div class="ops-c"><span class="ic-box"><svg class="ic"><use href="#i-flow"/></svg></span><div class="ops-top"><span class="ops-name">워크플로우</span><span class="soon">곧 출시</span></div><h3>말 한 줄로 업무 흐름을 만듭니다</h3></div>
+      <div class="ops-c"><span class="ic-box"><svg class="ic"><use href="#i-doc"/></svg></span><div class="ops-top"><span class="ops-name">전자결재</span><span class="soon">곧 출시</span></div><h3>양식 하나 채우고 제출하면 끝</h3></div>
+      <div class="ops-c"><span class="ic-box"><svg class="ic"><use href="#i-sun"/></svg></span><div class="ops-top"><span class="ops-name">휴가 · 연차</span><span class="soon">곧 출시</span></div><h3>연차는 근로기준법에 맞춰 자동 계산</h3></div>
+    </div>
+    <div class="talk" style="margin-top:48px">
+      <div class="talk-copy">
+        <div class="ch-q">워크플로우 · 샘플 영상</div>
+        <h3>말로 만들고, 켜기 전에 미리 따라가 봅니다</h3>
+      </div>
+      <div class="talk-media">
+          <video class="ops-video" data-ops-video autoplay muted loop playsinline preload="auto" aria-label="워크플로우 샘플 영상 — AI 에게 한 줄로 말하면 비용 집행 결재 흐름 7단계가 만들어지고, 미리 실행으로 금액 150만 원 기안이 재무팀장 합의, 대표 승인, 재무 담당 처리, 슬랙 알림까지 따라가는 모습" src="/assets/6f283dbb4667.mp4"></video>
+        <div class="ops-cap">샘플 영상 · 예시 인물과 금액입니다. 미리 실행은 실제 결재나 알림을 만들지 않습니다.</div>
+      </div>
+    </div>
+    <div class="link-line">
+      <span class="ll-h">승인된 휴가가 이어지는 곳</span>
+      <span class="ra-st s-brand">조직도 「휴가 중」</span><span class="ra-st s-brand">1on1 · 회의 일정</span><span class="ra-st s-brand">스니핏 작성 대상</span><span class="ra-st s-brand">Google Calendar</span><span class="ra-st s-brand">결재 부재 설정</span>
+    </div>
+    <p class="ops-note center"><b>요금</b><span>기본 요금제와 별도인 «전자결재 · 휴가 패키지»로 제공합니다.</span></p>
+    <details class="more center">
+      <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
+      <div class="more-body">
+        <p><b>워크플로우</b> — 「100만 원 이상이면 재무팀장 합의 후 대표 승인」처럼 적으면 AI 가 단계를 만들고, 이어서 말로 고칩니다. 개발을 요청하지 않고 관리자가 직접 만듭니다.</p>
+        <ul class="feat-list">
+          <li><b>결재형</b> — 구성원이 기안을 올리면 정한 결재선과 처리 담당자를 거쳐 끝납니다.</li>
+          <li><b>자동화형</b> — 입사일·계약 종료일 같은 날짜나 정해 둔 일정에 맞춰 스스로 돕니다. 예: 계약 종료 30일 전에 조직장에게 재계약 여부를 묻습니다.</li>
+          <li><b>미리 실행</b> — 예시 기안이 어느 길로 가는지 단계마다 불을 켜며 보여 줍니다. 비어 있거나 잘못된 설정은 어디를 고치면 되는지 알려 주고, 고치기 전에는 켜지 않습니다.</li>
+        </ul>
+        <p><b>전자결재</b> — 결재선은 회사가 정한 규칙대로 조직장을 찾아 채워집니다. 필요하면 제출 전에 결재자를 바꾸거나 더하고, 회사가 잠가 둔 칸은 그대로 지켜집니다.</p>
+        <ul class="feat-list">
+          <li>결재자는 알림 하나로 내용을 보고 승인하거나 반려합니다.</li>
+          <li>자리를 비우는 동안의 결재는 지정한 대결자에게 갑니다.</li>
+          <li>휴가·비용 집행·구매·출장·채용·계약 같은 기본 양식에서 시작해 회사에 맞게 고칩니다.</li>
+        </ul>
+        <p><b>휴가 · 연차</b> — 입사일 기준이든 회계연도 기준이든 연차를 알아서 부여하고, 쓴 만큼 차감하고, 소멸과 사용 촉진 안내까지 챙깁니다. 휴가 신청은 전자결재로 올라갑니다.</p>
+        <ul class="feat-list">
+          <li>하루·반차·반반차·시간 단위 중 회사가 쓸 단위를 휴가 종류마다 고릅니다.</li>
+          <li>도입할 때 지금까지의 잔여 연차는 CSV·XLSX 로 한 번에 넣습니다.</li>
+        </ul>
+        <p><b>다른 기능과 연결</b> — 승인된 휴가는 따로 알리지 않아도 곳곳에 반영됩니다.</p>
+        <div class="tools">
+          <div class="tool"><b>조직도 · 프로필</b><span>휴가 중인 사람에게 「휴가 중」 표시</span></div>
+          <div class="tool"><b>1on1 · 회의</b><span>일정을 잡을 때 휴가와 겹치면 알려 줌</span></div>
+          <div class="tool"><b>스니핏</b><span>하루 종일 휴가인 날은 작성 대상에서 뺌</span></div>
+          <div class="tool"><b>Google Calendar</b><span>승인되면 본인 캘린더에 일정 추가</span></div>
+          <div class="tool"><b>전자결재</b><span>휴가 기간을 부재 설정으로 제안</span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══ FAQ — 항목별 근거는 각 <details> 위 주석 ═══ -->
+<section id="faq"><!-- v5: 회색 → 흰색 -->
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="sec-title">자주 묻는 질문</h2>
+    </div>
+    <div class="faq-list">
+      <!-- David 결정 4·5 (2026-10-20) -->
+      <details class="faq">
+        <summary>얼리 액세스는 어떻게 신청하나요?</summary>
+        <div class="faq-a"><p>회사 단위로 신청합니다. 운영팀이 신청 내용을 확인한 뒤, 순서대로 묶어서 초대 메일을 보내 드립니다.</p></div>
+      </details>
+      <!-- David 결정 5 — 2026-10-21 형태·기간 확정(spec-billing.md §2.7.3-A) · 출시일 미정이라 날짜는 쓰지 않음 -->
+      <details class="faq">
+        <summary>비용이 드나요?</summary>
+        <div class="faq-a"><p>얼리 액세스 기간에는 무료입니다. 정식 출시 후에도 3개월 더 무료로 쓰실 수 있습니다.</p></div>
+      </details>
+      <!-- v5 — 답 ② «곧 출시» · 답 ③ «별도 패키지»만 (spec-billing.md §2.4-C · spec-approval-workflow.md §2.1) · 출시 날짜는 정본에 없어 쓰지 않는다 -->
+      <details class="faq">
+        <summary>전자결재와 휴가 관리도 쓸 수 있나요?</summary>
+        <div class="faq-a"><p>곧 출시합니다. 전자결재·워크플로우·휴가는 기본 요금제와 별도인 «전자결재 · 휴가 패키지»로 제공하고, 출시 시점은 따로 안내해 드립니다.</p></div>
+      </details>
+      <!-- screen-resource-allocation.policy.md §1-A.1 (분모·자기신고·금지) · §5-3.3 (추정 자동 저장 금지) -->
+      <details class="faq">
+        <summary>투입 비율은 누가 정하고, 어디에 쓰이나요?</summary>
+        <div class="faq-a"><p>팀원 본인이 적습니다. 기준은 프로젝트 규모가 아니라 본인의 가용 업무 시간 100%입니다. 스니핏 기록으로 만든 추정치를 참고할 수 있지만, 본인이 저장하기 전에는 반영되지 않습니다.</p><p>이 값은 평가 점수나 인건비 정산에 쓰지 않습니다. 회사의 사람이 어느 일에 쓰이고 있는지, 새 일을 맡길 수 있는 사람이 누구인지 보고 함께 정하기 위한 값입니다.</p></div>
+      </details>
+      <!-- team-wiki 회의록/meeting-20260808-3.md §1·§2 (현업 조직장·리더가 직접 쓰는 도구 · HR 표현 최소화) ·
+           기능 근거: 매니저 화면(screen-manager-view.policy.md §1) · OKR(okr-policy.md) · 스니핏(daily-snippet-spec.md) ·
+           정기 평가 운영은 관리자 메뉴(arch-nav-routing-policy.md §1-A ③ 평가 운영) -->
+      <details class="faq">
+        <summary>인사 부서만 쓰는 도구인가요?</summary>
+        <div class="faq-a"><p>아닙니다. 대표와 조직장이 조직 현황·OKR·매니저 화면을 직접 보고, 팀원은 스니핏과 투입 비율로 자기 기록을 남깁니다. 정기 평가 운영처럼 회사 전체를 다루는 설정은 관리자 메뉴에 따로 있습니다.</p></div>
+      </details>
+      <!-- arch-ai-data-spec.md §1 (수동 트리거 · 노란/초록) · 정책 §5-7.4 (투입값은 본인이 수정) -->
+      <details class="faq">
+        <summary>AI 가 알아서 업무를 재배분하나요?</summary>
+        <div class="faq-a"><p>아닙니다. 모든 AI 기능은 사용자가 버튼을 눌렀을 때만 실행되고, AI 가 투입 비율이나 담당을 바꾸지 않습니다. AI 는 상태를 정리하고 1on1 에서 다룰 주제를 제안합니다. 실제 조정은 매니저와 팀원이 이야기한 뒤 팀원이 직접 저장합니다.</p><p>AI 가 쓴 초안은 노란색(확인 전)으로 표시되고, 사람이 확인하면 초록색으로 바뀝니다.</p></div>
+      </details>
+      <!-- arch-ai-data-spec.md §1 (매니저 자격 = 관계 · 서브트리 · 열람 자격 없는 레코드는 프롬프트 제외) · 정책 §5-6 (관할 서브트리) -->
+      <details class="faq">
+        <summary>대표와 조직장은 누구의 정보를 볼 수 있나요?</summary>
+        <div class="faq-a"><p>조직장은 자신이 맡은 조직의 구성원만 봅니다. 조직장에서 내려오면 그 순간 볼 수 있는 범위도 사라집니다. 볼 자격이 없는 기록은 화면뿐 아니라 AI 입력에도 들어가지 않습니다.</p><p>리소스의 「조직 현황」은 조회 전용이고, 대표는 전사를, 본부장·부문장은 자기 조직을 봅니다. 조직 단위 평균에는 팀원이 직접 추가한 업무 이름이나 KR 제목이 드러나지 않습니다.</p></div>
+      </details>
+      <!-- 협업툴-연동-화면-기획/integrations-spec.md §8 (AES-256 · DM 동의·철회 파기 · 해제 시 보관 · 고객지원 문의로 삭제) -->
+      <details class="faq">
+        <summary>연동한 도구의 데이터는 어떻게 다루나요?</summary>
+        <div class="faq-a"><p>외부 도구의 접속 토큰은 암호화(AES-256)해 저장합니다. Slack DM 은 직원 본인이 명시적으로 동의한 경우에만 가져오고, 동의를 철회하면 그 동의로 가져온 DM 은 복구할 수 없게 파기합니다.</p><p>연동을 해제하면 새로 가져오는 것만 멈추고, 그동안 가져온 기록은 남습니다. 남은 기록을 지우려면 고객지원으로 요청해 주세요.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 베타 CTA — David 결정 4·5 · 2026-10-27 얼리 액세스(D14) ═══ -->
+<section class="beta sec-bg" id="beta"><!-- v5: 흰색 → 회색 -->
+  <div class="wrap">
+    <div class="beta-box">
+      <h2>회사의 사람이 어디에 쓰이는지, <br>이번 달부터 보세요</h2>
+      <div class="beta-perk">얼리 액세스 기간 무료 · 정식 출시 후 3개월 더 무료</div>
+      <p class="beta-desc">회사 단위로 신청을 받습니다. 운영팀이 확인한 뒤 순서대로 초대해 드립니다.</p>
+      <a href="https://app.pivit.work/early-access?from=cta" class="btn btn-xl btn-primary">얼리 액세스 신청하기</a>
+      <!-- 2026-10-27 D16: 「그다음 6개월 · 월간 결제여도 연간 단가」 줄을 뺐다 — 베타 출시 혜택이고 얼리 액세스에는 할인 구간이 없다(spec-beta-program.md D16) -->
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══ 푸터 — 개인정보 처리방침(구별 표시) · 이용약관 · 공고(2026-10-27 · spec-company-notice.md) · 문의하기 · 사업자 정보 자리
+     근거: legal/사업자정보-쿠키-기타-게시물.md §1-1 (법무 검토 전 초안 · 법인 정보 확정 후 채움) ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="ft-top">
+      <a href="#top" class="logo" aria-label="pivit 홈"><span class="logo-img" role="img" aria-label="pivit"></span></a>
+      <nav class="ft-links" aria-label="정책 및 문의">
+        <!-- 주소 — legal/행정처리-절차.md D48(처리방침은 이미 pivit.work/privacy · 나머지는 같은 꼴) -->
+        <a href="/privacy/" class="privacy">개인정보 처리방침</a>
+        <a href="/terms/">이용약관</a>
+        <a href="/policy/">운영정책</a>
+        <a href="mailto:cs@pivit.work">문의하기</a>
+      </nav>
+    </div>
+    <!-- 사업자 정보 — legal/사업자정보-쿠키-기타-게시물.md §1-1 공개 문안 · 이메일은 David 2026-10-28 cs@pivit.work ·
+         미정 셋은 법인 설립 뒤 채운다(legal/행정처리-절차.md D48) -->
+    <div class="ft-biz">
+      <!-- 값이 정해지면 biz-v 안에 값만 넣는다 — 이름과 함께 보이고 구분점도 맞춰진다(구조는 손대지 않는다) -->
+      <div class="biz-line"><span class="biz-i">주식회사 피빗 (PIVIT Inc.)</span><span class="biz-i">대표자 민현식</span><span class="biz-i">사업자등록번호 <span class="biz-v"></span></span></div>
+      <div class="biz-line"><span class="biz-i">통신판매업 신고 <span class="biz-v"></span></span><span class="biz-i">주소 경기도 고양시 덕양구 화정동 967-3, 709-라3호 (우편번호 10497)</span></div>
+      <div class="biz-line"><span class="biz-i">전화 <span class="biz-v"></span></span><span class="biz-i">이메일 cs@pivit.work</span><span class="biz-i">호스팅 서비스 제공 Amazon Web Services Korea LLC(AWS)</span></div>
+      <div class="biz-line"><span class="biz-i">개인정보 보호책임자 민현식 (privacy@pivit.work)</span></div>
+    </div>
+    <div class="ft-copy">© 2026 주식회사 피빗 (PIVIT Inc.) · pivit.work</div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
+  var first = true;
+  line.querySelectorAll('.biz-i').forEach(function(i){
+    var v = i.querySelector('.biz-v'), show = !v || v.textContent.trim() !== '';
+    i.hidden = !show; i.classList.toggle('sep', show && !first); if (show) first = false;
+  });
+});
+</script>
+
+<script>
+(function(){
+  // 미리보기 팀원 행 — 클릭하면 카드 안에서 코멘트 스레드를 펼친다 (정책 §3-2 · §4-2)
+  document.querySelectorAll('[data-row]').forEach(function(row){
+    var main = row.querySelector('[data-toggle]');
+    var caret = row.querySelector('.ra-caret');
+    if(!main) return;
+    main.addEventListener('click', function(){
+      if(!row.querySelector('.ra-detail')) return;   // 코멘트 예시가 있는 행만 펼친다
+      row.classList.toggle('open');
+      if(caret) caret.textContent = row.classList.contains('open') ? '▼' : '▶';
+    });
+  });
+  // v5 샘플 영상(워크플로우 · 스니핏) — «움직임 줄이기» 설정이면 재생하지 않고 마지막 장면(미리 실행이 끝난 모습 · 제출 완료)에 멈춘다
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('[data-ops-video],[data-demo-video]').forEach(function(vid){
+      vid.removeAttribute('autoplay'); vid.removeAttribute('loop'); vid.pause();
+      var toEnd = function(){ vid.currentTime = Math.max(0, vid.duration - 0.1); };
+      if(vid.readyState >= 1) toEnd(); else vid.addEventListener('loadedmetadata', toEnd);   // data URI 는 스크립트보다 먼저 읽힐 수 있다
+    });
+  }
+  // (v5) AI 브리핑 예시는 결과를 처음부터 보인다 — 「생성」 버튼 · 클릭 처리는 걷었다(ⓒ 목표와 성과 블록 주석)
+})();
+</script>
+</body>
+</html>

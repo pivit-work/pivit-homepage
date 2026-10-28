@@ -1,6 +1,7 @@
-# pivit.work — 검색엔진과 AI 검색·답변 서비스가 모든 공개 페이지를 읽도록 연다.
+# pivit.work — 검색엔진과 AI 검색·답변 서비스가 모든 공개 페이지를 읽도록 연다. /staging/(첫 화면 스테이징)만 막는다.
 User-agent: *
 Allow: /
+Disallow: /staging/
 
 # AI 검색·답변 크롤러 — 위 * 규칙으로도 허용되지만, 막지 않는다는 뜻을 이름으로 남긴다.
 User-agent: OAI-SearchBot
@@ -16,5 +17,6 @@ User-agent: Applebot-Extended
 User-agent: Yeti
 User-agent: Bingbot
 Allow: /
+Disallow: /staging/
 
 Sitemap: https://pivit.work/sitemap.xml
