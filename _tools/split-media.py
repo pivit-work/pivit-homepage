@@ -4,8 +4,8 @@
 pivit-specs 의 시안(7. Homepage/pivit-homepage-v*.html)은 파일 하나로 열리도록 영상까지 data URI 로 품고 있어
 3MB 가 된다. 검색엔진·AI 크롤러는 긴 HTML 을 앞부분만 읽기도 하므로, 배포본은 본문만 남긴다.
 
-  python3 tools/split-media.py <시안.html>        # → index.html + assets/
-  python3 tools/split-media.py index.html         # 이미 올린 index.html 을 그 자리에서 정리
+  python3 _tools/split-media.py <시안.html>        # → index.html + assets/
+  python3 _tools/split-media.py index.html         # 이미 올린 index.html 을 그 자리에서 정리
 
 파일 이름은 내용 해시라 같은 영상은 같은 이름이 되고, 다시 돌려도 결과가 같다.
 작은 것(기본 8KB 미만)과 base64 가 아닌 SVG 는 그대로 둔다.
