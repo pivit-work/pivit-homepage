@@ -4,10 +4,12 @@
 공개 페이지마다 <title>·description 이 서로 다르고, canonical 이 자기 주소(https://pivit.work/…/)이며,
 noindex 가 없고 <html lang="ko"> 인지, 첫 화면 제목에 «피빗»이 있는지 본다. /staging/ · /early-access/ 는 일부러 검색에서 막은 페이지라 뺀다.
 약관 페이지(_legal/build.cjs 로 만드는 것)는 description 이 제목 되풀이가 아니게 80~120자인지도 본다.
+탭 아이콘(PW-2340): 검색에서 막은 두 페이지까지 모든 페이지 머리에 /favicon.ico · /apple-touch-icon.png 두 줄만 있고
+다른 아이콘 링크(옛 512×557 파일·data URI)가 없는지, 세 아이콘 파일이 정사각인지 본다.
 
   python3 _tools/check-seo-meta.py      # 문제가 있으면 줄마다 적고 1 로 끝난다
 """
-import pathlib, re, sys
+import pathlib, re, struct, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SKIP = {'staging', 'early-access'}
@@ -17,10 +19,37 @@ def meta(html, pat):
     m = re.search(pat, html)
     return m.group(1) if m else None
 
+ICON_LINKS = ['<link rel="icon" href="/favicon.ico" sizes="48x48">',
+              '<link rel="apple-touch-icon" href="/apple-touch-icon.png">']
+
+def png_size(path):
+    b = path.read_bytes()
+    return struct.unpack('>II', b[16:24]) if b[:8] == b'\x89PNG\r\n\x1a\n' else None
+
+def ico_sizes(path):
+    b = path.read_bytes()
+    if b[:4] != b'\x00\x00\x01\x00':
+        return []
+    return [((b[6 + i * 16] or 256), (b[7 + i * 16] or 256)) for i in range(struct.unpack('<H', b[4:6])[0])]
+
 problems, seen_title, seen_desc = [], {}, {}
+for name, want in (('apple-touch-icon.png', (180, 180)), ('icon-512.png', (512, 512))):
+    p = ROOT / name
+    if not p.exists() or png_size(p) != want:
+        problems.append(f'/{name} 이 {want[0]}×{want[1]} 정사각 PNG 가 아님')
+if (48, 48) not in ico_sizes(ROOT / 'favicon.ico') if (ROOT / 'favicon.ico').exists() else True:
+    problems.append('/favicon.ico 에 48×48 이 없음')
+
 for f in sorted(ROOT.glob('**/index.html')):
     rel = f.parent.relative_to(ROOT).as_posix()
-    if (rel != '.' and rel.startswith(('_', '.'))) or rel in SKIP:
+    if rel != '.' and rel.startswith(('_', '.')):
+        continue
+    url = 'https://pivit.work/' + ('' if rel == '.' else rel + '/')
+    h = f.read_text(encoding='utf-8')
+    icons = re.findall(r'<link rel="(?:shortcut )?(?:icon|apple-touch-icon)"[^>]*>', h)
+    if icons != ICON_LINKS:
+        problems.append(f'{url} 아이콘 링크가 {icons}')
+    if rel in SKIP:
         continue
     url = 'https://pivit.work/' + ('' if rel == '.' else rel + '/')
     h = f.read_text(encoding='utf-8')

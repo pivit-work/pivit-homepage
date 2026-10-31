@@ -68,6 +68,8 @@ for (const doc of DOCS) {
 <title>${escapeHtml(title)} — Pivit</title>
 <meta name="description" content="${escapeHtml(doc.description)}">
 <link rel="canonical" href="https://pivit.work/${doc.id}/">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
