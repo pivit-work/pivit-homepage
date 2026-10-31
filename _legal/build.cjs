@@ -12,11 +12,16 @@ const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 
+// description 은 검색 결과에 제목 아래로 나가는 한 문장이다 — 제목을 되풀이하지 말고 그 문서가 무엇을 정하는지 80~120자로 (PW-2335).
 const DOCS = [
-  { id: 'terms', description: 'PIVIT.WORK 서비스 이용약관' },
-  { id: 'policy', description: 'PIVIT.WORK 운영정책' },
-  { id: 'dpa', description: 'PIVIT.WORK 개인정보 처리위탁계약서' },
-  { id: 'subprocessors', description: 'PIVIT.WORK 재수탁자(하위 수탁자) 목록' },
+  { id: 'terms', description:
+    'PIVIT.WORK(피빗) 이용약관입니다. 이용계약 체결, 서비스 제공과 중단, 구독 요금·결제·환불, 이용자의 의무, 콘텐츠 권리와 데이터 처리, AI 기능 특약 등 회사와 고객사의 권리·의무를 정합니다.' },
+  { id: 'policy', description:
+    'PIVIT.WORK 운영정책입니다. 이용약관 제11조에 따라 서비스에서 금지하는 행위의 세부 기준과, 위반했을 때의 조치·통지·이의신청 절차, 보안 취약점 신고 방법을 정합니다.' },
+  { id: 'dpa', description:
+    '고객사가 PIVIT.WORK 를 쓰면서 임직원 개인정보 처리를 주식회사 피빗에 맡길 때의 계약서입니다. 위탁 업무의 범위, 안전성 확보 조치, 재위탁·국외 이전, 유출 통지, 계약 종료 시 반환과 파기를 정합니다.' },
+  { id: 'subprocessors', description:
+    'PIVIT.WORK 가 고객사 데이터 처리를 다시 맡기는 곳(재수탁자)과 회사가 직접 맡기는 곳의 목록입니다. 곳마다 맡기는 업무와 지금 쓰는지를 적고, 목록이 바뀔 때 알리는 절차와 변경 이력을 함께 싣습니다.' },
 ];
 
 const effective = process.argv[2];
@@ -62,6 +67,7 @@ for (const doc of DOCS) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)} — Pivit</title>
 <meta name="description" content="${escapeHtml(doc.description)}">
+<link rel="canonical" href="https://pivit.work/${doc.id}/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
