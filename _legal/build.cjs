@@ -60,6 +60,11 @@ for (const doc of DOCS) {
     .replace(/<table>/g, '<div class="tbl"><table>')
     .replace(/<\/table>/g, '</table></div>')
     .trim();
+  // dpa.md 는 # 제목 다음이 바로 ### 조항이라 h1 → h3 로 건너뛴다. 검색엔진·스크린리더가 읽는 제목 순서가
+  // 끊기지 않게, 원본 md 는 그대로 두고 쓰인 단계만 차례로 당긴다(1·3·4 → 1·2·3). 이용약관처럼 조항이 h2 가 된다 (PW-2342).
+  const used = [...new Set([...body.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1])))].sort();
+  const rank = Object.fromEntries(used.map((lv, i) => [lv, i + 1]));
+  const leveled = body.replace(/<(\/?)h([1-6])([\s>])/g, (_, slash, lv, rest) => `<${slash}h${rank[lv]}${rest}`);
   const html = `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -81,7 +86,7 @@ ${extraStyle}
 <header><div class="wrap top"><a class="logo" href="/"><span class="logo-icon">P</span>Pivit</a></div></header>
 <div class="wrap">
 <main>
-${body}
+${leveled}
 </main>
 <footer>© 2026 Pivit · <a href="/">pivit.work</a></footer>
 </div>
