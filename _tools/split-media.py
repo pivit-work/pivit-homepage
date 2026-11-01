@@ -18,8 +18,8 @@ EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif
        "image/svg+xml": "svg", "video/mp4": "mp4", "video/webm": "webm", "font/woff2": "woff2"}
 MIN_BYTES = 8 * 1024
 # 모든 페이지 머리에 같은 두 줄 — _legal/build.cjs 와 _tools/check-seo-meta.py 도 같은 글자를 쓴다.
-ICON_LINKS = '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">'
-ICON_RE = re.compile(r'<link rel="(?:shortcut icon|icon|apple-touch-icon)"[^>]*>\n?')
+ICON_LINKS = '<link rel="icon" href="/favicon.ico" sizes="48x48">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n<meta name="apple-mobile-web-app-title" content="Pivit">'
+ICON_RE = re.compile(r'(?:<link rel="(?:shortcut icon|icon|apple-touch-icon)"|<meta name="apple-mobile-web-app-title")[^>]*>\n?')
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 def main(src: str, dst: str = "") -> None:
@@ -41,7 +41,7 @@ def main(src: str, dst: str = "") -> None:
 
     first = ICON_RE.search(html)
     if first:
-        # 첫 아이콘 자리에 두 줄을 넣고 나머지 아이콘 링크는 지운다. 넣은 줄도 ICON_RE 에 걸리므로 지운 뒤에 넣는다.
+        # 첫 아이콘 자리에 아이콘 두 줄과 홈 화면 이름 한 줄을 넣고 나머지 아이콘 링크는 지운다. 넣은 줄도 ICON_RE 에 걸리므로 지운 뒤에 넣는다.
         html = html[:first.start()] + "\0ICON\0" + ICON_RE.sub("", html[first.start():])
         html = html.replace("\0ICON\0", ICON_LINKS + ("\n" if first.group(0).endswith("\n") else ""), 1)
     out = re.sub(r"data:([a-z]+/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=]+)", repl, html)

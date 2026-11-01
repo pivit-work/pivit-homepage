@@ -5,7 +5,7 @@
 noindex 가 없고 <html lang="ko"> 인지, 첫 화면 제목에 «피빗»이 있는지 본다. /staging/ · /early-access/ 는 일부러 검색에서 막은 페이지라 뺀다.
 약관 페이지(_legal/build.cjs 로 만드는 것)는 description 이 제목 되풀이가 아니게 80~120자인지도 본다.
 사이트맵(PW-2336): sitemap.xml 의 <lastmod> 가 그 페이지 파일의 마지막 커밋 날보다 이르지 않은지 본다.
-탭 아이콘(PW-2340): 검색에서 막은 두 페이지까지 모든 페이지 머리에 /favicon.ico · /apple-touch-icon.png 두 줄만 있고
+탭 아이콘(PW-2340): 검색에서 막은 두 페이지까지 모든 페이지 머리에 /favicon.ico · /apple-touch-icon.png 두 줄과 아이폰 홈 화면 이름(apple-mobile-web-app-title «Pivit», 없으면 페이지 제목이 잘려 붙는다)만 있고
 다른 아이콘 링크(옛 512×557 파일·data URI)가 없는지, 세 아이콘 파일이 정사각인지 본다.
 
   python3 _tools/check-seo-meta.py      # 문제가 있으면 줄마다 적고 1 로 끝난다
@@ -21,7 +21,8 @@ def meta(html, pat):
     return m.group(1) if m else None
 
 ICON_LINKS = ['<link rel="icon" href="/favicon.ico" sizes="48x48">',
-              '<link rel="apple-touch-icon" href="/apple-touch-icon.png">']
+              '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
+              '<meta name="apple-mobile-web-app-title" content="Pivit">']
 
 def png_size(path):
     b = path.read_bytes()
@@ -47,7 +48,7 @@ for f in sorted(ROOT.glob('**/index.html')):
         continue
     url = 'https://pivit.work/' + ('' if rel == '.' else rel + '/')
     h = f.read_text(encoding='utf-8')
-    icons = re.findall(r'<link rel="(?:shortcut )?(?:icon|apple-touch-icon)"[^>]*>', h)
+    icons = re.findall(r'<link rel="(?:shortcut )?(?:icon|apple-touch-icon)"[^>]*>|<meta name="apple-mobile-web-app-title"[^>]*>', h)
     if icons != ICON_LINKS:
         problems.append(f'{url} 아이콘 링크가 {icons}')
     if rel in SKIP:
