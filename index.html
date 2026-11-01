@@ -149,9 +149,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- 맨 위 영상의 첫 장면 이미지가 첫 화면에서 가장 큰 그림(LCP)이라 가장 먼저 받는다(PW-2341) -->
 <link rel="preload" as="image" href="/assets/7a2af39dd22f.jpg" fetchpriority="high">
-<!-- 글꼴은 첫 그림을 막지 않게 늦게 붙인다(PW-2341) — 그 전에는 같은 자리의 시스템 글꼴로 보였다가 바뀐다. Pretendard 는 쓰인 글자 조각만 받는 배포본 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<!-- 글꼴은 페이지가 다 뜬 뒤(load) 붙인다(PW-2341) — 맨 아래 스크립트가 media 를 all 로 바꾼다. 그 전에는 같은 자리의 시스템 글꼴로 보였다가 바뀐다.
+     첫 그림 전에 글꼴 조각 50여 개(약 650KB)가 함께 출발하면 PageSpeed 모바일이 맨 위 그림(LCP)을 5.6초로 셌다. Pretendard 는 쓰인 글자 조각만 받는 배포본 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" media="print" data-late-font>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" media="print" data-late-font>
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap"></noscript>
 <!--
 ══════════════════════════════════════════════════════════════════════════════
@@ -1024,7 +1025,7 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
     <div class="hero-preview">
       <div class="pv" role="img" aria-label="Pivit 리소스 투입 조직 현황 탭 예시 — 본부별 평균 투입과 프로젝트 비중, 여유 상태 구성원">
         <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
-        <video class="pv-shot" data-demo-video autoplay muted loop playsinline preload="auto" poster="/assets/7a2af39dd22f.jpg" width="1920" height="1200" aria-label="리소스 투입 조직 현황 샘플 영상 — 전사 화면에서 본부별 평균 투입과 프로젝트 비중을 보고, 개발본부를 눌러 구성원 22명의 상태와 투입 비율을 훑어 내려간 뒤, 합계 55% 로 «여유» 상태인 구성원에서 멈추는 모습" src="/assets/59eb75378c30.mp4"></video>
+        <video class="pv-shot" data-demo-video data-hero-video muted loop playsinline preload="none" poster="/assets/7a2af39dd22f.jpg" data-poster-end="/assets/e3f458451bb6.jpg" width="1920" height="1200" aria-label="리소스 투입 조직 현황 샘플 영상 — 전사 화면에서 본부별 평균 투입과 프로젝트 비중을 보고, 개발본부를 눌러 구성원 22명의 상태와 투입 비율을 훑어 내려간 뒤, 합계 55% 로 «여유» 상태인 구성원에서 멈추는 모습" src="/assets/59eb75378c30.mp4"></video>
       </div>
       <p class="pv-caption">리소스 투입 › 조직 현황 (데모 조직의 실제 화면 · 예시 인물)</p>
     </div>
@@ -1599,22 +1600,19 @@ document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
       if(caret) caret.textContent = row.classList.contains('open') ? '▼' : '▶';
     });
   });
-  // 샘플 영상 — 맨 위(리소스 투입)는 바로 받아 재생하고, 그 아래 셋(data-lazy-video)은 화면에 들어올 때 받아 재생한다 (PW-2341)
-  //   모바일에서 첫 화면을 열자마자 영상 넷(2.4MB)을 받느라 첫 그림이 늦었다. 아래 셋은 그 전까지 첫 장면 이미지(poster)만 보인다.
+  // 샘플 영상 (PW-2341) — 맨 위(리소스 투입, data-hero-video)는 페이지가 다 뜬 뒤(load) 받아 재생하고, 그 아래 셋(data-lazy-video)은 화면에 들어올 때 받아 재생한다.
+  //   그 전까지는 첫 장면 이미지(poster)가 보인다. 맨 위 첫 장면 이미지가 첫 화면에서 가장 큰 그림(LCP)이라, 영상 · 글꼴이 그보다 먼저 회선을 쓰지 않게 한다.
   //   소리 없음 · 반복은 태그 속성(muted loop)이 지킨다. 화면을 벗어나면 멈춰 둔다.
-  // «움직임 줄이기» 설정이면 재생하지 않고 마지막 장면(미리 실행이 끝난 모습 · 제출 완료)에 멈춘다.
-  //   늦게 받는 아래 셋은 영상을 받지 않고 마지막 장면 이미지(data-poster-end)를 보인다 — 재생 없이 끝으로 옮긴 장면을 안 그리는 브라우저가 있고, 한 장 보려고 영상을 통째 받지 않게
+  // «움직임 줄이기» 설정이면 영상을 받지 않고 마지막 장면 이미지(data-poster-end — 미리 실행이 끝난 모습 · 제출 완료)를 보인다.
+  //   재생 없이 끝으로 옮긴 장면을 안 그리는 브라우저가 있고, 한 장 보려고 영상을 통째 받지 않게
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  var toEnd = function(vid){
-    var go = function(){ vid.currentTime = Math.max(0, vid.duration - 0.1); };
-    if(vid.readyState >= 1) go(); else vid.addEventListener('loadedmetadata', go, {once:true});
+  // load 직후에는 맨 위 그림이 아직 화면에 안 그려졌을 수 있다 — 한 번 그린 뒤 조금 더 두고 받는다
+  var afterLoad = function(fn){
+    var later = function(){ requestAnimationFrame(function(){ setTimeout(fn, 100); }); };
+    if(document.readyState === 'complete') later(); else window.addEventListener('load', later, {once:true});
   };
-  if(reduce){
-    document.querySelectorAll('[data-ops-video],[data-demo-video]').forEach(function(vid){
-      vid.removeAttribute('autoplay'); vid.removeAttribute('loop'); vid.pause();
-      if(!vid.hasAttribute('data-lazy-video')) toEnd(vid);
-    });
-  }
+  var heroVideo = document.querySelector('[data-hero-video]');
+  if(heroVideo && reduce) heroVideo.setAttribute('poster', heroVideo.getAttribute('data-poster-end'));
   var lazyVideos = document.querySelectorAll('[data-lazy-video]');
   // 첫 장면 이미지(data-poster)는 화면 가까이 오면 붙이고, 화면에 들어오면 영상을 받는다 — 둘 다 맨 위 그림보다 먼저 받지 않게
   var setPoster = function(vid){
@@ -1627,8 +1625,9 @@ document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
     var played = vid.play();
     if(played && played.catch) played.catch(function(){});   // 절전 모드 등으로 막히면 첫 장면 이미지가 남는다
   };
+  var videoObserver = null;
   if('IntersectionObserver' in window){
-    var videoObserver = new IntersectionObserver(function(entries){
+    videoObserver = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting) showVideo(e.target);
         else if(!reduce) e.target.pause();
@@ -1641,6 +1640,11 @@ document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
   } else {
     lazyVideos.forEach(showVideo);
   }
+  afterLoad(function(){
+    document.querySelectorAll('link[data-late-font]').forEach(function(link){ link.media = 'all'; });
+    if(!heroVideo || reduce) return;
+    if(videoObserver) videoObserver.observe(heroVideo); else showVideo(heroVideo);
+  });
   // (v5) AI 브리핑 예시는 결과를 처음부터 보인다 — 「생성」 버튼 · 클릭 처리는 걷었다(ⓒ 목표와 성과 블록 주석)
 })();
 </script>

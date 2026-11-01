@@ -2,16 +2,20 @@
 """첫 화면(/) 로딩 점검 (PW-2341).
 
 모바일 회선에서 첫 화면 LCP 가 21.6초였다(2026-11-01 운영 Lighthouse 모바일). 열자마자 6.4MB 를 받았는데,
-Pretendard 다섯 벌(한 벌 약 780KB)과 영상 4개(2.4MB)가 대부분이었다. 다시 늘어나지 않게 아래를 본다.
+Pretendard 다섯 벌(한 벌 약 780KB)과 영상 4개(2.4MB)가 대부분이었다. 그것을 줄인 뒤에도 PageSpeed 모바일은 5.6초였다 —
+맨 위 그림이 그려지기 전에 글꼴 조각 50여 개와 맨 위 영상이 함께 출발해, 느린 회선으로 다시 셈할 때 그 몫까지 기다린 것으로 쳤다.
+그래서 맨 위 그림 말고는 페이지가 다 뜬 뒤(load)에 받는다. 다시 풀리지 않게 아래를 본다.
   · 첫 화면 HTML 이 300KB 이하다(영상 · 이미지는 assets/ 파일로)
   · <video> 마다 assets/ 에 있는 첫 장면 이미지와 width · height 가 있다 — 영상이 뜰 때 아래 글이 밀리지 않게
-  · 맨 위(.hero) 영상은 바로 받는다 — 첫 장면 이미지(poster)가 첫 화면에서 가장 큰 그림(LCP)이라 <head> 에서 미리 받는다
+  · 맨 위(.hero) 영상의 첫 장면 이미지(poster)가 첫 화면에서 가장 큰 그림(LCP)이라 <head> 에서 미리 받는다.
+    영상 자체는 autoplay 없이 preload="none" + data-hero-video — 맨 아래 스크립트가 load 뒤에 재생한다
   · 그 아래 영상은 화면에 들어올 때 받는다 — autoplay 없이 preload="none" + data-lazy-video, 첫 장면 이미지는 data-poster
     (poster 로 적으면 화면 밖이어도 바로 받아 맨 위 그림과 다툰다. 붙이고 재생하는 일은 맨 아래 스크립트가 한다)
     «움직임 줄이기»면 영상을 받지 않고 마지막 장면 이미지(data-poster-end)를 보인다
   · 화면에 들어오기 전 미리 받는 거리(rootMargin)가 1200px 을 넘지 않는다
   · Pretendard 는 쓰인 글자 조각만 받는 배포본(dynamic-subset)을 쓴다 — 다른 Pretendard CSS(통째 · variable)면 안 된다
-  · 글꼴 CSS 는 첫 그림을 막지 않게 늦게 붙인다(media="print" onload) — JS 를 끈 브라우저용 <noscript> 도 함께
+  · 글꼴 CSS 는 media="print" + data-late-font 로 두고 맨 아래 스크립트가 load 뒤에 붙인다(onload 로 바로 붙이면 안 된다)
+    — JS 를 끈 브라우저용 <noscript> 도 함께
   재생 · 움직임 줄이기 동작 자체는 이 검사로 못 본다 — 브라우저로 내려 보며 확인한다(PW-2341 커밋 «확인:» 줄)
 
   python3 _tools/check-media-loading.py [폴더]   # 문제가 있으면 줄마다 적고 1 로 끝난다
@@ -48,10 +52,6 @@ for m in videos:
         problems.append(f'/ 맨 위 영상 {name}: 첫 장면 이미지를 <head> 에서 미리 받지 않는다')
     if not in_hero and attr(tag, 'poster') is not None:
         problems.append(f'/ 영상 {name}: poster 를 바로 적으면 화면 밖에서도 받는다 — data-poster 로')
-    if not in_hero:
-        end = attr(tag, 'data-poster-end')
-        if not end or not (ROOT / end.lstrip('/')).is_file():
-            problems.append(f'/ 영상 {name}: 움직임 줄이기용 마지막 장면 이미지(data-poster-end)가 없다')
     if not poster:
         problems.append(f'/ 영상 {name}: 첫 장면 이미지(' + ('poster' if in_hero else 'data-poster') + ')가 없다')
     elif not (ROOT / poster.lstrip('/')).is_file():
@@ -62,17 +62,22 @@ for m in videos:
     for k in ('muted', 'loop', 'playsinline'):
         if attr(tag, k) is None:
             problems.append(f'/ 영상 {name}: {k} 가 없다 — 소리 없이 반복 재생해야 한다')
+    if attr(tag, 'autoplay') is not None:
+        problems.append(f'/ 영상 {name}: autoplay 가 있으면 맨 위 그림보다 먼저 영상을 받는다')
+    if attr(tag, 'preload') != 'none':
+        problems.append(f'/ 영상 {name}: preload="none" 이 아니다')
+    end = attr(tag, 'data-poster-end')
+    if not end or not (ROOT / end.lstrip('/')).is_file():
+        problems.append(f'/ 영상 {name}: 움직임 줄이기용 마지막 장면 이미지(data-poster-end)가 없다')
     if in_hero:
-        if attr(tag, 'preload') == 'none' or attr(tag, 'autoplay') is None:
-            problems.append(f'/ 맨 위 영상 {name}: 바로 받아 재생해야 한다(autoplay, preload="none" 금지)')
+        if attr(tag, 'data-hero-video') is None:
+            problems.append(f'/ 맨 위 영상 {name}: data-hero-video 가 없어 load 뒤에도 재생되지 않는다')
     else:
-        if attr(tag, 'autoplay') is not None:
-            problems.append(f'/ 영상 {name}: autoplay 가 있으면 화면 밖에서도 바로 받는다')
-        if attr(tag, 'preload') != 'none':
-            problems.append(f'/ 영상 {name}: preload="none" 이 아니다')
         if attr(tag, 'data-lazy-video') is None:
             problems.append(f'/ 영상 {name}: data-lazy-video 가 없어 화면에 들어와도 재생되지 않는다')
 
+if "link[data-late-font]" not in body or "[data-hero-video]" not in body or "addEventListener('load'" not in body:
+    problems.append('/ load 뒤에 글꼴을 붙이고 맨 위 영상을 재생하는 스크립트가 없다')
 if 'IntersectionObserver' not in body or '[data-lazy-video]' not in body:
     problems.append('/ 화면에 들어온 영상을 재생하는 스크립트(IntersectionObserver · [data-lazy-video])가 없다')
 for m in re.finditer(r'rootMargin:\s*[\'"](\d+)px', body):
@@ -89,8 +94,8 @@ fonts = [m.group(0) for m in re.finditer(r'<link\b[^>]*rel="stylesheet"[^>]*>', 
 if not fonts:
     problems.append('/ 글꼴 CSS 를 찾지 못했다 — 점검 대상이 바뀌었으면 이 파일도 고친다')
 for tag in fonts:
-    if 'media="print"' not in tag or "onload=\"this.media='all'\"" not in tag:
-        problems.append(f'/ 글꼴 CSS 가 첫 그림을 막는다(media="print" onload 없음): {tag[:90]}')
+    if 'media="print"' not in tag or attr(tag, 'data-late-font') is None or 'onload' in tag:
+        problems.append(f'/ 글꼴 CSS 를 load 뒤에 붙이지 않는다(media="print" data-late-font, onload 없이): {tag[:90]}')
     elif f'<link rel="stylesheet" href="{attr(tag, "href")}">' not in noscript:
         problems.append(f'/ JS 를 끄면 글꼴이 안 붙는다(<noscript> 에 없음): {attr(tag, "href")[:70]}')
 if 'pretendard' not in html.lower():
