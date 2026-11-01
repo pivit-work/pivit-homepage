@@ -147,8 +147,9 @@
 <!-- 심볼 — 디자인 시스템 문서 brand/symbol-black.png (머리 주석 결정 6) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 맨 위 영상의 첫 장면 이미지가 첫 화면에서 가장 큰 그림(LCP)이라 가장 먼저 받는다(PW-2341) -->
-<link rel="preload" as="image" href="/assets/7a2af39dd22f.jpg" fetchpriority="high">
+<!-- 맨 위 영상의 첫 장면 이미지가 첫 화면에서 가장 큰 그림(LCP)이라 가장 먼저 받는다(PW-2341). «움직임 줄이기»면 마지막 장면 이미지를 보이므로 그것을 받는다 -->
+<link rel="preload" as="image" href="/assets/7a2af39dd22f.jpg" fetchpriority="high" media="(prefers-reduced-motion: no-preference)">
+<link rel="preload" as="image" href="/assets/e3f458451bb6.jpg" fetchpriority="high" media="(prefers-reduced-motion: reduce)">
 <!-- 글꼴은 페이지가 다 뜬 뒤(load) 붙인다(PW-2341) — 맨 아래 스크립트가 media 를 all 로 바꾼다. 그 전에는 같은 자리의 시스템 글꼴로 보였다가 바뀐다.
      첫 그림 전에 글꼴 조각 50여 개(약 650KB)가 함께 출발하면 PageSpeed 모바일이 맨 위 그림(LCP)을 5.6초로 셌다. Pretendard 는 쓰인 글자 조각만 받는 배포본 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" media="print" data-late-font>
@@ -1606,10 +1607,14 @@ document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
   // «움직임 줄이기» 설정이면 영상을 받지 않고 마지막 장면 이미지(data-poster-end — 미리 실행이 끝난 모습 · 제출 완료)를 보인다.
   //   재생 없이 끝으로 옮긴 장면을 안 그리는 브라우저가 있고, 한 장 보려고 영상을 통째 받지 않게
   var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  // load 직후에는 맨 위 그림이 아직 화면에 안 그려졌을 수 있다 — 한 번 그린 뒤 조금 더 두고 받는다
+  // load 직후에는 맨 위 그림이 아직 화면에 안 그려졌을 수 있다 — 한 번 그린 뒤 조금 더 두고 받는다.
+  // 글꼴 CSS 서버 하나가 막힌 망에서는 load 가 한참 안 오므로 3초가 지나면 load 를 기다리지 않는다
   var afterLoad = function(fn){
-    var later = function(){ requestAnimationFrame(function(){ setTimeout(fn, 100); }); };
+    var ran = false;
+    var run = function(){ if(!ran){ ran = true; fn(); } };
+    var later = function(){ requestAnimationFrame(function(){ setTimeout(run, 100); }); };
     if(document.readyState === 'complete') later(); else window.addEventListener('load', later, {once:true});
+    setTimeout(run, 3000);
   };
   var heroVideo = document.querySelector('[data-hero-video]');
   if(heroVideo && reduce) heroVideo.setAttribute('poster', heroVideo.getAttribute('data-poster-end'));

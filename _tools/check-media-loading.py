@@ -48,8 +48,6 @@ for m in videos:
     name = src.rsplit('/', 1)[-1]
     in_hero = hero_start != -1 and hero_start < m.start() < hero_end
     poster = attr(tag, 'poster' if in_hero else 'data-poster')
-    if in_hero and poster and f'<link rel="preload" as="image" href="{poster}" fetchpriority="high">' not in html:
-        problems.append(f'/ 맨 위 영상 {name}: 첫 장면 이미지를 <head> 에서 미리 받지 않는다')
     if not in_hero and attr(tag, 'poster') is not None:
         problems.append(f'/ 영상 {name}: poster 를 바로 적으면 화면 밖에서도 받는다 — data-poster 로')
     if not poster:
@@ -76,8 +74,17 @@ for m in videos:
         if attr(tag, 'data-lazy-video') is None:
             problems.append(f'/ 영상 {name}: data-lazy-video 가 없어 화면에 들어와도 재생되지 않는다')
 
-if "link[data-late-font]" not in body or "[data-hero-video]" not in body or "addEventListener('load'" not in body:
-    problems.append('/ load 뒤에 글꼴을 붙이고 맨 위 영상을 재생하는 스크립트가 없다')
+late = re.search(r"afterLoad\(function\(\)\{(.*?)\n  \}\);", body, re.S)
+late = late.group(1) if late else ''
+if "addEventListener('load'" not in body or "link.media = 'all'" not in late or 'videoObserver.observe(heroVideo)' not in late:
+    problems.append('/ load 뒤에 글꼴을 붙이고(link.media = \'all\') 맨 위 영상을 재생하는(videoObserver.observe(heroVideo)) 스크립트가 없다')
+if not re.search(r'setTimeout\(run, [1-9]\d{3}\)', body):
+    problems.append('/ load 가 안 오는 망에서 글꼴 · 맨 위 영상을 붙이는 상한 타이머(setTimeout(run, …))가 없다')
+for img, q in (('poster', 'no-preference'), ('data-poster-end', 'reduce')):
+    m = re.search(r'<video\b[^>]*data-hero-video[^>]*>', body)
+    v = attr(m.group(0), img) if m else None
+    if v and f'<link rel="preload" as="image" href="{v}" fetchpriority="high" media="(prefers-reduced-motion: {q})">' not in html:
+        problems.append(f'/ 맨 위 영상 {img} 를 «{q}» 일 때만 미리 받는 줄이 없다 — 움직임 줄이기면 두 장을 받는다')
 if 'IntersectionObserver' not in body or '[data-lazy-video]' not in body:
     problems.append('/ 화면에 들어온 영상을 재생하는 스크립트(IntersectionObserver · [data-lazy-video])가 없다')
 for m in re.finditer(r'rootMargin:\s*[\'"](\d+)px', body):
