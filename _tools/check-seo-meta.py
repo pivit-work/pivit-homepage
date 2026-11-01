@@ -4,6 +4,7 @@
 공개 페이지마다 <title>·description 이 서로 다르고, canonical 이 자기 주소(https://pivit.work/…/)이며,
 noindex 가 없고 <html lang="ko"> 인지, 첫 화면 제목에 «피빗»이 있는지 본다. /staging/ · /early-access/ 는 일부러 검색에서 막은 페이지라 뺀다.
 약관 페이지(_legal/build.cjs 로 만드는 것)는 description 이 제목 되풀이가 아니게 80~120자인지도 본다.
+사이트맵(PW-2336): sitemap.xml 의 <lastmod> 가 그 페이지 파일의 마지막 커밋 날보다 이르지 않은지 본다.
 탭 아이콘(PW-2340): 검색에서 막은 두 페이지까지 모든 페이지 머리에 /favicon.ico · /apple-touch-icon.png 두 줄만 있고
 다른 아이콘 링크(옛 512×557 파일·data URI)가 없는지, 세 아이콘 파일이 정사각인지 본다.
 
@@ -68,6 +69,14 @@ for f in sorted(ROOT.glob('**/index.html')):
     seen_title[title], seen_desc[desc] = url, url
     if rel in LEGAL and desc and (not 80 <= len(desc) <= 120 or title and desc in title):
         problems.append(f'{url} 설명이 {len(desc)}자이거나 제목 되풀이')
+
+import importlib.util
+_spec = importlib.util.spec_from_file_location('lastmod', ROOT / '_tools' / 'update-sitemap-lastmod.py')
+lastmod = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(lastmod)
+for m in lastmod.LOC.finditer((ROOT / 'sitemap.xml').read_text(encoding='utf-8')):
+    day = lastmod.last_commit_day(lastmod.page_file(m.group(2)))
+    if day and m.group(3) < day:
+        problems.append(f'sitemap.xml 의 https://pivit.work/{m.group(2)} lastmod {m.group(3)} 이 마지막 수정일 {day} 보다 이름 — python3 _tools/update-sitemap-lastmod.py')
 
 print('\n'.join(problems) or f'통과 — 페이지 {len(seen_title)}개')
 sys.exit(1 if problems else 0)
