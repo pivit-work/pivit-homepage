@@ -8,7 +8,11 @@ Pretendard 다섯 벌(한 벌 약 780KB)과 영상 4개(2.4MB)가 대부분이�
   · 맨 위(.hero) 영상은 바로 받는다 — 첫 장면 이미지(poster)가 첫 화면에서 가장 큰 그림(LCP)이라 <head> 에서 미리 받는다
   · 그 아래 영상은 화면에 들어올 때 받는다 — autoplay 없이 preload="none" + data-lazy-video, 첫 장면 이미지는 data-poster
     (poster 로 적으면 화면 밖이어도 바로 받아 맨 위 그림과 다툰다. 붙이고 재생하는 일은 맨 아래 스크립트가 한다)
-  · Pretendard 는 쓰인 글자 조각만 받는 배포본(dynamic-subset)을 쓴다 — 통째 배포본(pretendard.min.css)이면 안 된다
+    «움직임 줄이기»면 영상을 받지 않고 마지막 장면 이미지(data-poster-end)를 보인다
+  · 화면에 들어오기 전 미리 받는 거리(rootMargin)가 1200px 을 넘지 않는다
+  · Pretendard 는 쓰인 글자 조각만 받는 배포본(dynamic-subset)을 쓴다 — 다른 Pretendard CSS(통째 · variable)면 안 된다
+  · 글꼴 CSS 는 첫 그림을 막지 않게 늦게 붙인다(media="print" onload) — JS 를 끈 브라우저용 <noscript> 도 함께
+  재생 · 움직임 줄이기 동작 자체는 이 검사로 못 본다 — 브라우저로 내려 보며 확인한다(PW-2341 커밋 «확인:» 줄)
 
   python3 _tools/check-media-loading.py [폴더]   # 문제가 있으면 줄마다 적고 1 로 끝난다
 """
@@ -44,6 +48,10 @@ for m in videos:
         problems.append(f'/ 맨 위 영상 {name}: 첫 장면 이미지를 <head> 에서 미리 받지 않는다')
     if not in_hero and attr(tag, 'poster') is not None:
         problems.append(f'/ 영상 {name}: poster 를 바로 적으면 화면 밖에서도 받는다 — data-poster 로')
+    if not in_hero:
+        end = attr(tag, 'data-poster-end')
+        if not end or not (ROOT / end.lstrip('/')).is_file():
+            problems.append(f'/ 영상 {name}: 움직임 줄이기용 마지막 장면 이미지(data-poster-end)가 없다')
     if not poster:
         problems.append(f'/ 영상 {name}: 첫 장면 이미지(' + ('poster' if in_hero else 'data-poster') + ')가 없다')
     elif not (ROOT / poster.lstrip('/')).is_file():
@@ -67,8 +75,26 @@ for m in videos:
 
 if 'IntersectionObserver' not in body or '[data-lazy-video]' not in body:
     problems.append('/ 화면에 들어온 영상을 재생하는 스크립트(IntersectionObserver · [data-lazy-video])가 없다')
-if 'pretendard.min.css' in html:
-    problems.append('/ Pretendard 통째 배포본(pretendard.min.css)을 받는다 — pretendard-dynamic-subset.min.css 로')
+for m in re.finditer(r'rootMargin:\s*[\'"](\d+)px', body):
+    if int(m.group(1)) > 1200:
+        problems.append(f'/ 영상을 화면 {m.group(1)}px 앞에서부터 받는다 — 1200px 이하로')
+for m in re.finditer(r'<link\b[^>]*href="[^"]*pretendard[^"]*\.css"[^>]*>', html, re.I):
+    tag = m.group(0)
+    if 'dynamic-subset' not in tag:
+        problems.append(f'/ Pretendard 를 글자 조각 배포본이 아닌 것으로 받는다: {tag[:90]}')
+head = html.split('</head>', 1)[0]
+noscript = ''.join(re.findall(r'<noscript>(.*?)</noscript>', head, re.S))
+fonts = [m.group(0) for m in re.finditer(r'<link\b[^>]*rel="stylesheet"[^>]*>', re.sub(r'<noscript>.*?</noscript>', '', head, flags=re.S))
+         if re.search(r'pretendard|fonts\.googleapis', m.group(0), re.I)]
+if not fonts:
+    problems.append('/ 글꼴 CSS 를 찾지 못했다 — 점검 대상이 바뀌었으면 이 파일도 고친다')
+for tag in fonts:
+    if 'media="print"' not in tag or "onload=\"this.media='all'\"" not in tag:
+        problems.append(f'/ 글꼴 CSS 가 첫 그림을 막는다(media="print" onload 없음): {tag[:90]}')
+    elif f'<link rel="stylesheet" href="{attr(tag, "href")}">' not in noscript:
+        problems.append(f'/ JS 를 끄면 글꼴이 안 붙는다(<noscript> 에 없음): {attr(tag, "href")[:70]}')
+if 'pretendard' not in html.lower():
+    problems.append('/ Pretendard 를 받지 않는다 — 점검 대상이 바뀌었으면 이 파일도 고친다')
 
 for p in problems:
     print(p)
