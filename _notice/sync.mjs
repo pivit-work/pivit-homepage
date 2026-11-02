@@ -75,7 +75,8 @@ export async function plan({ api, root, fetchImpl = fetch }) {
   const items = [];
   for (let page = 1; ; page++) {
     const body = await getJson(fetchImpl, `${api}?page=${page}`);
-    items.push(...body.items);
+    // 받는 사이 새 공고가 게시되면 쪽 경계가 밀려 같은 공고가 두 쪽에 온다 — 번호로 한 번만 담는다
+    for (const it of body.items) if (!items.some((x) => x.no === it.no)) items.push(it);
     if (page >= body.totalPages) break;
   }
 

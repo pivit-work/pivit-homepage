@@ -120,3 +120,18 @@ test('공고마다 주소 파일의 canonical 은 자기 주소, 설명은 그 �
   assert.match(String(files.get('notice/1/index.html')), /<meta name="description" content="주식회사 피빗 제1호 공고\(일반 공고\) — 주주명부 기준일 설정 공고">/);
   assert.doesNotMatch(h3, /공고 목록 설명|href="https:\/\/pivit\.work\/notice\/">/);
 });
+
+test('여러 쪽을 받는 사이 새 공고가 게시돼 쪽 경계가 밀려도 같은 공고가 목록에 두 번 들어가지 않는다', async () => {
+  const root = site();
+  const r1 = row(one), r3 = row(three);
+  const fetchImpl = async (url) => {
+    const json = (b) => new Response(JSON.stringify(b), { status: 200 });
+    if (url === `${API}?page=1`) return json({ items: [r3], page: 1, totalPages: 2, total: 2 });
+    if (url === `${API}?page=2`) return json({ items: [r3, r1], page: 2, totalPages: 2, total: 3 });
+    if (url === 'https://app.test/api/public/notices/3/attachment') return new Response(pdf, { status: 200 });
+    const d = [one, three].find((x) => url === `${API}/${x.no}`);
+    return d ? json(d) : new Response('', { status: 404 });
+  };
+  const files = await plan({ api: API, root, fetchImpl });
+  assert.deepEqual(JSON.parse(String(files.get('notice/data/list.json'))).items.map((i) => i.no), [3, 1]);
+});
