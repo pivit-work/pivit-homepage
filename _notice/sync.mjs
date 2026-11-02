@@ -50,9 +50,20 @@ export function attachmentPath(no, name) {
   return `notice/files/${no}/${safe}`;
 }
 
+const escHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const CATEGORY = { settlement: '결산공고', general: '일반 공고' };
+
 export function noticeTitleTag(n) {
-  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  return `<title>제${n.no}호 ${esc(n.title)} — 공고 — Pivit</title>`;
+  return `<title>제${n.no}호 ${escHtml(n.title)} — 공고 — Pivit</title>`;
+}
+
+/** 공고 하나의 주소 파일 — 목록 셸에서 제목 · 설명 · canonical 만 그 공고 것으로 바꾼다(검색이 목록 한 장으로 묶지 않게). */
+export function noticePageHtml(template, n) {
+  const desc = `주식회사 피빗 제${n.no}호 공고(${CATEGORY[n.category] ?? '공고'}) — ${escHtml(n.title)}`;
+  return template
+    .replace(/<title>[^<]*<\/title>/, () => noticeTitleTag(n))
+    .replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${desc}">`)
+    .replace(/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="https://pivit.work/notice/${n.no}/">`);
 }
 
 /**
@@ -103,7 +114,7 @@ export async function plan({ api, root, fetchImpl = fetch }) {
       }
     }
     out.set(`notice/data/${d.no}.json`, JSON.stringify(copy, null, 1) + '\n');
-    out.set(`notice/${d.no}/index.html`, template.replace(/<title>[^<]*<\/title>/, () => noticeTitleTag(d)));
+    out.set(`notice/${d.no}/index.html`, noticePageHtml(template, d));
   }
   out.set('notice/data/list.json', JSON.stringify({ items }, null, 1) + '\n');
   out.warnings = warnings;

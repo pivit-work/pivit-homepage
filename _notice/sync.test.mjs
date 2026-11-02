@@ -12,7 +12,7 @@ const pdf = Buffer.from('%PDF-1.4 대차대조표');
 function site() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'notice-'));
   fs.mkdirSync(path.join(root, 'notice/data'), { recursive: true });
-  fs.writeFileSync(path.join(root, 'notice/index.html'), '<html><head><title>공고 — Pivit</title></head></html>');
+  fs.writeFileSync(path.join(root, 'notice/index.html'), '<html><head><title>공고 — Pivit</title>\n<meta name="description" content="공고 목록 설명">\n<link rel="canonical" href="https://pivit.work/notice/"></head></html>');
   fs.writeFileSync(path.join(root, 'notice/data/list.json'), '{"items":[]}\n');
   return root;
 }
@@ -109,4 +109,14 @@ test('제목에 $ 글자가 있어도 title 이 깨지지 않는다', async () =
   const odd = { ...one, title: "가$'나$&다" };
   const files = await plan({ api: API, root, fetchImpl: fakeApi([odd]).fetchImpl });
   assert.match(String(files.get('notice/1/index.html')), /<title>제1호 가\$'나\$&amp;다 — 공고 — Pivit<\/title>/);
+});
+
+test('공고마다 주소 파일의 canonical 은 자기 주소, 설명은 그 공고 것 — 검색에 목록 한 장으로 묶이지 않는다', async () => {
+  const root = site();
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([three, one]).fetchImpl });
+  const h3 = String(files.get('notice/3/index.html'));
+  assert.match(h3, /<link rel="canonical" href="https:\/\/pivit\.work\/notice\/3\/">/);
+  assert.match(h3, /<meta name="description" content="주식회사 피빗 제3호 공고\(결산공고\) — 제1기 대차대조표 공고">/);
+  assert.match(String(files.get('notice/1/index.html')), /<meta name="description" content="주식회사 피빗 제1호 공고\(일반 공고\) — 주주명부 기준일 설정 공고">/);
+  assert.doesNotMatch(h3, /공고 목록 설명|href="https:\/\/pivit\.work\/notice\/">/);
 });
