@@ -121,7 +121,7 @@ def og_problems(url, h, rel):
 
 for f in sorted(ROOT.glob('**/index.html')):
     rel = f.parent.relative_to(ROOT).as_posix()
-    if rel.startswith(('_', '.')) or rel == 'staging' or rel.startswith('notice/'):
+    if rel != '.' and rel.startswith(('_', '.')) or rel == 'staging' or rel.startswith('notice/'):
         continue  # 공고 하나하나의 주소(notice/<번호>/)는 _notice/sync.test.mjs 가 본다
     problems += og_problems('https://pivit.work/' + ('' if rel == '.' else rel + '/'), f.read_text(encoding='utf-8'), rel)
 for rel in OG_TEXT:

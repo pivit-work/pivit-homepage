@@ -148,8 +148,14 @@ test('공고별 주소 파일의 링크 미리보기 제목 · 설명 · 주소�
   assert.equal(tag('property', 'og:description'), '주식회사 피빗 제1호 공고(일반 공고) — 주주명부 기준일 설정 공고');
   assert.equal(tag('name', 'twitter:title'), '제1호 주주명부 기준일 설정 공고 — 공고 — Pivit');
   assert.equal(tag('name', 'twitter:description'), '주식회사 피빗 제1호 공고(일반 공고) — 주주명부 기준일 설정 공고');
-  assert.equal(tag('property', 'og:image'), 'https://pivit.work/assets/og-image.png?v=1');
-  assert.equal(tag('name', 'theme-color'), '#2dbd82');
+  // 이미지 · 이미지 설명 · 띠 색은 셸 값을 그대로 이어받는다 — 값 자체는 _tools/check-seo-meta.py 가 기획서와 대 본다.
+  // (여기 고정값을 적으면 이미지를 ?v=2 로 바꿀 때 5분마다 도는 공고 동기화가 테스트에서 멈춘다.)
+  const shell = fs.readFileSync(new URL('../notice/index.html', import.meta.url), 'utf8');
+  for (const [attr, key] of [['property', 'og:image'], ['property', 'og:image:alt'], ['name', 'twitter:image'], ['name', 'theme-color']]) {
+    const want = (shell.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)">`)) ?? [])[1];
+    assert.ok(want, `셸에 ${key} 없음`);
+    assert.equal(tag(attr, key), want);
+  }
   assert.equal((h.match(/<meta property="og:title"/g) ?? []).length, 1);
 });
 
