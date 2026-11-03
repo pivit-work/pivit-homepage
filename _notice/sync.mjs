@@ -57,13 +57,26 @@ export function noticeTitleTag(n) {
   return `<title>제${n.no}호 ${escHtml(n.title)} — 공고 — Pivit</title>`;
 }
 
-/** 공고 하나의 주소 파일 — 목록 셸에서 제목 · 설명 · canonical 만 그 공고 것으로 바꾼다(검색이 목록 한 장으로 묶지 않게). */
+/**
+ * 공고 하나의 주소 파일 — 목록 셸에서 제목 · 설명 · canonical 만 그 공고 것으로 바꾼다(검색이 목록 한 장으로 묶지 않게).
+ * 링크 미리보기(og: · twitter:)의 제목 · 설명 · 주소도 같은 값으로 바꾼다 — 안 바꾸면 메신저에 공고 링크를 붙여도
+ * «공고 — Pivit» 목록 미리보기가 뜨고 누르면 목록으로 간다(PW-2344). 이미지 · 이미지 설명 · 띠 색은 셸 그대로.
+ */
 export function noticePageHtml(template, n) {
   const desc = `주식회사 피빗 제${n.no}호 공고(${CATEGORY[n.category] ?? '공고'}) — ${escHtml(n.title)}`;
-  return template
-    .replace(/<title>[^<]*<\/title>/, () => noticeTitleTag(n))
-    .replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${desc}">`)
-    .replace(/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="https://pivit.work/notice/${n.no}/">`);
+  const title = noticeTitleTag(n).replace(/^<title>|<\/title>$/g, '');
+  const url = `https://pivit.work/notice/${n.no}/`;
+  const meta = (attr, key, value) => [new RegExp(`<meta ${attr}="${key}" content="[^"]*">`), () => `<meta ${attr}="${key}" content="${value}">`];
+  return [
+    [/<title>[^<]*<\/title>/, () => noticeTitleTag(n)],
+    meta('name', 'description', desc),
+    [/<link rel="canonical" href="[^"]*">/, () => `<link rel="canonical" href="${url}">`],
+    meta('property', 'og:url', url),
+    meta('property', 'og:title', title),
+    meta('property', 'og:description', desc),
+    meta('name', 'twitter:title', title),
+    meta('name', 'twitter:description', desc),
+  ].reduce((html, [re, to]) => html.replace(re, to), template);
 }
 
 /**

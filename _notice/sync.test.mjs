@@ -135,3 +135,29 @@ test('여러 쪽을 받는 사이 새 공고가 게시돼 쪽 경계가 밀려�
   const files = await plan({ api: API, root, fetchImpl });
   assert.deepEqual(JSON.parse(String(files.get('notice/data/list.json'))).items.map((i) => i.no), [3, 1]);
 });
+
+test('공고별 주소 파일의 링크 미리보기 제목 · 설명 · 주소가 그 공고 것이다 — 메신저에 붙여도 «공고» 목록 미리보기가 뜨지 않는다 (PW-2344)', async () => {
+  const root = site();
+  // 실제 게시 셸(notice/index.html)을 그대로 써야 셸의 og 태그가 바뀌는지 본다.
+  fs.copyFileSync(new URL('../notice/index.html', import.meta.url), path.join(root, 'notice/index.html'));
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([one]).fetchImpl });
+  const h = String(files.get('notice/1/index.html'));
+  const tag = (attr, key) => (h.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)">`)) ?? [])[1];
+  assert.equal(tag('property', 'og:url'), 'https://pivit.work/notice/1/');
+  assert.equal(tag('property', 'og:title'), '제1호 주주명부 기준일 설정 공고 — 공고 — Pivit');
+  assert.equal(tag('property', 'og:description'), '주식회사 피빗 제1호 공고(일반 공고) — 주주명부 기준일 설정 공고');
+  assert.equal(tag('name', 'twitter:title'), '제1호 주주명부 기준일 설정 공고 — 공고 — Pivit');
+  assert.equal(tag('name', 'twitter:description'), '주식회사 피빗 제1호 공고(일반 공고) — 주주명부 기준일 설정 공고');
+  assert.equal(tag('property', 'og:image'), 'https://pivit.work/assets/og-image.png?v=1');
+  assert.equal(tag('name', 'theme-color'), '#2dbd82');
+  assert.equal((h.match(/<meta property="og:title"/g) ?? []).length, 1);
+});
+
+test('공고 제목에 따옴표 · $ 가 있어도 미리보기 태그가 깨지지 않는다 (PW-2344)', async () => {
+  const root = site();
+  fs.copyFileSync(new URL('../notice/index.html', import.meta.url), path.join(root, 'notice/index.html'));
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([{ ...one, title: '가"나$&다' }]).fetchImpl });
+  const h = String(files.get('notice/1/index.html'));
+  assert.match(h, /<meta property="og:title" content="제1호 가&quot;나\$&amp;다 — 공고 — Pivit">/);
+  assert.match(h, /<meta name="twitter:description" content="주식회사 피빗 제1호 공고\(일반 공고\) — 가&quot;나\$&amp;다">/);
+});
