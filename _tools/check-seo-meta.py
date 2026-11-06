@@ -75,8 +75,8 @@ for f in sorted(ROOT.glob('**/index.html')):
         problems.append(f'{url} 설명이 {len(desc)}자이거나 제목 되풀이')
 
 # 링크 미리보기 — 값은 기획서 문장 그대로 적는다(구현 쪽 값을 읽어 와 비교하면 둘 다 틀려도 통과한다).
-OG_IMAGE = 'https://pivit.work/assets/og-image.png?v=1'
-OG_IMAGE_ALT = '「우리 회사의 사람과 시간, 한눈에 보입니다」 제목과 얼리 액세스 신청 버튼이 있는 Pivit 홈페이지 첫 화면입니다.'
+OG_IMAGE = 'https://pivit.work/assets/og-image.jpg?v=2'
+OG_IMAGE_ALT = '푸른 하늘과 초록 언덕을 배경으로 가운데에 Pivit 로고가 있고, 언덕 위 책상에서 한 사람이 컴퓨터로 일하는 그림입니다.'
 OG_FIXED = {('property', 'og:type'): 'website', ('property', 'og:site_name'): 'Pivit', ('property', 'og:locale'): 'ko_KR',
             ('property', 'og:image'): OG_IMAGE, ('property', 'og:image:width'): '1200', ('property', 'og:image:height'): '630',
             ('property', 'og:image:alt'): OG_IMAGE_ALT, ('name', 'twitter:card'): 'summary_large_image',

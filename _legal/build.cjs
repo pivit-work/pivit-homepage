@@ -31,8 +31,8 @@ const DOCS = [
 
 // 링크 미리보기 태그(PW-2344) — 이미지 · 이미지 설명 · 띠 색은 모든 페이지가 같다. 이미지를 바꿀 때는 ?v= 번호를 올리고
 // 이미지 설명도 새 그림에 맞게 모든 페이지에서 함께 바꾼다(기획서 §6 · 카카오톡은 같은 주소면 옛 썸네일을 계속 쓴다).
-const OG_IMAGE = 'https://pivit.work/assets/og-image.png?v=1';
-const OG_IMAGE_ALT = '「우리 회사의 사람과 시간, 한눈에 보입니다」 제목과 얼리 액세스 신청 버튼이 있는 Pivit 홈페이지 첫 화면입니다.';
+const OG_IMAGE = 'https://pivit.work/assets/og-image.jpg?v=2';
+const OG_IMAGE_ALT = '푸른 하늘과 초록 언덕을 배경으로 가운데에 Pivit 로고가 있고, 언덕 위 책상에서 한 사람이 컴퓨터로 일하는 그림입니다.';
 function ogTags(url, title, description) {
   return [
     '<meta property="og:type" content="website">',
