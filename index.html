@@ -1143,27 +1143,16 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
               <li>조직 현황은 조회 전용입니다. 대표는 전사를, 본부장·부문장은 자기 조직을 봅니다.</li>
               <li>조직 단위 평균에는 팀원이 직접 추가한 업무 이름이나 KR 제목이 드러나지 않고 「개인 항목」으로 묶입니다.</li>
             </ul>
-            <div class="mini-h" style="margin-top:16px">프로젝트 상세 › 리소스 탭 — 계획과 실제 (예시)</div>
-            <div class="st-table">
-              <div class="st-line"><span class="ra-st s-brand">이도윤</span><p>계획 <b>35%</b> / 실제 <b>50%</b> (+15%p)</p></div>
-              <div class="st-line"><span class="ra-st s-brand">김태오</span><p>계획 <b>40%</b> / 실제 <b>40%</b></p></div>
-              <div class="st-line"><span class="ra-st s-brand">박서연</span><p>계획 <b>20%</b> / 실제 <b>10%</b> (−10%p)</p></div>
-            </div>
-            <p class="feat-note" style="margin-top:12px">참여 인원 3명 · 계획 합계 95% · 실제 합계 100% (이번 달). 계획과 실제의 차이는 평가 근거가 아니라 대화의 재료입니다.</p>
           </div>
         </details>
       </div>
+      <!-- 2026-11-06 David 「나머지 그린 그림도 전부 실화면으로 바꾸고 올려」 — dev 데모 조직 «주식회사 피빗_1»(대표 계정) 실화면 · 2026-11-06 Playwright 1440×900 · DPR 1.5. 화면 위에 덧그린 것 없음 · 인물·값은 데모 조직 데이터 그대로 -->
       <div class="vis">
-        <div class="mini-h">조직 현황 — 본부별 평균 투입과 프로젝트 비중 (예시)</div>
-        <div class="org-mini">
-          <div class="org-u"><span class="n">제품본부</span><span class="lv">본부</span><span class="avg">92%</span>
-            <div class="stack"><i style="width:34%;background:var(--p1)"></i><i style="width:30%;background:var(--p2)"></i><i style="width:18%;background:var(--p3)"></i><i style="width:10%;background:var(--p4)"></i></div></div>
-          <div class="org-u"><span class="n">사업본부</span><span class="lv">본부</span><span class="avg">74%</span>
-            <div class="stack"><i style="width:44%;background:var(--p4)"></i><i style="width:20%;background:var(--p1)"></i><i style="width:10%;background:var(--p3)"></i></div></div>
-          <div class="org-u"><span class="n">경영지원본부</span><span class="lv">본부</span><span class="avg">66%</span>
-            <div class="stack"><i style="width:36%;background:var(--p3)"></i><i style="width:30%;background:var(--p2)"></i></div></div>
+        <div class="pv" role="img" aria-label="Pivit 리소스 투입 조직 현황 실제 화면 — 2026년 10월 · 조직 인원 51명 · 평균 투입 86% · 본부와 팀마다 평균 투입과 프로젝트별 비중">
+          <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img class="pv-shot" src="/assets/c78463b92762.jpg" width="2160" height="1350" loading="lazy" alt="">
         </div>
-        <div class="ra-legend" style="margin-top:12px"><span style="color:var(--p4)">● 파트너 연동</span><span style="color:var(--p1)">● AI 리포트 엔진</span><span style="color:var(--p3)">● 온보딩 자동화</span><span style="color:var(--p2)">● 데이터 파이프라인</span></div>
+        <p class="pv-caption">리소스 투입 › 조직 현황 (데모 조직의 실제 화면 · 예시 인물)</p>
       </div>
     </div>
 
@@ -1187,34 +1176,18 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
               <li>최근 7일 스니핏에 프로젝트 태그가 3건 이상이면 추정치를 함께 보여 줍니다. 추정치는 참고용이고, 본인이 저장해야 반영됩니다.</li>
             </ul>
             <p>투입 비율은 본인의 가용 시간 100%를 기준으로 팀원이 직접 적는 값이고, 일을 어디에 더 맡길지 함께 정하기 위한 재료입니다.</p>
-            <div class="mini-h" style="margin-top:16px">내 입력 — 스니핏 기반 추정 (예시)</div>
-            <div class="card" style="padding:16px">
-              <div class="ra-row-top">
-                <span class="ra-name">이번 달 내 투입</span>
-                <span class="ra-pct" style="--sc:var(--spare)"><b>55</b><small>%</small></span>
-              </div>
-              <div class="ra-bar-line"><div class="stack"><i style="width:30%;background:var(--p4)"></i><i style="width:25%;background:var(--p1)"></i></div></div>
-              <div class="ra-legend"><span style="color:var(--p4)">● 파트너 연동 30%</span><span style="color:var(--p1)">● AI 리포트 엔진 25%</span></div>
-              <div class="est">
-                <div class="est-h">◆ 스니핏 기반 추정 · 최근 7일 · 태그된 스니핏 6건<button type="button" class="btn">추정치 적용</button></div>
-                <div class="est-p">파트너 연동 60% · AI 리포트 엔진 40% — 적용해도 저장하기 전까지는 반영되지 않습니다.</div>
-              </div>
-            </div>
+            <div class="mini-h" style="margin-top:16px">리소스 투입 › 내 입력 (데모 조직의 실제 화면)</div>
+            <div class="pv"><div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div><img class="pv-shot" src="/assets/871d528ca4fd.jpg" width="2160" height="1350" loading="lazy" alt="Pivit 리소스 투입 내 입력 실제 화면 — 2026년 10월 · 엔터프라이즈 도입 50% · 결제 개편 30% · 합계 80% · 상태 적정"></div>
           </div>
         </details>
       </div>
+      <!-- 2026-11-06 David 「나머지 그린 그림도 전부 실화면으로 바꾸고 올려」 — dev 데모 조직 «주식회사 피빗_1»(대표 계정) 실화면 영상(homepage-01 녹화 · pivit-work/pivit-features aac2a5f assets/resteam.mp4). 화면 위에 덧그린 것 없음 · 인물·값은 데모 조직 데이터 그대로 -->
       <div class="vis">
-        <div class="mini-h">구성원별 상태 — 이번 달 (예시)</div>
-        <div class="pp">
-          <div class="pp-row s-spare"><span class="nm">김하늘</span><span class="ra-st">여유</span>
-            <div class="stack"><i style="width:25%;background:var(--p1)"></i><i style="width:20%;background:var(--p2)"></i></div><b class="pct">45%</b></div>
-          <div class="pp-row s-skew"><span class="nm">정우진</span><span class="ra-st">쏠림</span>
-            <div class="stack"><i style="width:85%;background:var(--p4)"></i><i style="width:5%;background:var(--p1)"></i></div><b class="pct">90%</b></div>
-          <div class="pp-row s-ok"><span class="nm">한서준</span><span class="ra-st">적정</span>
-            <div class="stack"><i style="width:45%;background:var(--p2)"></i><i style="width:40%;background:var(--p3)"></i></div><b class="pct">85%</b></div>
-          <div class="pp-row s-miss"><span class="nm">오지민</span><span class="ra-st">미입력</span>
-            <div class="stack empty"></div><b class="pct">—</b></div>
+        <div class="pv">
+          <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+          <video class="pv-shot" data-demo-video autoplay muted loop playsinline preload="metadata" src="/assets/eadfe48167fa.mp4" aria-label="리소스 투입 팀 현황 실제 화면 영상 — 팀원마다 투입 합계 · 상태(여유 · 적정) · 프로젝트별 비중"></video>
         </div>
+        <p class="pv-caption">리소스 투입 › 팀 현황 (데모 조직의 실제 화면 · 예시 인물)</p>
       </div>
     </div>
 
@@ -1246,37 +1219,16 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
               <li><b>피드백 · 평가</b> — 1on1 과 피드백으로 대화를 이어 가고, 정기 평가 때는 그동안의 OKR·스니핏·받은 피드백·1on1 기록이 근거로 모입니다.</li>
             </ul>
             <p>AI 는 버튼을 눌렀을 때만 실행됩니다. 스스로 투입값이나 담당을 바꾸지 않습니다. 조직장은 자신이 맡은 조직의 구성원만 볼 수 있고, 볼 자격이 없는 기록은 AI 입력에도 들어가지 않습니다.</p>
-            <div class="mini-h" style="margin-top:16px">팀원 상세 › 이도윤 › AI 브리핑 (예시)</div>
-            <div class="ai-card">
-              <div class="ai-head">
-                <span class="ra-av">이</span><span class="who">이도윤</span>
-                <div class="tabs"><span class="on">AI 브리핑</span><span>스니핏</span><span>헬스 트렌드</span><span>1on1</span></div>
-              </div>
-              <div class="ai-body">
-                <div class="ai-sum">
-                  <div class="l">✦ 종합 브리핑</div>
-                  <p>이도윤님은 최근 2주 스니핏 9건 중 7건이 「온보딩 완료율」 KR 과 연결돼 있고, 이 KR 의 진척이 4주 사이 35%에서 62%로 올랐습니다. 지난 1on1 의 액션 아이템도 모두 닫혔습니다. 이번 성과를 인정하고 다음 분기에 맡을 범위를 1on1 에서 이야기하는 것을 권장합니다.</p>
-                </div>
-                <div class="ai-foot">조직장이 「AI 브리핑 생성」을 눌렀을 때만 만들어지고, 1on1 추천 어젠다가 함께 붙습니다. AI 가 만든 내용이니 1on1 전에 확인해 주세요.</div>
-              </div>
-            </div>
           </div>
         </details>
       </div>
+      <!-- 2026-11-06 David 「나머지 그린 그림도 전부 실화면으로 바꾸고 올려」 — dev 데모 조직 «주식회사 피빗_1»(대표 계정) 실화면 · 2026-11-06 Playwright 1440×900 · DPR 1.5. 화면 위에 덧그린 것 없음 · 인물·값은 데모 조직 데이터 그대로 -->
       <div class="vis">
-        <div class="mini-h">회사 → 팀 → 개인 KR (예시)</div>
-        <div class="tree">
-          <div class="tn"><span class="ra-lv">회사</span><b>신규 입사자 첫 달 정착률 90%</b><span class="ra-st s-ok">정렬됨</span></div>
-          <div class="tn l2"><span class="ra-lv">팀</span><b>온보딩 완료율 80%</b><span class="end">62%</span></div>
-          <div class="tn l3"><span class="ra-lv">개인</span><b>온보딩 체크리스트 개편</b><span class="ra-st s-ok">정렬됨</span></div>
-          <div class="tn off"><span class="ra-lv">회사</span><b>파트너 매출 비중 30%</b><span class="ra-st s-skew flag">⚐ 미정렬</span></div>
+        <div class="pv" role="img" aria-label="Pivit 매니저 대시보드 KR 드릴다운 실제 화면 — 팀 OKR 목록에서 Objective 와 KR 을 고르면 그 KR 의 진척률 · 마감 · 달성도 추이와 팀원별 기여가 함께 보인다">
+          <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img class="pv-shot" src="/assets/08764ae42f80.jpg" width="2160" height="1350" loading="lazy" alt="">
         </div>
-        <div class="mini-h" style="margin-top:16px">「온보딩 완료율」에 기여 중인 팀원 3명</div>
-        <div class="kr-mems">
-          <div class="kr-mem"><span class="ra-av">이</span><div><b>이도윤</b><span>Initiative 2건</span></div></div>
-          <div class="kr-mem"><span class="ra-av">박</span><div><b>박서연</b><span>Initiative 1건</span></div></div>
-          <div class="kr-mem"><span class="ra-av">최</span><div><b>최민준</b><span>Initiative 1건</span></div></div>
-        </div>
+        <p class="pv-caption">매니저 대시보드 › KR 드릴다운 (데모 조직의 실제 화면 · 예시 인물)</p>
       </div>
     </div>
 
@@ -1302,17 +1254,13 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
         <p class="one">실제 진척과 자가평가의 차이를 놓고, AI 가 짠 7단계 스크립트로 진행합니다.</p>
       </div>
       <div class="talk-media">
-        <video class="ops-video" data-demo-video data-lazy-video muted loop playsinline preload="none" data-poster="/assets/3ec3af3fd804.jpg" data-poster-end="/assets/72abacdf267e.jpg" width="1920" height="1280" aria-label="1on1 샘플 영상 — 준비 화면에서 진행 스크립트 생성을 누르면 7단계가 만들어지고, 미팅 중 AI 대화 내비게이터로 아이스브레이킹부터 랩업까지 단계마다 할 말과 추천 질문을 보며 넘긴 뒤, 미팅이 끝나면 AI 가 담당과 기한이 붙은 액션 아이템 네 개를 뽑는 모습" src="/assets/9de3c0c9c2a3.mp4"></video>
-        <div class="ops-cap">샘플 영상 · 예시 인물과 내용입니다. 스크립트는 매니저 화면에만 보입니다.</div>
+        <img class="ops-video" style="aspect-ratio:16/10;height:auto" src="/assets/3731efeed408.jpg" width="1920" height="1200" loading="lazy" alt="Pivit 원온원 대시보드 실제 화면 — 팀 현황 브리핑 · 이번 달 1on1 코칭 지표 · 주의가 필요한 팀원 카드">
+        <div class="ops-cap">원온원 › 대시보드 (데모 조직의 실제 화면 · 예시 인물 · homepage-01 캡처 pivit-work/pivit-features aac2a5f)</div>
       </div>
       <details class="more center">
         <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
         <div class="more-body">
           <p>1on1 준비 화면에는 팀원의 KR 별 실제 진척이 OKR 에서 자동으로 들어오고, 팀원이 적은 자가평가가 나란히 놓입니다. 둘이 어긋나면 「미팅에서 논의 권장」이 붙어, 느낌이 아니라 정량 목표를 놓고 대화를 시작합니다.</p>
-          <div class="st-table" style="margin-top:12px">
-            <div class="st-line"><span class="ra-st s-brand">KR 1</span><p>온보딩 완료율 · 실제 <b>62%</b> / 자가평가 <b>80%</b><br><span style="color:var(--warning);font-weight:600">▲ 실제보다 18%p 높게 자가 평가 — 미팅에서 논의 권장</span></p></div>
-            <div class="st-line"><span class="ra-st s-brand">KR 2</span><p>파트너 연동 3건 · 실제 <b>67%</b> / 자가평가 <b>65%</b></p></div>
-          </div>
           <ul class="feat-list">
             <li>매니저가 「진행 스크립트 생성」을 누르면 AI 가 브리핑·주제·팀원의 준비 내용·이전 1on1 을 읽고, 아이스브레이킹부터 마무리까지 7단계 스크립트를 만듭니다. 단계마다 권장 시간, 「이렇게 말해 보세요」 멘트, 추천 질문이 들어 있습니다.</li>
             <li>미팅 전에 만들어 두면 시작하자마자 단계를 넘기며 읽을 수 있습니다. 준비에 쓰던 시간이 대화로 돌아갑니다.</li>
@@ -1345,22 +1293,13 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
           </div>
         </details>
       </div>
+      <!-- 2026-11-06 David 「나머지 그린 그림도 전부 실화면으로 바꾸고 올려」 — dev 데모 조직 «주식회사 피빗_1»(대표 계정) 실화면 · 2026-11-06 Playwright 1440×900 · DPR 1.5. 화면 위에 덧그린 것 없음 · 인물·값은 데모 조직 데이터 그대로 -->
       <div class="vis">
-        <div class="mini-h">피드백 작성 › ✦ AI 추천 받기 (예시)</div>
-        <div class="ai-card">
-          <div class="ai-head">
-            <span class="ra-av">이</span><span class="who">이도윤 님에게 · KR1 온보딩 완료율</span>
-          </div>
-          <div class="ai-body">
-            <div class="fb-src"><span class="fb-src-l">근거</span><span class="ra-st s-brand">스니핏 9건 · 최근 2주</span><span class="ra-st s-brand">KR1 35% → 62%</span><span class="ra-st s-brand">1on1 10/28</span></div>
-            <div class="ai-sum">
-              <div class="l">✦ AI 초안 · SBI</div>
-              <p><b>상황</b> 10월 온보딩 체크리스트 개편에서 · <b>행동</b> 진행 단계 저장을 먼저 제안하고 리뷰 코멘트를 당일에 모두 반영해 머지까지 끝냈습니다 · <b>영향</b> 4주 사이 온보딩 완료율이 35%에서 62%로 올랐습니다.</p>
-            </div>
-            <div class="ai-ag-h">기대 행동</div>
-            <div class="ai-ag"><b>남은 18%p 계획</b><span>목표 80% 까지의 계획을 11/5 까지 정리해 공유해 주세요.</span></div>
-          </div>
+        <div class="pv" role="img" aria-label="Pivit 수시 피드백 팀 피드백 실제 화면 — 팀원 한 명의 KR 마다 이어진 피드백 기록과 스레드">
+          <div class="pv-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img class="pv-shot" src="/assets/ef456aca1105.jpg" width="2160" height="1350" loading="lazy" alt="">
         </div>
+        <p class="pv-caption">평가 › 수시 피드백 › 팀 피드백 (데모 조직의 실제 화면 · 예시 인물)</p>
       </div>
     </div>
   </div>
@@ -1390,8 +1329,8 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
         <p class="one">AI 가 채운 칸은 본인이 확인해야 제출되고, 컨디션은 본인이 적습니다.</p>
       </div>
       <div class="talk-media">
-          <video class="ops-video" data-demo-video data-lazy-video muted loop playsinline preload="none" data-poster="/assets/bf20b5100432.jpg" data-poster-end="/assets/8ef8ab629a7e.jpg" width="1920" height="1280" aria-label="스니핏 작성 샘플 영상 — 오늘 활동으로 초안 채우기를 누르면 Jira와 GitHub 활동으로 요약, 태그, 한 일, 이유, 가치, 잘 된 점이 노란 미확인 칸으로 채워지고, 칸마다 확인을 눌러 초록이 된 뒤 프로젝트를 고르고 컨디션 8점을 직접 적어 등록하는 모습" src="/assets/38b9eb468477.mp4"></video>
-        <div class="ops-cap">샘플 영상 · 예시 인물과 활동입니다. 초안은 버튼을 눌러야 만들어지고, 확인하지 않은 AI 칸이 남으면 제출되지 않습니다.</div>
+          <video class="ops-video" style="aspect-ratio:16/10" data-demo-video autoplay muted loop playsinline preload="metadata" aria-label="스니핏 작성 실제 화면 영상 — What · Why · Value 칸과 컨디션 · 태그를 적는 모습" src="/assets/968f03ed969d.mp4"></video>
+        <div class="ops-cap">스니핏 › 스니핏 작성 (데모 조직의 실제 화면 · homepage-01 녹화 pivit-work/pivit-features aac2a5f)</div>
       </div>
       <details class="more center">
         <summary><span class="o">자세히 보기</span><span class="c">접기</span></summary>
@@ -1438,12 +1377,12 @@ section:not(.sec-bg) .more-body{background:var(--bg-section)}
     </div>
     <div class="talk" style="margin-top:48px">
       <div class="talk-copy">
-        <div class="ch-q">워크플로우 · 샘플 영상</div>
-        <h3>말로 만들고, 켜기 전에 미리 따라가 봅니다</h3>
+        <div class="ch-q">휴가 · 연차 · 실제 화면</div>
+        <h3>휴가 종류마다 쓸 단위를 회사가 정합니다</h3>
       </div>
       <div class="talk-media">
-          <video class="ops-video" data-ops-video data-lazy-video muted loop playsinline preload="none" data-poster="/assets/d0926a453b36.jpg" data-poster-end="/assets/a8a422543192.jpg" width="1920" height="1280" aria-label="워크플로우 샘플 영상 — AI 에게 한 줄로 말하면 비용 집행 결재 흐름 7단계가 만들어지고, 미리 실행으로 금액 150만 원 기안이 재무팀장 합의, 대표 승인, 재무 담당 처리, 슬랙 알림까지 따라가는 모습" src="/assets/6f283dbb4667.mp4"></video>
-        <div class="ops-cap">샘플 영상 · 예시 인물과 금액입니다. 미리 실행은 실제 결재나 알림을 만들지 않습니다.</div>
+          <video class="ops-video" style="aspect-ratio:16/10" data-ops-video autoplay muted loop playsinline preload="metadata" aria-label="휴가 설정 실제 화면 영상 — 관리자가 잔여 관리와 휴가 설정에서 법정 휴가 종류 · 지급 방식 · 사용 단위를 보는 모습" src="/assets/8c002e4ec055.mp4"></video>
+        <div class="ops-cap">어드민 › 휴가 설정 (데모 조직의 실제 화면 · homepage-01 녹화 pivit-work/pivit-features aac2a5f). 워크플로우 · 전자결재 화면은 곧 출시라 아직 싣지 않습니다.</div>
       </div>
     </div>
     <div class="link-line">
