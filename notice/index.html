@@ -1,78 +1,86 @@
-<!DOCTYPE html>
-<html lang="ko">
+<!doctype html>
+<html lang="ko" class="no-js">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>공고 — Pivit</title>
-<meta name="description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
-<link rel="canonical" href="https://pivit.work/notice/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Pivit">
-<meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://pivit.work/notice/">
-<meta property="og:title" content="공고 — Pivit">
-<meta property="og:description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
-<meta property="og:image" content="https://pivit.work/assets/og-image.jpg?v=2">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="푸른 하늘과 초록 언덕을 배경으로 가운데에 Pivit 로고가 있고, 언덕 위 책상에서 한 사람이 컴퓨터로 일하는 그림입니다.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="공고 — Pivit">
-<meta name="twitter:description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
-<meta name="twitter:image" content="https://pivit.work/assets/og-image.jpg?v=2">
-<meta name="theme-color" content="#2dbd82">
-<link rel="icon" href="/favicon.ico" sizes="48x48">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-title" content="Pivit">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="/notice/notice.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.remove("no-js");</script>
+  <title>공고 — Pivit</title>
+  <meta name="description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
+  <link rel="canonical" href="https://pivit.work/notice/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pivit">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:url" content="https://pivit.work/notice/">
+  <meta property="og:title" content="공고 — Pivit">
+  <meta property="og:description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
+  <meta property="og:image" content="https://pivit.work/assets/og-image.jpg?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="푸른 하늘과 초록 언덕을 배경으로 가운데에 Pivit 로고가 있고, 언덕 위 책상에서 한 사람이 컴퓨터로 일하는 그림입니다.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="공고 — Pivit">
+  <meta name="twitter:description" content="주식회사 피빗(PIVIT Inc.)이 상법과 정관에 따라 싣는 회사 공고입니다. 결산공고와 일반 공고를 게시 순서대로 봅니다.">
+  <meta name="twitter:image" content="https://pivit.work/assets/og-image.jpg?v=2">
+  <meta name="theme-color" content="#2dbd82">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Pivit">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="../tokens.css?v=20261114n" />
+  <link rel="stylesheet" href="../tokens-dark.css?v=20261114n" />
+  <link rel="stylesheet" href="../style.css?v=20261114n" />
+  <link rel="stylesheet" href="../legal.css?v=20261114n" />
+  <link rel="stylesheet" href="notice.css?v=20261114n" />
 </head>
-<body>
-<!-- 공고 화면 셸 (PW-2255). notice/<번호>/index.html 은 이 파일에서 만들고(_notice/sync.mjs), 404.html 은 이 파일 사본이다.
-     머리 · 꼬리는 첫 화면(index.html)의 GNB · 푸터 그대로 — 기획 시안 pivit-notice.html 의 셸과 같은 모양이다. -->
-<header class="gnb">
-  <div class="wrap">
-    <a href="/" class="logo" aria-label="pivit 홈"><span class="logo-img" role="img" aria-label="pivit"></span></a>
-    <nav class="gnb-links" aria-label="주요 메뉴">
-      <a href="/#flow">작동 방식</a>
-      <a href="/#features">기능</a>
-      <a href="/#faq">FAQ</a>
-    </nav>
-    <a href="/early-access/?from=nav" class="btn btn-md btn-primary gnb-cta">얼리 액세스 신청하기</a>
-  </div>
+<body class="legal">
+
+<!-- ===== GNB (Figma 71:3449 — 로고만 보이는 접힌 알약, 마우스를 올리면 메뉴 펼침 / 모바일은 항상 펼침) ===== -->
+<header class="gnb is-dark" id="gnb">
+  <a class="gnb__logo" href="../" aria-label="pivit 홈">
+    <img class="gnb__symbol" src="../assets/logo-symbol.svg" alt="" />
+    <img class="gnb__lettermark" src="../assets/logo-lettermark.svg" alt="pivit" />
+    <img class="gnb__symbol gnb__symbol--light" src="../assets/logo-symbol-white.svg" alt="" />
+    <img class="gnb__lettermark gnb__lettermark--light" src="../assets/logo-lettermark-white.svg" alt="" />
+  </a>
+  <nav class="gnb__nav" aria-label="주요 메뉴">
+    <a href="../#how">작동방식</a>
+    <a href="../#features">기능</a>
+    <a href="../#faq">FAQ</a>
+  </nav>
 </header>
-<main class="nt" id="view" aria-live="polite"><div class="nt-head"><h1 class="nt-title">공고</h1></div></main>
-<footer>
+
+<main class="legal__main notice" id="view" aria-live="polite">
+  <h1 class="h1 legal__title">공고</h1>
+  <p class="notice__desc">주식회사 피빗이 상법과 정관에 따라 싣는 공고입니다.</p>
+  <div class="notice__body"><div class="notice__list"><div class="notice__sk"></div><div class="notice__sk"></div><div class="notice__sk"></div></div></div>
+</main>
+
+<!-- ===== Footer (Figma 71:3518 / 71:3527) ===== -->
+<footer class="legal__footer">
   <div class="wrap">
-    <div class="ft-top">
-      <a href="/" class="logo" aria-label="pivit 홈"><span class="logo-img" role="img" aria-label="pivit"></span></a>
-      <nav class="ft-links" aria-label="정책 및 문의">
-        <a href="/privacy/" class="privacy">개인정보 처리방침</a>
+    <a class="legal__footer-logo" href="../" aria-label="pivit 홈">
+      <img class="gnb__symbol" src="../assets/logo-symbol.svg" alt="" />
+      <img class="gnb__lettermark" src="../assets/logo-lettermark.svg" alt="pivit" />
+    </a>
+    <div class="footer__legal caption legal__legal">
+      <div class="footer__company">
+        <p>주식회사 피빗 (PIVIT Inc.)&nbsp;&nbsp;대표자 민현식<br />주소 경기도 고양시 덕양구 화정동 967-3, 709-라3호 (우편번호 10497)<br />이메일 cs@pivit.work&nbsp;&nbsp;호스팅 서비스 제공 Amazon Web Services Korea LLC(AWS)<br />개인정보 보호책임자 민현식 (privacy@pivit.work)</p>
+        <p>© 2026 주식회사 피빗 (PIVIT Inc.) · pivit.work</p>
+      </div>
+      <nav class="footer__links" aria-label="정책 링크">
+        <a href="/privacy/">개인정보 처리방침</a>
         <a href="/terms/">이용약관</a>
         <a href="/policy/">운영정책</a>
         <a href="/google-user-data/">Google 사용자 데이터 이용</a>
-        <a href="/notice/">공고</a>
+        <a href="/notice/" aria-current="page">공고</a>
         <a href="mailto:cs@pivit.work">문의하기</a>
       </nav>
     </div>
-    <div class="ft-biz">
-      <div class="biz-line"><span class="biz-i">주식회사 피빗 (PIVIT Inc.)</span><span class="biz-i">대표자 민현식</span><span class="biz-i">사업자등록번호 <span class="biz-v"></span></span></div>
-      <div class="biz-line"><span class="biz-i">통신판매업 신고 <span class="biz-v"></span></span><span class="biz-i">주소 경기도 고양시 덕양구 화정동 967-3, 709-라3호 (우편번호 10497)</span></div>
-      <div class="biz-line"><span class="biz-i">전화 <span class="biz-v"></span></span><span class="biz-i">이메일 cs@pivit.work</span><span class="biz-i">호스팅 서비스 제공 Amazon Web Services Korea LLC(AWS)</span></div>
-      <div class="biz-line"><span class="biz-i">개인정보 보호책임자 민현식 (privacy@pivit.work)</span></div>
-    </div>
-    <div class="ft-copy">© 2026 주식회사 피빗 (PIVIT Inc.) · pivit.work</div>
   </div>
 </footer>
-<script>
-document.querySelectorAll('.ft-biz .biz-line').forEach(function(line){
-  var first = true;
-  line.querySelectorAll('.biz-i').forEach(function(i){
-    var v = i.querySelector('.biz-v'), show = !v || v.textContent.trim() !== '';
-    i.hidden = !show; i.classList.toggle('sep', show && !first); if (show) first = false;
-  });
-});
-</script>
-<script src="/notice/notice.js"></script>
+
+<script src="../glass.js?v=20261114n"></script>
+<script src="notice.js?v=20261114n"></script>
+<script src="../legal.js?v=20261114n"></script>
 </body>
 </html>

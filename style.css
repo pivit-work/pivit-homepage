@@ -1,0 +1,764 @@
+/* ==========================================================================
+   pivit public website — desktop
+   컬러는 tokens.css 변수만 사용. 예외(디자인 시스템에 없는 Figma 값)는 아래
+   .web-local 블록에 모아두었고, tokens.json 반영 검토 대상.
+   ========================================================================== */
+
+:root {
+  /* --- Figma 값 중 tokens.css에 없는 것 (tokens.json 추가 검토) --- */
+  --web-gray-900: #1d1f26;              /* Figma "Gray / 900" : 헤드라인 */
+  --web-gray-600: #747a84;              /* Figma "Gray / 600" : 본문 */
+  --web-shadow-modal-m: 0 3.9px 16.8px -0.7px var(--colors-effects-shadows-shadowXl03), 0 5.9px 33.6px -3.4px var(--colors-effects-shadows-shadow3xl01); /* 모바일 섹션4 카드2 모달 그림자 (Figma 30:2256 effects, 0.04 / 0.14) */
+  --web-pill-dark: rgba(41, 45, 52, 0.33);
+  --web-s2-green-overlay: rgba(0, 117, 51, 0.2);
+  --web-s2-gray-multiply: #dbdde1;
+
+  /* --- 타이포 --- */
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", sans-serif;
+
+  /* --- 그림자 (tokens.css shadow 컬러 조합) --- */
+  --shadow-2xl: 0 24px 48px -12px var(--colors-effects-shadows-shadow2xl01), 0 4px 4px -2px var(--colors-effects-shadows-shadow2xl02);
+  --shadow-3xl: 0 32px 64px -12px var(--colors-effects-shadows-shadow3xl01), 0 5px 5px -2.5px var(--colors-effects-shadows-shadow3xl02);
+  --shadow-4xl: 0 21px 120px -12px var(--colors-effects-shadows-shadow3xl01), 0 14px 60px -2.5px var(--colors-effects-shadows-shadow3xl02);
+  --shadow-video: 0 30px 250px -16px var(--colors-effects-shadows-shadow3xl01), 0 14px 40px -2.5px var(--colors-effects-shadows-shadow3xl02);
+
+  /* --- 반응형 스케일 (1440 이하) ---
+     뷰포트가 1440 미만이면 양옆 91px 패딩을 두고, 컨테이너(1258)를 기준으로 모든 박스/이미지를 같은 비율로 줄인다.
+     --u = 1440 디자인의 1px 에 해당하는 실제 길이. 1440 이상에서는 1px 로 고정(최대 폭 1440 유지).
+     --vw 는 main.js 가 스크롤바를 뺀 실제 폭(clientWidth)으로 갱신한다. */
+  --vw: 100vw;
+  --u: min(1px, calc((var(--vw) - 182px) / 1258));
+  --container: calc(1258 * var(--u));
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { overflow-x: clip; } /* 835px+ 에서는 900 고정 폭을 가로 스크롤로 볼 수 있게 아래 미디어에서 auto */ /* scroll-behavior: smooth 은 ScrollTrigger pin 과 충돌하므로 쓰지 않음. 앵커 이동은 main.js 의 GSAP ScrollTo */
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--web-gray-900);
+  background: var(--colors-base-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* hidden 이면 body 가 스크롤 컨테이너가 되어 .fixed-layer 의 sticky 가 깨진다 */
+  /* min-width 없음: 1440 이하에서는 --u 스케일로 계속 축소 (모바일 디자인 확정 전까지) */
+}
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; }
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+details summary { list-style: none; }
+details summary::-webkit-details-marker { display: none; }
+
+/* ---------- Typography ---------- */
+.h0 { font-size: 62px; line-height: 1.33; font-weight: 700; } /* 테스트: 폭 축소 시 글자 고정 (원래 calc(62 * var(--u))) */
+.h1 { font-size: 46px; line-height: 1.31; font-weight: 700; letter-spacing: -0.46px; color: var(--web-gray-900); }
+.h2 { font-size: 35px; line-height: 1.33; font-weight: 700; }
+.h3 { font-size: 26px; line-height: 1.41; font-weight: 700; color: var(--web-gray-900); }
+.s3__step-name { font-size: 24px; line-height: 1.41; } /* Figma Desktop/H4 — 섹션 3 스텝 타이틀 */
+.headline { font-size: 21px; line-height: 1.63; font-weight: 600; letter-spacing: -0.21px; }
+.headline--bold { font-weight: 700; color: var(--web-gray-900); }
+.body { font-size: 16px; line-height: 1.63; font-weight: 500; letter-spacing: -0.48px; color: var(--web-gray-600); }
+.body--dark { color: var(--web-gray-900); }
+.caption { font-size: 12px; line-height: 1.63; font-weight: 500; letter-spacing: -0.36px; color: var(--colors-text-textTertiary); }
+
+.wrap { width: var(--container); margin-left: auto; margin-right: auto; }
+
+/* ---------- Buttons ---------- */
+.cta {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 16px 32px;
+  border-radius: 9999px;
+  background: var(--colors-background-bgBrandSolid);
+  color: var(--colors-text-textPrimaryOnBrand);
+  font-size: 16px; font-weight: 600; line-height: 1.63; letter-spacing: -0.48px;
+  box-shadow: var(--shadow-2xl);
+  white-space: nowrap;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background-color .2s;
+}
+.cta:hover { transform: translateY(-2px); background: var(--colors-background-bgBrandSolidHover); }
+.cta--fixed {
+  /* 레이아웃(--vw = max(창폭, 900)) 오른쪽 끝 기준 43px. 창이 900 보다 좁으면 가로 스크롤(--sx)만큼 따라간다 */
+  position: fixed; top: 28px; right: calc(var(--cw, 100vw) - var(--vw, 100vw) + var(--sx, 0px) + 43px); z-index: 50;
+  padding: 24px 40px;
+  isolation: isolate;
+  /* 글래스 (Figma 61:3323) : 브랜드 그린(위 30% 까지 불투명)→그린 10% 그라디언트 + white 10% 틴트 위에 GNB 와 같은 굴절 렌즈(--lg-filter, glass.js) */
+  background:
+    linear-gradient(180deg, var(--colors-foreground-fgBrandPrimary) 30.13%, color-mix(in srgb, var(--colors-foreground-fgBrandPrimary) 10%, transparent) 118.24%),
+    var(--componentColors-alpha-alphaWhite10);
+  box-shadow: var(--shadow-3xl);
+  -webkit-backdrop-filter: blur(1.5px) saturate(1.5);
+  backdrop-filter: blur(1.5px) var(--lg-filter, saturate(1.5));
+  transition: opacity .35s var(--ease), transform .35s var(--ease), background-color .2s;
+}
+/* 호버 색 전환: 그라디언트는 CSS 로 보간되지 않아 즉시 바뀌므로, 호버용 그라디언트를 ::after 레이어에 두고 투명도만 페이드한다 */
+.cta--fixed:hover {
+  background:
+    linear-gradient(180deg, var(--colors-foreground-fgBrandPrimary) 30.13%, color-mix(in srgb, var(--colors-foreground-fgBrandPrimary) 10%, transparent) 118.24%),
+    var(--componentColors-alpha-alphaWhite10);   /* .cta:hover 의 단색 배경이 덮어쓰지 않게 기본 그라디언트 유지 */
+}
+.cta--fixed::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--colors-background-bgBrandSolidHover) 30.13%, color-mix(in srgb, var(--colors-background-bgBrandSolidHover) 10%, transparent) 118.24%),
+    var(--componentColors-alpha-alphaWhite20);
+  opacity: 0; transition: opacity .3s var(--ease);
+}
+.cta--fixed:hover::after { opacity: 1; }
+/* 굴절이 없는 브라우저(사파리 등, html.no-refract — glass.js)는 GNB 와 같은 프로스트 블러 폴백 */
+.no-refract .cta--fixed {
+  -webkit-backdrop-filter: blur(5px) saturate(1.5);
+  backdrop-filter: blur(5px) saturate(1.5);
+}
+/* 콘텐츠 안의 Early Access 버튼(히어로·푸터)이 화면에 보이는 동안은 숨김 */
+.cta--fixed.is-hidden { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+/* 로드 시 깜빡임 방지: HTML 에서 is-hidden 으로 시작하고 JS 가 판단해 연다. JS 가 없으면 항상 표시 */
+.no-js .cta--fixed.is-hidden { opacity: 1; transform: none; pointer-events: auto; }
+/* 림 하이라이트 (--lg-rim, glass.js paintRim) — GNB 다크 글래스와 동일 */
+.cta--fixed::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  background: var(--lg-rim, none) center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* ---------- GNB ---------- */
+.gnb {
+  /* position:fixed 유지 (sticky 래퍼 안에 넣으면 backdrop-filter 글래스 굴절이 사라짐). 레이아웃 중앙 = --vw/2 − 가로 스크롤 */
+  position: fixed; top: 28px; left: calc(var(--vw, 100vw) / 2 - var(--sx, 0px)); translate: -50% 0; transform-origin: 50% 50%; z-index: 50;
+  display: flex; align-items: center; gap: 48px;
+  padding: 24px 40px;
+  border-radius: 9999px;
+  overflow: hidden;            /* 접히는 동안 메뉴 텍스트가 알약 밖으로 비어져 나오지 않게 알약 모양으로 클립 */
+  isolation: isolate;
+  box-shadow: var(--shadow-3xl);
+  backdrop-filter: blur(40px) saturate(1.4);
+  -webkit-backdrop-filter: blur(40px) saturate(1.4);
+}
+/* 다크 글래스: glisse 렌즈 필터(--lg-filter, glass.js)로 굴절·색분산 + Frost 1.5px. Chromium 외에는 blur 폴백 */
+.gnb.is-dark {
+  -webkit-backdrop-filter: blur(1.5px) saturate(1.5);
+  backdrop-filter: blur(1.5px) var(--lg-filter, saturate(1.5));
+}
+/* 첫 로딩 인트로: 히어로 등장이 끝난 뒤 main.js 가 화면 위에서 탄성으로 떨어뜨린다. 그 전까지는 위에 숨김 (JS 가 같은 값을 인라인 transform 으로 잇고 클래스를 뗀다) */
+.gnb.gnb--intro { transform: translateY(calc(-100% - 80px)); }
+.no-js .gnb--intro, .review .gnb--intro { transform: none; }
+/* 굴절이 없는 브라우저(사파리 등, html.no-refract — glass.js): frost 1.5px 로는 뒤 글자가 그대로 읽혀 깨져 보이므로 진한 프로스트 글래스로 */
+.no-refract .gnb.is-dark {
+  -webkit-backdrop-filter: blur(5px) saturate(1.5);
+  backdrop-filter: blur(5px) saturate(1.5);
+}
+.gnb::before, .gnb::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  transition: opacity .6s var(--ease);
+}
+/* light : Figma 3:102 */
+.gnb::after {
+  background:
+    linear-gradient(180deg, var(--componentColors-alpha-alphaWhite80) 0%, var(--colors-base-transparent) 100%),
+    var(--componentColors-alpha-alphaWhite90);
+}
+/* dark glass : Figma 30:5197 — 검정→투명 그라디언트 + white 20% 틴트, 림 하이라이트(--lg-rim, glass.js) */
+.gnb::before {
+  background:
+    var(--lg-rim, none) center / 100% 100% no-repeat,
+    linear-gradient(180deg, var(--colors-base-black) 0%, var(--colors-base-transparent) 100%),
+    var(--componentColors-alpha-alphaWhite20);
+  opacity: 0;
+}
+.gnb.is-dark::before {
+  opacity: 1;
+  /* 림 box-shadow 는 두지 않는다: 존재하지 않는 alphaBlack20 토큰을 참조해 원래 적용되지 않던 규칙이었고, 실제 색으로 바꾸면 검은 테두리로 보인다 */
+}
+.gnb.is-dark::after { opacity: 0; }
+
+.gnb__logo { position: relative; width: 85px; height: 30px; display: block; flex: none; }
+.gnb__symbol { position: absolute; left: 0; top: 0; height: 100%; width: 32.49%; }
+.gnb__lettermark { position: absolute; left: 43.08%; top: 7.65%; width: 56.9%; height: 84.7%; }
+.gnb__symbol, .gnb__lettermark { transition: opacity .6s var(--ease); }
+.gnb__symbol--light, .gnb__lettermark--light { opacity: 0; }
+.gnb.is-dark .gnb__symbol:not(.gnb__symbol--light), .gnb.is-dark .gnb__lettermark:not(.gnb__lettermark--light) { opacity: 0; }
+.gnb.is-dark .gnb__symbol--light, .gnb.is-dark .gnb__lettermark--light { opacity: 1; }
+
+.gnb__nav { display: flex; gap: 24px; flex: none; white-space: nowrap; } /* flex:none — 인트로에서 GNB 폭을 로고만큼 줄여도 메뉴가 줄바꿈되지 않고 (투명 상태로) 옆으로 넘치게 */
+.gnb__nav a {
+  font-size: 16px; font-weight: 600; line-height: 1.63; letter-spacing: -0.48px;
+  color: var(--colors-text-textPrimary);
+  transition: color .6s var(--ease);
+}
+.gnb__nav a:hover { color: var(--web-gray-900); }
+.gnb.is-dark .gnb__nav a { color: var(--colors-text-textPrimaryOnBrand); }
+.gnb.is-dark .gnb__nav a:hover { color: var(--componentColors-alpha-alphaWhite80); }
+
+/* ---------- Hero ---------- */
+.hero {
+  /* 높이·상단 패딩은 --u 로 줄이지 않는다(1024/220 고정): 타이틀·본문·버튼이 px 고정이라 창이 좁아지면 콘텐츠가 섹션 밖으로 넘쳤고,
+     배경이 함께 축소되면서 그림 속 인물(이미지 세로 73~87%)이 텍스트 뒤로 올라와 가려졌다. 높이를 고정하면 cover 배율이 max(1, 창폭/2008) 로 고정돼
+     인물이 항상 섹션 상단 750~890px 에 머물고, 콘텐츠(220~약 650)와 겹치지 않는다 */
+  position: relative; height: 1024px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding: 220px 0 0;
+  /* 히어로/비디오 배경은 Figma 에서 2008px 폭으로 이어 붙인 두 장. 히어로는 아래쪽·비디오는 위쪽에 붙이고 둘의 배율을 같게(max(1, 창폭/2008)) 맞춰 이음새가 맞는다 (.video__bg 참고) */
+  background: url("assets/hero-bg.webp") center bottom / cover no-repeat;
+  color: var(--colors-text-textPrimaryOnBrand);
+  text-align: center;
+}
+.hero__content { display: flex; flex-direction: column; align-items: center; gap: 32px; width: 100%; }
+.hero__eyebrow { font-size: 16px; font-weight: 500; line-height: 1.63; letter-spacing: -0.48px; }
+.hero__title { font-size: 62px; line-height: 1.33; font-weight: 700; align-self: stretch; } /* 폭을 콘텐츠가 아니라 컨테이너에 고정: 이모지 치환으로 글자 폭이 변해도 SplitText autoSplit 이 재분할하지 않게 */
+.hero__desc { width: 432px; display: flex; flex-direction: column; gap: 6px; } /* 본문이 px 고정이라 폭도 고정 (줄 수 유지) */
+.hero__desc p { font-size: 16px; font-weight: 500; line-height: 1.63; letter-spacing: -0.48px; }
+.hero__desc .hero__note { font-size: 12px; font-weight: 400; letter-spacing: -0.36px; color: var(--componentColors-alpha-alphaWhite60); }
+.hero__scroll { position: absolute; left: 50%; bottom: 25px; transform: translateX(-50%); animation: bob 2.2s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+.hero__content > * { opacity: 0; }
+
+/* ---------- Video ---------- */
+.video { position: relative; height: calc(760 * var(--u)); /* Figma 30:1051 — 영상 프레임(85+708)은 섹션 아래로 33px 넘친다 */ }
+.video__bg {
+  position: absolute; left: 0; right: 0; top: 0; height: calc(760 * var(--u));
+  /* 배율을 히어로(높이 1024 고정 → max(1, 창폭/2008))와 똑같이 맞춰 이음새 유지. 섹션이 760 보다 낮으면 이미지 아래쪽이 잘릴 뿐 */
+  background: url("assets/video-bg.webp") center top / max(2008px, 100%) auto no-repeat;
+}
+.video__bg::after {
+  content: ""; position: absolute; inset: 0;
+  /* Figma image 18 의 두 번째 필(흰색 그라데이션) 알파 커브 */
+  background: linear-gradient(180deg, color-mix(in srgb, var(--colors-base-white) 0%, transparent) 0%, color-mix(in srgb, var(--colors-base-white) 2.5%, transparent) 9.5%, color-mix(in srgb, var(--colors-base-white) 9.5%, transparent) 19%, color-mix(in srgb, var(--colors-base-white) 19.8%, transparent) 28.6%, color-mix(in srgb, var(--colors-base-white) 32.5%, transparent) 38.1%, color-mix(in srgb, var(--colors-base-white) 46.4%, transparent) 47.6%, color-mix(in srgb, var(--colors-base-white) 60.6%, transparent) 57.1%, color-mix(in srgb, var(--colors-base-white) 74.1%, transparent) 66.7%, color-mix(in srgb, var(--colors-base-white) 85.7%, transparent) 76.2%, color-mix(in srgb, var(--colors-base-white) 94.5%, transparent) 85.7%, color-mix(in srgb, var(--colors-base-white) 99.3%, transparent) 95.2%, color-mix(in srgb, var(--colors-base-white) 100%, transparent) 100%);
+}
+.video__frame {
+  position: absolute; top: calc(85 * var(--u)); left: 50%; transform: translateX(-50%);
+  width: var(--container); height: calc(708 * var(--u)); /* 16:9 (1258×708, Figma 37:9081) */
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--componentColors-alpha-alphaBlack10);
+  box-shadow: var(--shadow-video);
+  background: var(--colors-background-bgPrimary);
+}
+.video__player { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- Section 1 ---------- */
+/* 핀 중에는 GSAP 이 측정 시점의 width/height 를 인라인으로 고정한다. 리프레시가 늦어도 가운데 정렬이 어긋나지 않게
+   핀된 요소의 가로는 항상 뷰포트 기준으로 둔다 */
+.pin-spacer > .s1, .pin-spacer > .s4__sticky { width: 100% !important; max-width: none !important; }
+.pin-spacer > .s1 { height: 100vh !important; max-height: none !important; }
+.s1 { position: relative; z-index: 1; /* 앞 섹션의 absolute 배경(.video__bg 페이드)보다 위에 그려지도록 */ height: 100vh; min-height: 640px; margin-top: calc(122 * var(--u)); /* 비디오 섹션(760) 끝 1784 → 섹션1 1906 (Figma) */ display: flex; align-items: center; /* 뷰포트 높이에 맞춰 핀 (Figma 1024 기준 레이아웃을 창 높이에 비례) */ }
+.s1__lines { display: flex; flex-direction: column; gap: 8px; text-align: center; }
+.s1__line {
+  --t: 0; /* 0 = 회색, 1 = 검정. 스크롤 진행에 따라 JS가 갱신 */
+  font-size: 26px; line-height: 1.41; font-weight: 700; /* 테스트: 창 폭에 따라 축소하지 않고 26px 고정 (이전 calc(26 * var(--u))) */
+  color: color-mix(in srgb, var(--web-gray-900) calc(var(--t) * 100%), var(--colors-text-textQuaternary)); /* Figma 5:1265: 비활성 줄 = text-quaternary */
+}
+
+/* 첫 화면 밖 CSS 배경 이미지는 섹션이 가까워질 때(main.js IntersectionObserver → .is-near) 로드. JS 없으면(no-js) 바로 로드 */
+html:not(.no-js) .bg-defer:not(.is-near) { background-image: none !important; }
+
+/* ---------- Section 2 ---------- */
+.s2 { margin-top: calc(50 * var(--u)); display: flex; flex-direction: column; gap: 64px; }
+.s2__grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 16px; }
+.s2__card { display: flex; flex-direction: column; gap: 48px; }
+.s2__visual { width: 100%; aspect-ratio: 409 / 341; border-radius: 24px; overflow: hidden; }
+.s2__visual > img:first-child { width: 100%; height: 100%; object-fit: cover; }
+.s2__visual--target { position: relative; }
+/* 과녁 아이콘은 Figma 에서 export 프레임 밖(카드 프레임)에 있어 별도 오버레이 (Union 28:16326) */
+.s2__target { position: absolute; left: 55%; top: 50%; /* 화살 꼬리 때문에 과녁이 왼쪽으로 치우쳐 보여 카드 폭의 5% 오른쪽으로 (사용자 요청) */ width: calc(174 * var(--u)); height: calc(136 * var(--u)); transform: translate(-50%, -50%); object-fit: contain; }
+.s2__text { display: flex; flex-direction: column; gap: 24px; padding: 0 32px 20px 0; }
+
+/* ---------- Logos marquee ---------- */
+.logos { margin-top: calc(210 * var(--u)); height: calc(112 * var(--u)); overflow: hidden; }
+.logos__track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+.logos__track img { width: calc(1811 * var(--u)); height: calc(112 * var(--u)); flex: none; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } } /* 트랙 = 스트립 2장, 절반 = 스트립 1장 */
+
+/* ---------- Section 3 (scroll-stepped) ---------- */
+.s3 { margin-top: calc(210 * var(--u)); position: relative; }
+/* 스크롤 핀 없이 일반 흐름 — 좌측 4개 메뉴(탭)를 클릭하면 우측 화면이 바뀐다 */
+.s3__sticky { display: flex; flex-direction: column; gap: 64px; }
+.s3__body { display: flex; align-items: flex-start; }
+.s3__steps { list-style: none; width: calc(304 * var(--u)); padding-right: calc(24 * var(--u)); display: flex; flex-direction: column; gap: 8px; flex: none; }
+.s3__step { display: flex; flex-direction: column; gap: 16px; padding-top: 12px; cursor: pointer; }
+.s3__step-head { display: flex; flex-direction: column; gap: 8px; }
+.s3__step-title { display: flex; align-items: center; gap: 12px; position: relative; }
+.s3__icon { display: block; }
+.s3__icon--on { display: none; }
+.s3__step.is-active .s3__icon--off { display: none; }
+.s3__step.is-active .s3__icon--on { display: block; }
+.s3__step .h3, .s3__step .body { color: var(--colors-text-textTertiary); }
+.s3__step .body { font-weight: 700; }
+.s3__step.is-active .h3, .s3__step.is-active .body { color: var(--web-gray-900); }
+/* 프로그레스 바: 현재 스텝에만 3px 검정 라인 (Figma 10:1528) */
+.s3__bar { display: block; height: 3px; width: 100%; background: var(--colors-base-transparent); }
+.s3__bar i { display: block; height: 100%; width: 0; background: var(--web-gray-900); transition: width 0.35s ease; }
+.s3__step.is-active .s3__bar i { width: 100%; }
+.s3__step:focus-visible { outline: 2px solid var(--colors-border-borderBrand); outline-offset: 4px; border-radius: 8px; }
+.s3__stage {
+  --su: var(--u); /* 스테이지 폭 기준 단위: 데스크톱 = --u, 모바일은 (100vw-48)/954 */
+  position: relative; width: calc(954 * var(--u)); height: calc(626 * var(--u)); flex: none;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--componentColors-alpha-alphaBlack10);
+}
+/* 탭 패널: 겹쳐 두고 크로스페이드. 패널마다 배경 이미지가 다름 (Figma 36:9078) */
+.s3__pane { position: absolute; inset: 0; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.35s ease, visibility 0s linear 0.35s; background: center / cover no-repeat; }
+.s3__pane.is-active { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.35s ease, visibility 0s; }
+.s3__pane--1 { background-image: url("assets/s3-pane-bg-1@2x.webp"); }
+.s3__pane--2 { background-image: url("assets/s3-pane-bg-2@2x.webp"); }
+.s3__pane--3 { background-image: url("assets/s3-pane-bg-3@2x.webp"); }
+.s3__pane--4 { background-image: url("assets/s3-pane-bg-4@2x.webp"); }
+/* 패널 안 이미지: export 는 스테이지(954×626)에 클립된 상태 + 그림자 포함. 위치 = 렌더 바운드 (1440 기준 px, --u 스케일) */
+.s3__img { position: absolute; height: auto; }
+.s3__img--p1a { left: calc(57 * var(--su));  top: calc(81 * var(--su));  width: calc(897 * var(--su)); }
+.s3__img--p1b { left: calc(151 * var(--su)); top: calc(39 * var(--su));  width: calc(804 * var(--su)); }
+.s3__img--p2a { left: calc(124 * var(--su)); top: calc(35 * var(--su));  width: calc(704 * var(--su)); }
+.s3__img--p2b { left: calc(362 * var(--su)); top: calc(130 * var(--su)); width: calc(591 * var(--su)); }
+.s3__img--p3a { left: calc(111 * var(--su)); top: 0;                     width: calc(842 * var(--su)); }
+.s3__img--p4a { left: calc(65 * var(--su));  top: calc(43 * var(--su));  width: calc(889 * var(--su)); }
+
+/* ---------- Section 4 : 스크롤 스토리 ---------- */
+.s4 { margin-top: calc(187 * var(--u)); position: relative; }
+.s4__sticky { min-height: max(100vh, calc(880 * var(--u))); display: flex; align-items: flex-start; justify-content: center; padding-top: max(calc(116 * var(--u)), calc((100vh - 792 * var(--u)) / 2)); /* GNB 아래로 카드 상단 확보 */ }
+.s4__stage { position: relative; width: var(--container); height: calc(792 * var(--u)); }
+.s4__card {
+  position: relative; width: 100%; height: 100%; border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--componentColors-alpha-alphaBlack5);
+  background: var(--colors-background-bgPrimary);
+}
+.s4__slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.s4__slide.is-active { opacity: 1; pointer-events: auto; }
+.s4__bg { position: absolute; inset: 0; background: var(--bg) center / cover no-repeat; }
+/* 헤드: 커버 상태(중앙) → 콘텐츠 상태(상단). --p 0~1 로 JS 가 보간 */
+/* 헤드: [한 문장 크게(중앙 374)] → [문장 축소 + 타이틀 등장(커버 271)] → [상단 37]. --hy 와 폰트 크기는 JS 가 보간 */
+.s4__head {
+  position: absolute; left: 0; right: 0; top: 0; text-align: center;
+  color: var(--colors-text-textPrimaryOnBrand);
+  transform: translateY(calc(var(--hy, 374) * var(--u))); /* --hy 는 단위 없는 1440 기준 px, JS 가 보간 */
+}
+/* --m 1 = 큰 문장(35, 비율 축소), 0 = 본문 크기(16px 고정). JS 가 1→0 으로 보간 */
+.s4__eyebrow { --m: 1; font-size: calc(35px * var(--m) + 16px * (1 - var(--m))); font-weight: 700; line-height: 1.33; letter-spacing: 0; }
+.s4__title { color: var(--colors-text-textPrimaryOnBrand); margin-top: 19px; opacity: 0; }
+.s4__caption {
+  margin-top: 26px; text-align: center; /* 흐름 배치: 타이틀 하단 +26 → Figma 기준 head 상단에서 191 (글자 고정 후에도 겹치지 않도록 absolute → 흐름) */
+  font-size: 12px; font-weight: 500; line-height: 1.63; letter-spacing: -0.36px;
+  color: var(--colors-text-textPrimaryOnBrand); opacity: 0;
+}
+.s4__more {
+  display: inline-block; margin-top: 32px; /* 흐름 배치: 타이틀 하단 +32 → head 기준 197 (Figma 234−37). text-align:center 로 중앙 */
+  padding: 6px 12px; border-radius: 9999px; cursor: pointer;
+  border: 1px solid var(--componentColors-alpha-alphaWhite60); background: transparent;
+  color: var(--colors-text-textPrimaryOnBrand); font: inherit; font-size: 12px; font-weight: 500; line-height: 1.63; letter-spacing: -0.36px;
+  opacity: 0; transition: background-color .2s;
+}
+.s4__more:hover { background: var(--componentColors-alpha-alphaWhite20); }
+.s4__caption + .s4__more, .s4__more--low { margin-top: 28px; } /* 캡션 뒤 버튼: head 기준 239 */
+/* GSAP 이 transform(y) 을 덮어쓰므로 translateX(-50%) 대신 left 로 중앙 정렬 (리사이즈 시에도 정확) */
+.s4__mock { pointer-events: none; /* 목업 2 는 그림자 여백(85px) 이 포함된 이미지라 위쪽 투명 영역이 '자세히' 버튼을 덮어 클릭을 가로챘다 */ --mock-top: calc(293 * var(--u)); position: absolute; left: calc(50% - 523.5 * var(--u)); top: max(var(--mock-top), calc(37 * var(--u) + var(--s4-head-h, 0px) + 24px - var(--mock-pad, 0px))); width: calc(1047 * var(--u)); height: auto; opacity: 0; } /* --s4-head-h 는 main.js 가 헤드 높이로 갱신 */
+.s4__mock--2 { left: calc(50% - 629 * var(--u)); width: calc(1258 * var(--u)); --mock-top: calc(277 * var(--u)); --mock-pad: calc(85 * var(--u)); } /* Figma 16:9035 content_modal 렌더 바운드(그림자 포함) y 277, 1258×515 (카드 하단에 클립). 모달 본체는 그 85 아래(362)라 헤드 겹침 판정에서 85 를 뺀다 */
+.s4__mock--3 { --mock-top: calc(361 * var(--u)); }
+
+/* 상세 모달 백드롭 (Figma 66:3348 은 150px, 사용자 요청으로 100px) — 화면 전체를 white 15% 틴트 + 블러로 덮는다. 모달과 함께 열고 닫힘(main.js autoAlpha) */
+.s4__backdrop {
+  position: fixed; inset: 0; z-index: 79;
+  background: color-mix(in srgb, var(--colors-base-white) 15%, transparent);
+  -webkit-backdrop-filter: blur(100px); backdrop-filter: blur(100px);
+  visibility: hidden; opacity: 0;
+}
+/* 상세 모달 (Figma 15:8727, 2026-11-10 수정: 우측 고정 → 화면 가운데) — 뷰포트 고정, 높이는 vh 기준, 내용이 길면 내부 스크롤. GNB/고정 버튼보다 위 */
+.s4__modal {
+  position: fixed; z-index: 80;
+  top: 16px; height: calc(100vh - 32px); width: 599px;
+  left: calc(50% - 599px / 2);                                  /* 가로 중앙 (GSAP 이 transform 을 쓰므로 translate 대신 left 로) */
+  border-radius: 28px; overflow: hidden;
+  background: linear-gradient(180deg, var(--colors-background-bgPrimary) 0%, var(--colors-background-bgPrimary) 33%, var(--colors-brand-100) 78%, var(--colors-brand-200) 100%);
+  visibility: hidden; opacity: 0;
+}
+/* 내용 스크롤 영역: 패딩 70/48/48 (Figma), 내용이 길면 내부 스크롤 */
+.s4__modal-scroll { height: 100%; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding: 70px 42px 48px 48px; scrollbar-width: thin; scrollbar-color: var(--componentColors-alpha-alphaBlack40) transparent; }
+/* 세로 스크롤바는 6px 로 얇게, 오른쪽 패딩(48) 안에 띄운다 → 콘텐츠 폭(503)을 밀지 않고 가로 스크롤도 생기지 않음 */
+.s4__modal-scroll::-webkit-scrollbar { width: 6px; }
+.s4__modal-scroll::-webkit-scrollbar-track { background: transparent; }
+.s4__modal-scroll::-webkit-scrollbar-thumb { background: var(--componentColors-alpha-alphaBlack40); border-radius: 9999px; }
+.s4__modal.is-open { visibility: visible; }
+/* ---------- Early Access 풀 모달 (Figma 72:4525) : 뷰포트 16px 안쪽 전체, 라운드 24, 모달 그라디언트. GNB(z 50) 아래에 두어 디자인처럼 GNB 가 위에 보인다 ---------- */
+.ea-modal {
+  position: fixed; inset: 16px; z-index: 45; border-radius: 24px; overflow: hidden;
+  background: linear-gradient(180deg, var(--colors-background-bgPrimary) 0%, var(--colors-background-bgPrimary) 33%, var(--colors-brand-100) 78%, var(--colors-brand-200) 100%);
+  visibility: hidden; opacity: 0;
+}
+/* 스크롤은 모달 안에서만 (overscroll-behavior 로 바깥 전파 차단) */
+.ea-modal__scroll { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; display: flex; align-items: center; justify-content: center; padding: 96px 64px 64px; }   /* 좌우 64 = 프레임 40 + 텍스트 프레임 24 (Figma 수정본) */
+.ea-modal__content { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; text-align: center; word-break: keep-all; }
+.ea-modal__title { color: var(--web-gray-900); }
+.ea-modal__sub { color: var(--colors-foreground-fgBrandPrimaryAlt); }
+.ea-modal__desc { font-size: 14px; line-height: 20px; font-weight: 600; color: var(--colors-text-textSecondary); }
+.ea-modal__cta { margin-top: 24px; }                                        /* 본문 → 버튼 40 (gap 16 + 24) */
+.ea-modal__close { position: absolute; top: 32px; right: 32px; width: 33px; height: 33px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.cta--fixed.is-modal { opacity: 0 !important; pointer-events: none !important; }   /* 모달이 열린 동안 우상단 버튼 숨김 */
+
+/* 모달 열림: 페이지 스크롤 잠금 (scrollY 는 유지 — ScrollTrigger 상태 보존) */
+html.is-locked { overflow: hidden; }
+.s4__close { position: fixed; top: 32px; right: 32px; width: 33px; height: 33px; padding: 0; border: 0; background: transparent; cursor: pointer; z-index: 81; visibility: hidden; opacity: 0; } /* 모달 밖 뷰포트 우상단 (Figma 15:8557), 모달과 함께 autoAlpha */
+.s4__close[hidden] { display: block; }   /* 초기 hidden 속성은 JS 가 autoAlpha 로 제어하므로 display 는 유지 */
+.s4__modal-body { display: flex; flex-direction: column; gap: 33px; width: 503px; }
+.s4__modal-body[hidden] { display: none; }
+.s4__modal-body .h3 { color: var(--web-gray-900); }
+.s4__modal-lead { display: flex; flex-direction: column; gap: 19px; }
+.s4__modal-lead .headline { color: var(--colors-text-textPrimary); }
+.s4__modal-sub { color: var(--colors-text-textSecondary); }
+.s4__checks { list-style: none; display: flex; flex-direction: column; gap: 33px; }
+.s4__checks li { display: flex; gap: 12px; align-items: flex-start; }
+.s4__checks li img { flex: none; }
+.s4__checks .body { color: var(--colors-text-textSecondary); }
+.s4__check-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; } /* 모달 3: 라벨(Body/bold) + 설명 (Figma 48:3217) */
+.s4__check-text b.body { font-weight: 700; }
+.s4__rows { display: flex; flex-direction: column; gap: 5px; }
+.s4__row { display: flex; align-items: center; background: var(--colors-background-bgQuaternary); border-radius: 10px; height: 55px; }
+.s4__who { display: flex; align-items: center; gap: 7px; width: 85px; padding-left: 19px; flex: none; }
+.s4__who img { width: 24px; height: 24px; }
+.s4__who b { font-size: 8.5px; font-weight: 700; color: var(--colors-text-textSecondary); }
+.s4__bars { flex: 1; padding: 0 19px; display: flex; flex-direction: column; gap: 1px; }
+.s4__bar { display: flex; align-items: center; gap: 10px; font-size: 9.7px; font-weight: 600; color: var(--colors-text-textSecondary); line-height: 14.6px; }
+.s4__bar > span { width: 17px; flex: none; }
+.s4__bar > i { flex: 1; height: 8.5px; border-radius: 2.4px; background: var(--componentColors-alpha-alphaBlack5); overflow: hidden; }
+.s4__bar > i > b { display: block; height: 100%; border-radius: 2.4px; }
+.s4__bar > i > b.is-plan { background: var(--colors-foreground-fgTertiary); }
+.s4__bar > i > b.is-up { background: var(--componentColors-utility-success-utilitySuccess400); }
+.s4__bar > i > b.is-blue { background: var(--componentColors-utility-blue-utilityBlue400); }
+.s4__bar > i > b.is-down { background: var(--componentColors-utility-error-utilityError400); }
+.s4__bar > em { width: 55px; flex: none; font-style: normal; font-size: 7.3px; display: flex; gap: 10px; }
+.s4__bar strong { font-weight: 600; background: none; }
+.s4__bar strong.is-up { color: var(--colors-text-textBrandTertiary); }
+.s4__bar strong.is-down { color: var(--colors-text-textErrorPrimary); }
+.s4__bar strong.is-flat { color: var(--colors-text-textDisabled); }
+.s4__modal-body > .caption { color: var(--colors-text-textTertiary); }
+
+/* ---------- Section 5 ---------- */
+.s5 { position: relative; height: calc(1930 * var(--u)); overflow-x: clip; overflow-y: visible; /* 원이 커질 때 위아래로 자연스럽게 넘치도록 세로는 클립하지 않음 */ }
+.s5__stage { position: relative; width: calc(1440 * var(--u)); height: calc(1930 * var(--u)); margin: 0 auto; }
+.s5__ellipse { position: absolute; left: calc(-245 * var(--u)); top: 0; width: calc(1930 * var(--u)); height: calc(1930 * var(--u)); transform-origin: 50% 50%; will-change: transform; }
+.s5__caption { position: absolute; left: 0; right: 0; top: calc(946 * var(--u)); text-align: center; height: calc(44 * var(--u)); line-height: calc(44 * var(--u)); }
+.s5__ch { display: inline-block; will-change: transform, opacity; }
+.s5__line { display: inline-block; white-space: nowrap; }
+.s5__line + .s5__line { margin-left: 0.25em; } /* 데스크톱 한 줄: 쉼표 뒤 띄어쓰기 */
+.s5__card {
+  position: absolute; height: auto;
+  opacity: 0;
+  will-change: transform;
+}
+/* 위치 = Figma 렌더 바운드(그림자 포함, 30:7126 기준) − 245 */
+.s5__card--member { left: calc(-34 * var(--u)); top: calc(380 * var(--u)); width: calc(383 * var(--u)); }
+.s5__card--org { left: calc(306 * var(--u)); top: calc(482 * var(--u)); width: calc(216 * var(--u)); }
+.s5__card--table { left: calc(1126 * var(--u)); top: calc(417 * var(--u)); width: calc(435 * var(--u)); }
+.s5__card--squad { left: calc(-221 * var(--u)); top: calc(1106 * var(--u)); width: calc(704 * var(--u)); }
+.s5__card--column { left: calc(1172 * var(--u)); top: calc(509 * var(--u)); width: calc(446 * var(--u)); }
+.s5__card--timeline { left: calc(1043 * var(--u)); top: calc(1111 * var(--u)); width: calc(164 * var(--u)); }
+.s5__card--menu { left: calc(-30 * var(--u)); top: calc(831 * var(--u)); width: calc(346 * var(--u)); }
+.s5__card--drag { left: calc(817 * var(--u)); top: calc(629 * var(--u)); width: calc(377 * var(--u)); }
+.s5__card--estimate { left: calc(1068 * var(--u)); top: calc(1331 * var(--u)); width: calc(589 * var(--u)); }
+
+/* ---------- Feature sections (6~10) ---------- */
+.feat { margin-top: calc(277 * var(--u)); display: flex; flex-direction: column; gap: 64px; }
+.feat--s9 { margin-top: calc(389 * var(--u)); }
+.feat--s10 { margin-top: calc(277 * var(--u)); } /* 섹션 9 컬럼이 사라져 다른 기능 섹션과 같은 277 간격 */
+.feat--s6 { margin-top: 0; }
+.feat__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+.feat__head--s7 .h1 { flex: 1; }
+.feat__sub { padding-bottom: 8px; white-space: nowrap; flex: none; }
+.feat__body { display: flex; flex-direction: column; gap: 48px; }
+.feat__figure { display: flex; flex-direction: column; gap: 16px; }
+.feat__visual {
+  position: relative; width: 100%; height: calc(792 * var(--u)); border-radius: 24px; overflow: hidden;
+  background: var(--colors-background-bgPrimary);
+}
+.feat__visual--short { height: calc(545 * var(--u)); }
+.feat__cols { display: flex; gap: 70px; align-items: flex-start; }
+.feat__col { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.feat__list { list-style: disc; padding-left: 24px; }
+.feat__list li { margin: 0; }
+.feat__sub-item { display: flex; flex-direction: column; gap: 6px; }
+.feat__sub-item strong { font-weight: 700; }
+.glow { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: calc(1258 * var(--u)); height: calc(1258 * var(--u)); mix-blend-mode: plus-lighter; pointer-events: none; }
+
+/* s6 */
+.s6__visual { background: url("assets/s6-bg-overlay.webp") center / cover no-repeat, url("assets/s6-bg@2x.webp") center / cover no-repeat; }
+.s6__navigator { position: absolute; left: calc(365 * var(--u)); top: calc(73 * var(--u)); width: calc(527 * var(--u)); height: auto; } /* 렌더 바운드(그림자 포함) 73 → 하단 792 에 맞닿음 */
+
+/* s7 */
+.s7__visual { background: url("assets/s7-bg@2x.webp") center / cover no-repeat; }
+/* image 69 (Figma 28:15249) 2x export — 그림자 포함 렌더 바운드, 부모(792)에 클립. GSAP y 패럴랙스와 충돌 없게 left 로 중앙 */
+.s7__screen { position: absolute; left: calc(50% - 627.5 * var(--u)); top: calc(82 * var(--u)); width: calc(1255 * var(--u)); height: auto; }
+
+/* s8 */
+.s8__visual { background: url("assets/s8-bg.webp") center / cover no-repeat; }
+.s8__sources { position: absolute; left: calc(407 * var(--u)); top: calc(159 * var(--u)); width: calc(444 * var(--u)); height: calc(300 * var(--u)); }
+.s8__flow { position: absolute; left: calc(407 * var(--u)); top: calc(159 * var(--u)); width: calc(444 * var(--u)); height: auto; aspect-ratio: 444 / 300; pointer-events: none; overflow: visible; color: var(--colors-text-textWhite); }
+.s8__flow-dash { fill: url(#s8fg); filter: drop-shadow(0 0 3px var(--componentColors-alpha-alphaWhite80)); }
+@media (prefers-reduced-motion: reduce) { .s8__flow { display: none; } }
+
+/* s9 */
+.s9__visual { background: url("assets/s9-bg@2x.webp") center / cover no-repeat; }
+.s9__modal { position: absolute; left: calc(50% - 433 * var(--u)); top: calc(16 * var(--u)); width: calc(866 * var(--u)); height: auto; }
+
+/* s10 */
+.s10__visual { background: url("assets/s8-bg.webp") center / cover no-repeat; }
+.s10__pill {
+  position: absolute; left: 50%; top: calc(179 * var(--u)); transform: translateX(-50%);
+  display: flex; gap: calc(99 * var(--u)); align-items: flex-start;
+  padding: calc(49 * var(--u)) calc(104 * var(--u)); border-radius: 9999px; overflow: hidden;
+  background: url("assets/pill-bg-1.webp") center / cover no-repeat, var(--colors-brand-200);
+}
+.s10__item { width: 54px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.s10__item img { width: 50px; height: 50px; } /* Figma 28:16042: 아이콘 3개 모두 50 (Frame 826~828) */
+.s10__item .headline { color: var(--colors-text-textWhite); white-space: nowrap; }
+/* 곧 출시 배지: Figma image 80 (30:7933) 2x export */
+.s10__badge { position: absolute; left: 50%; top: calc(153 * var(--u)); transform: translateX(-50%); width: calc(112 * var(--u)); height: auto; }
+
+/* ---------- FAQ ---------- */
+/* 높이를 Figma(745) 로 고정: 항목을 펼쳐도 섹션 높이가 변하지 않아 푸터가 밀리지 않는다. 펼친 답변은 아래 여백(푸터 상단 흰 그라데이션 영역)으로 넘친다 */
+.faq { position: relative; z-index: 2; margin-top: calc(233 * var(--u)); height: calc(745 * var(--u)); display: flex; align-items: flex-start; }
+.faq__title { flex: 1 0 0; }
+.faq__list { flex: 1 0 0; display: flex; flex-direction: column; gap: 13px; }
+.faq__item { background: var(--colors-background-bgPrimary); border-radius: 16px; padding: 24px 32px; cursor: pointer; }
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  cursor: pointer; font-size: 16px; font-weight: 500; line-height: 1.63; letter-spacing: -0.48px;
+  color: var(--web-gray-900);
+  -webkit-user-select: none; user-select: none; /* 클릭(더블클릭) 시 질문 텍스트가 선택되지 않게 */
+}
+.faq__q::-webkit-details-marker { display: none; }
+/* 화살표: 펼칠 때 0.3s, 접을 때 0.1s (JS 가 is-open 클래스를 즉시 토글) */
+.faq__q img { transition: transform .1s ease-out; flex: none; }
+.faq__item.is-open .faq__q img { transform: rotate(180deg); transition-duration: .3s; }
+.faq__a { margin-top: 10px; overflow: hidden; cursor: auto; }
+.faq__a p + p { margin-top: 1em; } /* 여러 문단 답변 */
+
+/* ---------- Footer ---------- */
+.footer { position: relative; margin-top: calc(-182 * var(--u)); min-height: calc(1931 * var(--u)); /* 내용이 길어지면(좁은 폭) 푸터가 아래로 늘어난다 */ color: var(--colors-text-textPrimaryOnBrand); overflow: hidden; /* 2200px 배경이 문서 폭을 넘지 않게 */ }
+.footer__bg { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: calc(2200 * var(--u)); height: 100%; z-index: 0; }
+.footer__bg img { position: absolute; left: 0; width: 100%; }
+/* 두 배경 이미지는 푸터 높이 비율(1122:809)로 나눠 같은 배율로 확대되므로 푸터가 늘어나도 이음새가 맞는다 */
+.footer__bg-top { top: 0; height: 58.105%; object-fit: cover; }
+.footer__bg::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 160px; z-index: 1; background: linear-gradient(180deg, var(--colors-base-white) 0%, var(--colors-base-transparent) 100%); }
+.footer__bg-bottom { top: calc(58.105% - 1px); height: calc(41.895% + 2px); object-fit: cover; } /* 위 이미지와 1px 겹치고 아래로 1px 넘치게 — 서브픽셀 반올림으로 바닥·이음새에 흰 선이 비치지 않게 (footer overflow hidden 이 잘라 줌) */
+/* 푸터 내부: 아래부터 쌓는다 — 로고(바닥 54*u) ↑ 140px 고정 ↑ 법적 고지 ↑ 296px 고정 ↑ 메시지/버튼 그룹.
+   본문 글자 크기는 고정이라 폭이 줄면 텍스트 줄 수가 늘어나는데, 간격을 고정하고 위로 밀어 올려 겹치지 않게 한다 (1440 기준 Figma 위치와 동일) */
+.footer__inner { position: relative; z-index: 1; min-height: calc(1931 * var(--u)); display: flex; flex-direction: column; justify-content: flex-end; padding-top: calc(300 * var(--u)); /* FAQ 와 겹치는 상단(182*u) + 여유 */ padding-bottom: calc(54 * var(--u)); /* 로고 하단 여백 98 → 54 (사용자 요청) */ }
+.footer__msg { width: max(calc(379 * var(--u)), 379px); display: flex; flex-direction: column; gap: 31px; }
+.footer__msg .body { color: var(--colors-text-textPrimaryOnBrand); }
+.footer__msg .h3 { color: var(--colors-text-textPrimaryOnBrand); }
+.footer__msg-text { display: flex; flex-direction: column; gap: 21px; }
+.footer__promo { color: var(--colors-text-textSecondaryOnBrand); }
+.footer__msg .cta { align-self: flex-start; }
+.footer__legal { margin-top: 296px; display: flex; align-items: flex-end; justify-content: space-between; color: var(--colors-text-textPrimaryOnBrand); }
+.footer__company { width: calc(396 * var(--u)); display: flex; flex-direction: column; gap: 15px; }
+.footer__links { display: flex; gap: 20px; }
+.footer__logo { margin-top: 140px; width: 100%; height: calc(446 * var(--u)); } /* 하단 패딩을 98→54 로 줄인 만큼(44) 늘려 메시지·법적 고지는 Figma 위치(푸터 상단 554 / 1159) 유지, 로고만 아래로 */
+.footer__logo img { width: 100%; height: 100%; }
+
+/* 모바일 전용 요소 (≤834px 에서만 표시) */
+.s3__tabs, .s3__current, .s4__mock-m, .s6__navigator-m, .s7__screen-m, .s9__modal-m, .feat__visual-m, .s10__badge-m, .faq__title-m, .br-m { display: none; }
+
+/* ---------- Scroll reveal (generic) ---------- */
+.reveal { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .s4__card, .s4__title, .s5__card, .hero__content > * { opacity: 1 !important; transform: none !important; }
+  .gnb--intro { transform: none; }
+  .s1__line { --t: 1; }
+}
+
+/* ---------- Review mode (?review) : 레이아웃 검수용, 애니메이션 해제 ---------- */
+.review .s3__sticky { min-height: 0; }
+.review .s4__sticky { min-height: 0; }
+.review .s4__slide.is-active .s4__head { --hy: 37; }
+.review .s4__slide.is-active .s4__eyebrow { --m: 0; font-weight: 500; line-height: 1.63; letter-spacing: -0.48px; }
+.review .s4__slide.is-active .s4__title { opacity: 1; }
+.review .s4__slide.is-active .s4__more, .review .s4__slide.is-active .s4__mock, .review .s4__slide.is-active .s4__caption { opacity: 1; }
+.review .reveal, .review .s4__card, .review .s4__title, .review .s5__card, .review .hero__content > * { opacity: 1 !important; transform: none !important; }
+.review .s3__step:first-child .s3__bar i { width: 100% !important; }
+.review .gnb, .review .gnb::before, .review .gnb::after, .review .gnb * { transition: none !important; }
+.review .s1__line { --t: 1; }
+
+
+/* ==========================================================================
+   Mobile (≤834px) — Figma 30:1048 (393px 기준, 가로 100% 유동)
+   --mu = 393 디자인의 1px. 절대 좌표가 필요한 곳(섹션 4·5·10, 푸터 배경)만 --mu 로 비례.
+   ========================================================================== */
+/* 데스크톱 최소 폭 900: 그 아래로는 레이아웃을 900 기준으로 고정하고 가로 스크롤 */
+@media (min-width: 835px) { html { overflow-x: auto; } body { min-width: 900px; } :root { --vw: max(100vw, 900px); } }
+
+@media (max-width: 834px) {
+  :root { --u: 1px; --mu: calc(100vw / 393); --container: 100%; }
+  .wrap { width: 100%; padding-left: 24px; padding-right: 24px; }
+
+  /* 타이포 (Mobile/H0 32, H1 27, H3 20, H4 19, Headline 21, Body 16, Caption 12 — 2026-11-11 디자인: Body 14→16) */
+  .h0, .h1, .h3, .hero__title, .s1__line, .s4__title, .s5__caption, .feat__sub, .footer__msg .h3 { word-break: keep-all; } /* 한글 단어 중간 끊김 방지 */
+  .h0, .hero__title { font-size: 32px; line-height: 1.33; }
+  .hero__title { font-size: min(32px, calc(100vw * 32 / 393)); } /* 393 보다 좁은 폰(360 등)에서도 "우리 회사의 사람과 시간," 이 한 줄 */
+  .h1 { font-size: 27px; line-height: 1.31; letter-spacing: -0.27px; }
+  .h3 { font-size: 20px; line-height: 1.41; }
+
+  /* GNB 0.8955배 (Figma 30:1854: 335×70, 패딩 21.5/35.8, 로고 76×27, 메뉴 14.33), 우상단 고정 CTA 없음 */
+  .gnb { top: 14px; padding: 21.5px 35.8px; gap: 43px; transform-origin: 50% 0; } /* 스크롤 다운 축소(main.js, 70%)는 상단 중앙 기준 */
+  .gnb__logo { width: 76.1px; height: 27px; }
+  .gnb__nav { gap: 21.5px; }
+  .gnb { white-space: nowrap; }
+  .gnb__nav a { font-size: 14.33px; letter-spacing: -0.43px; }
+  /* 모바일 고정 Early Access : 화면 하단 중앙에서 올라온다. 크기는 데스크톱(24/40 · 16px)의 80% */
+  .cta--fixed {
+    top: auto; right: auto; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); left: 50%; translate: -50% 0;
+    padding: calc(24px * 0.8) calc(40px * 0.8); font-size: calc(16px * 0.8); letter-spacing: calc(-0.48px * 0.8);
+  }
+  .cta--fixed.is-hidden { transform: translateY(12px); }   /* 숨김 상태는 아래쪽으로 */
+
+  /* Hero (393×852 → 화면 높이) */
+  .hero { height: auto; min-height: 100svh; padding: 66px 32px 137px; justify-content: center; background-position: center; } /* Figma 30:1060: 패딩 66/137 → 콘텐츠 218~563 */
+  .hero__content { gap: 32px; width: 100%; }
+  .hero__eyebrow { font-size: 16px; margin-bottom: -22px; } /* Figma: 아이브로 → 타이틀 10 (콘텐츠 gap 32 − 22) */
+  .hero__desc { width: 100%; }
+  .hero__desc p { font-size: 16px; letter-spacing: -0.48px; }
+  .hero__desc .hero__note { font-size: 12px; letter-spacing: -0.36px; }
+  .hero .cta { padding: 16px 32px; font-size: 14px; letter-spacing: -0.42px; margin-top: 0; } /* Figma: 보조 문구 → 버튼 32 */
+  .hero__scroll img { width: 76px; height: 43px; }
+
+  /* Video : 배경 2008×760 을 히어로와 같은 배율로 이어 붙임, 16:9 프레임 */
+  .video { height: 298px; }
+  /* 배경 높이 = 히어로(100svh, 2008:1024 cover)와 같은 배율의 760 → 이미지가 컨테이너를 꽉 채우고, 흰색 페이드(::after)가 이미지 끝에서 정확히 100% 가 되어 경계선이 생기지 않음 */
+  .video__bg { height: max(calc(100vw * 760 / 2008), calc(100svh * 760 / 1024)); background-size: auto 100%; background-position: center top; }
+  .video__frame { top: 88px; width: calc(100vw - 91px); height: auto; aspect-ratio: 16 / 9; border-radius: 8px; }
+
+  /* Section 1 */
+  .s1 { margin-top: 0; height: 100svh; min-height: 560px; }
+  .s1__lines { padding: 0 31px; } /* Figma 프레임은 394 폭(콘텐츠 330) — 첫 줄이 한 줄에 들어가도록 1px 여유 */
+  .s1__line { font-size: min(20px, calc(100vw * 20 / 393)); }
+
+  /* Section 2 : 카드 세로 나열 */
+  .s2 { margin-top: 36px; padding: 0 32px; gap: 48px; }
+  .s2__grid { display: flex; flex-direction: column; gap: 24px; }
+  .s2__card { gap: 16px; } /* Figma 30:1095: 이미지 → 텍스트 16 */
+  .s2__text { gap: 6px; padding: 0 0 20px; } /* Figma 30:1100: 제목 → 본문 6 */
+  .s2__target { width: 42.5%; height: auto; }
+
+  /* Logos */
+  .logos { margin-top: 87px; height: 112px; } /* Figma: 섹션 2 끝 3448.1 → 로고 3534 (섹션 2 가 1px 짧아 보정) */
+  .logos__track img { width: 1811px; height: 112px; }
+
+  /* Section 3 : 탭 + 스테이지 + 현재 스텝 설명 */
+  .s3 { margin-top: 111px; }
+  .s3__sticky { gap: 48px; }
+  .s3__tabs { display: flex; gap: 4px; width: 100%; }
+  .s3__tab { flex: 1 0 0; min-width: 0; padding: 8px 16px; border: 0; border-radius: 9999px; background: transparent; font: inherit; font-size: 19px; font-weight: 700; line-height: 1.41; color: var(--web-gray-600); cursor: pointer; }
+  .s3__tab.is-active { background: var(--colors-background-bgPrimarySolid); color: var(--colors-text-textPrimaryOnBrand); }
+  .s3__body { flex-direction: column; gap: 12px; position: relative; margin-top: -28px; } /* Figma 30:1891→30:1146: 탭 → 패널 20 (sticky gap 48 − 28) */
+  .s3 .h1 br { display: none; }                                       /* 모바일은 자연 줄바꿈 (Figma 2줄) */
+  .br-m { display: inline; }                                          /* 모바일 전용 줄바꿈 (히어로 3줄) */
+  .s3__steps { display: none; }
+  .s3__stage { --su: calc((100vw - 48px) / 954); width: 100%; height: auto; aspect-ratio: 954 / 626; border-radius: 5.8px; }
+  .s3__current { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; }
+  .s3__current-head { display: flex; align-items: center; gap: 8px; }
+  .s3__current-head img { width: 30px; height: 30px; }
+  .s3__current-head b { font-size: 19px; font-weight: 700; line-height: 1.41; color: var(--web-gray-900); }
+  .s3__current p { font-size: 16px; font-weight: 500; line-height: 1.63; letter-spacing: -0.48px; color: var(--web-gray-600); }
+
+  /* Section 4 : 스크롤 스토리 없이 카드 3장 세로 나열 (Figma 30:1899 / 2076 / 2346, 343×527) */
+  .s4 { margin-top: 129px; } /* Figma: 섹션 3 끝 4265 → 섹션 4 4394 */
+  .s4__sticky { display: block; min-height: 0; padding: 0 25px; }
+  .s4__stage { width: 100%; height: auto; }
+  .s4__card { height: auto; border: 0; border-radius: 0; background: none; overflow: visible; display: flex; flex-direction: column; gap: 25px; }
+  .s4__slide { position: relative; inset: auto; opacity: 1; pointer-events: auto; aspect-ratio: 343 / 527; border-radius: 24px; overflow: hidden; border: 1px solid var(--componentColors-alpha-alphaBlack5); }
+  /* 카드 안 텍스트·간격은 카드 폭 비율(--cu = 카드폭/343)로 스케일 → 393 보다 넓은 모바일 뷰포트에서도 Figma 30:1899 와 같은 구성(타이틀 3줄) 유지 */
+  .s4__slide { --cu: calc((100vw - 50px) / 343); }
+  .s4__head { top: 7.2%; transform: none; display: flex; flex-direction: column; align-items: center; gap: calc(24 * var(--cu)); padding: 0 calc(16 * var(--cu)); }
+  .s4__eyebrow { font-size: calc(16 * var(--cu)); font-weight: 500; line-height: 1.63; letter-spacing: -0.03em; }
+  .s4__title { margin: 0; opacity: 1; font-size: calc(27 * var(--cu)); line-height: 1.31; letter-spacing: -0.01em; }
+  .s4__caption, .s4__more { position: static; transform: none; opacity: 1; }
+  .s4__more, .s4__caption + .s4__more { margin-top: 0; }
+  .s4__caption { margin-top: calc(-12 * var(--cu)); font-size: calc(12 * var(--cu)); letter-spacing: -0.03em; }
+  .s4__more { font-size: calc(12 * var(--cu)); letter-spacing: -0.03em; padding: calc(6 * var(--cu)) calc(12 * var(--cu)); }
+  .s4__mock { display: none; }
+  .s4__mock-m { display: block; position: absolute; height: auto; }
+  /* 모바일 목업 export(MCP)는 부모 bg 가 합성돼 나오므로 모달 본체만 잘라 쓰고 코너·그림자는 CSS 로 (Figma 30:1904 / 30:2256 / 30:2451) */
+  .s4__mock-m--1 { left: 5.2%; top: 55.8%; width: 90.2%; border-radius: 5.9px; }
+  .s4__mock-m--2 { left: 6.57%; top: 55.8%; width: 87.44%; border-radius: 4.5px; box-shadow: var(--web-shadow-modal-m); }
+  .s4__mock-m--3 { left: 6.7%; top: 64.1%; width: 87.2%; border-radius: 4.6px; }
+  .s4__modal { width: calc(100vw - 32px); left: 16px; }
+  .ea-modal { z-index: 55; }                      /* 모바일은 GNB 가 폭 전체를 차지해 X 를 가리므로 모달을 GNB 위로 */
+  .ea-modal__scroll { padding: 88px 24px 48px; }
+  .ea-modal__close { top: 24px; right: 24px; }
+  .ea-modal__desc br { display: none; }           /* 좁은 폭에서는 자연 줄바꿈 */
+  .ea-modal__title { font-size: 32px; line-height: 1.33; letter-spacing: 0; }   /* Mobile/H0 (32 · 1.33 · 자간 0) — 디자이너 지정 */
+  .s4__modal-scroll { padding: 60px 18px 32px 24px; }
+  .s4__modal-body { width: 100%; }
+
+  /* Section 5 : Figma 30:2647 (764×888, x −185) 좌표를 --mu 로 비례 */
+  .s5 { height: calc(888 * var(--mu)); margin-top: 78px; }
+  .s5__stage { width: 100%; height: 100%; }
+  .s5__ellipse { left: calc(-247 * var(--mu)); width: calc(888 * var(--mu)); height: calc(888 * var(--mu)); }
+  .s5__caption { top: calc(419 * var(--mu)); left: 0; right: 0; height: auto; line-height: 1.41; font-size: 20px; } /* 2줄(br-m), Figma 텍스트 165×56 중앙 */
+  .s5__line + .s5__line { margin-left: 0; }
+  .s5__card--member   { left: calc(-48 * var(--mu)); top: calc(116 * var(--mu)); width: calc(123 * var(--mu)); }
+  .s5__card--org      { left: calc(40 * var(--mu));  top: calc(232 * var(--mu)); width: calc(93 * var(--mu)); }
+  .s5__card--table    { left: calc(269 * var(--mu)); top: calc(86 * var(--mu));  width: calc(214 * var(--mu)); }
+  .s5__card--column   { left: calc(292 * var(--mu)); top: calc(131 * var(--mu)); width: calc(219 * var(--mu)); }
+  .s5__card--drag     { left: calc(235 * var(--mu)); top: calc(257 * var(--mu)); width: calc(132 * var(--mu)); }
+  .s5__card--timeline { left: calc(274 * var(--mu)); top: calc(537 * var(--mu)); width: calc(65 * var(--mu)); }
+  .s5__card--estimate { left: calc(284 * var(--mu)); top: calc(625 * var(--mu)); width: calc(235 * var(--mu)); }
+  .s5__card--squad    { left: calc(-67 * var(--mu)); top: calc(583 * var(--mu)); width: calc(252 * var(--mu)); }
+  .s5__card--menu     { left: calc(1 * var(--mu));   top: calc(485 * var(--mu)); width: calc(124 * var(--mu)); }
+
+  /* 기능 섹션 6~10 : 비주얼 342×643, 컬럼 세로 나열 */
+  .feat { gap: 40px; }
+  /* 섹션 간격: Figma 30:1048 프레임 시작 y (7016 / 8751 / 10565 / 12211 / 13351) 기준 */
+  .feat--s6 { margin-top: 25px; }
+  .feat--s7 { margin-top: 163px; } /* Figma 2026-11-08: 섹션 6 끝 → 섹션 7 8836 (우리 섹션 6 은 8673 에서 끝남) */
+  .feat--s8 { margin-top: 156px; }
+  .feat--s9 { margin-top: 135px; }
+  .feat--s10 { margin-top: 171px; }
+  .feat__head { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .feat__head--s7 .h1 { flex: none; }
+  .feat__sub { white-space: normal; padding-bottom: 8px; }
+  .feat__body { gap: 48px; }
+  .feat__figure .caption { white-space: normal; }
+  .feat__visual, .feat__visual--short { height: auto; aspect-ratio: 342 / 643; }
+  .feat__cols { flex-direction: column; gap: 70px; }
+  .feat__col { gap: 16px; }
+  .feat__list { padding-left: 21px; }
+  /* 섹션 6·7·9 비주얼: 모바일은 Figma 비주얼 프레임(30:4259 / 30:4400 / 30:4635, 342×643) 전체 export 한 장으로 교체 */
+  .s6__navigator, .s6__navigator-m, .s7__screen, .s7__screen-m, .s9__modal, .s9__modal-m { display: none; }
+  .s6__visual, .s7__visual, .s9__visual { background: none; }
+  .feat__visual-m { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+  .s8__visual, .s10__visual { background-size: 100% 199%; background-position: center 50%; }
+  .glow { width: 185.4%; height: auto; }
+  .s8__sources { left: 18.1%; top: 38.4%; width: 64%; height: auto; }
+  .s8__flow { left: 18.1%; top: 38.4%; width: 64%; }
+  /* Figma 30:4937 (342×643): 알약 top 159, padding 47.3/50, gap 34 — 라벨만(보조 문구 없음); 배지는 image 83 (83×37, top 140) */
+  .s10__pill { flex-direction: column; align-items: center; top: 24.7%; gap: calc(34 * var(--mu)); padding: calc(47.3 * var(--mu)) calc(50 * var(--mu)); }
+  .s10__item { width: calc(32.7 * var(--mu)); gap: 3.64px; } /* Figma 30:5035: 아이템 32.7 (라벨은 넘쳐서 중앙 정렬) */
+  .s10__item img { width: 30.3px; height: 30.3px; } /* Figma 30:5035: 아이콘 3개 모두 30.3 */
+  .s10__item .headline { font-size: 12.7px; font-weight: 600; line-height: 1.63; letter-spacing: -0.13px; }
+  .s10__badge { display: none; }
+  .s10__badge-m { display: block; position: absolute; left: 50%; top: 21.8%; transform: translateX(-50%); width: calc(83 * var(--mu)); height: auto; }
+
+  /* FAQ */
+  .faq { margin-top: 146px; height: auto; flex-direction: column; gap: 48px; } /* Figma 2026-11-11: 섹션 10 끝 15524 → FAQ 15679 (gap 155; 우리 섹션 10 이 9px 김) */
+  .faq__title { flex: none; }
+  .faq__title-d { display: none; }
+  .faq__title-m { display: block; width: 230px; height: auto; }
+  .faq__list { width: 100%; flex: none; }
+  .faq__q { font-size: 16px; letter-spacing: -0.48px; }
+  .faq__q span { word-break: keep-all; }
+
+  /* Footer : 배경 1376×1207, 메시지 168 / 법적고지 / 로고 */
+  .footer { margin-top: -74px; min-height: calc(1207 * var(--mu)); } /* Figma: FAQ 15679 → 푸터 bg 16476 (FAQ 와 161 겹침) */
+  .footer__bg { width: calc(1376 * var(--mu)); }
+  .footer__inner { min-height: calc(1207 * var(--mu)); padding: calc(168 * var(--mu)) 24px calc(44 * var(--mu)); justify-content: flex-start; } /* 메시지 그룹은 상단 168 고정 (Figma 30:5121 y 16491 − bg 16323), 배경과 같이 --mu 비례 */
+  .footer__msg { width: 100%; }
+  .footer__msg-text { gap: 21px; }
+  .footer__promo { font-size: 19px; font-weight: 700; line-height: 1.41; letter-spacing: 0; }
+  .footer__msg .cta { padding: 8px 20px; font-size: 16px; font-weight: 700; letter-spacing: -0.48px; }
+  .footer__legal { margin-top: auto; padding-top: 40px; flex-direction: column; align-items: flex-start; gap: 40px; } /* 법적고지 + 로고는 항상 푸터 최하단에 붙는다 (393 기준 770 / 1041) */
+  .footer__company { width: 100%; }
+  .footer__links { flex-wrap: wrap; row-gap: 8px; }  /* 링크 6개 — 한 줄에 안 들어가면 항목 단위로 줄바꿈 */
+  .footer__links a { white-space: nowrap; }
+  .footer__logo { margin-top: 76px; height: auto; }
+  .footer__logo img { height: auto; }
+}

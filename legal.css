@@ -1,0 +1,55 @@
+/* ===== 정책/약관 등 법적 고지 페이지 공통 (privacy/ 등) — Figma 71:3448 =====
+   style.css(GNB·타이포·푸터 법적 고지 규칙)와 tokens.css 위에 얹는다. 컬러는 전부 토큰 변수. */
+
+/* 페이지 배경 : 상단 bgPrimary → 아래로 갈수록 brand-100/200 (섹션 4 상세 모달과 같은 그라디언트) */
+.legal {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  background:
+    linear-gradient(180deg, var(--colors-background-bgPrimary) 0%, var(--colors-background-bgPrimary) 33%, var(--colors-brand-100) 78%, var(--colors-brand-200) 100%),
+    var(--colors-base-white);
+}
+
+/* 본문 : 제목 상단 251, 제목 → 본문 53, 본문 폭 660(패딩 상하 10 · 좌우 24, Figma 71:3505 수정본) 가운데 */
+.legal__main { flex: 1 0 auto; padding: 251px 0 0; display: flex; flex-direction: column; align-items: center; }
+.legal__title { text-align: center; }
+.legal__body {
+  width: 660px; max-width: 100%; margin-top: 53px; padding: 10px 24px;
+  font-size: 16px; line-height: 1.63; font-weight: 400; letter-spacing: -0.48px; color: var(--web-gray-900);
+  word-break: keep-all; overflow-wrap: anywhere;
+}
+.legal__body p { margin: 0 0 12px; }
+.legal__body .meta { color: var(--colors-text-textTertiary); margin-bottom: 26px; }  /* 공고일·시행일 줄 뒤 빈 줄 (Figma) */
+.legal__body h2 { font-size: 16px; line-height: 1.63; font-weight: 700; letter-spacing: -0.48px; color: var(--web-gray-900); margin: 36px 0 8px; }
+.legal__body ul, .legal__body ol { margin: 0 0 12px; padding-left: 24px; }
+.legal__body li { margin: 0 0 4px; }
+.legal__body li > ol, .legal__body li > ul { margin: 4px 0 0; }        /* 약관의 하위 항목 */
+.legal__body li > ol { list-style: lower-alpha; }
+.legal__body li::marker { color: var(--colors-text-textTertiary); }
+.legal__body strong { font-weight: 700; }
+.legal__body a { color: var(--colors-text-textBrandSecondary); text-decoration: underline; text-underline-offset: 2px; }
+.legal__body a:hover { color: var(--colors-text-textBrandPrimary); }
+.legal__body .tbl { margin: 4px 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.legal__body table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.55; letter-spacing: -0.28px; }
+.legal__body th, .legal__body td { padding: 10px 12px; border: 1px solid var(--componentColors-alpha-alphaBlack10); vertical-align: top; text-align: left; }
+.legal__body th { font-weight: 700; background: var(--componentColors-alpha-alphaBlack3); white-space: nowrap; }
+.legal__body td strong { font-weight: 700; }
+
+/* 푸터 : 본문 → 로고 154, 로고 → 법적 고지 44, 하단 96 (Figma y 1976 / 2050 / 2261) */
+.legal__footer { flex: none; padding: 154px 0 96px; }
+.legal__footer-logo { position: relative; display: block; width: 85px; height: 30px; margin-bottom: 44px; }
+.legal__legal { margin-top: 0; color: var(--colors-text-textPrimary); }
+.legal__legal .footer__links a { white-space: nowrap; }
+.legal__legal .footer__links a[aria-current="page"] { font-weight: 700; }
+
+/* GNB : 이 페이지는 메뉴가 접힌 로고 알약이 기본 (Figma 71:3449, 폭 160 + 클립). 펼침은 legal.js (hover) */
+.legal .gnb { white-space: nowrap; }
+
+@media (max-width: 834px) {
+  .legal__main { padding: 150px 24px 0; }
+  .legal__body { width: 100%; margin-top: 32px; padding: 0; }
+  .legal__body table { font-size: 13px; }
+  .legal__footer { padding: 96px 0 60px; }          /* 좌우 여백은 .wrap(모바일 24) 하나로 — 본문(24)과 같은 선 */
+  .legal__footer .wrap { width: 100%; }
+  .legal__legal { padding-top: 0; }
+}
