@@ -1,4 +1,4 @@
-/* 공고 게시판 — 목록(/notice/) · 상세(/notice/?no=N, 또는 /notice/N/ 경로). Figma 71:3603 / 71:4038.
+/* 공고 게시판 — 목록(/notice/) · 상세(/notice/N/ · 옛 링크 /notice/?no=N). Figma 71:3603 / 71:4038.
    데이터는 같은 폴더의 data/list.json · data/<번호>.json (운영 사이트는 _notice/sync.mjs 가 앱 공개 API 에서 5분마다 옮겨 온 사본, 이 저장소에는 2026-11-10 스냅샷).
    표시 규칙은 preview.pivit.work/notice 의 notice.js 를 따른다: 게시 시각 내림차순, 10개씩, 종료일 다음 날부터 「공고기간 종료」, 본문은 글자 그대로(링크 변환 없음). */
 (() => {
@@ -6,12 +6,10 @@
   const CAT = { settlement: '결산공고', general: '일반공고' };
   const T = { empty: '아직 게시한 공고가 없습니다.', emptyHint: '공고가 생기면 이 페이지에 싣습니다.', missing: '찾는 공고가 없습니다.', toList: '공고 목록으로', back: '목록',
     fail: '공고를 불러오지 못했습니다. 잠시 뒤 다시 시도해 주십시오.', retry: '다시 시도', ended: '공고기간 종료', download: '내려받기', fileFail: '파일을 열지 못했습니다. 잠시 뒤 다시 시도해 주십시오.' };
-  const view = document.getElementById('view');
-  const title = view.querySelector('.legal__title');
-  const desc = view.querySelector('.notice__desc');
-  const body = view.querySelector('.notice__body');
-  const DATA = new URL('data/', location.href).pathname;                 // /notice/data/
-  const LIST_URL = new URL('./', location.href).pathname;                 // /notice/
+  // 목록 주소 /notice/ — 공고 하나의 페이지(/notice/<번호>/)는 목록 셸 사본에 <base href="/notice/"> 를 넣어 두어(_notice/sync.mjs)
+  // 같은 값이 나온다. location 이 아니라 baseURI 로 잡아야 그 페이지에서 data/ 와 링크가 /notice/26/data/ 로 새지 않는다.
+  const LIST_URL = typeof document === 'undefined' ? '/notice/' : new URL('./', document.baseURI).pathname;
+  const DATA = `${LIST_URL}data/`;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const kst = (iso) => { const d = new Date(Date.parse(iso) + 9 * 3600 * 1000).toISOString(); return { date: d.slice(0, 10), time: d.slice(11, 16) }; };
@@ -20,7 +18,8 @@
   const isEnded = (endsOn) => endsOn < todayKst();
   const sortItems = (items) => items.slice().sort((a, b) => (a.publishedAt !== b.publishedAt ? (a.publishedAt < b.publishedAt ? 1 : -1) : b.no - a.no));
   const fileSize = (b) => (b >= 1048576 ? (b / 1048576).toFixed(1).replace(/\.0$/, '') + 'MB' : Math.max(1, Math.round(b / 1024)) + 'KB');
-  const detailHref = (no) => `${LIST_URL}?no=${no}`;
+  // 공고 하나의 주소는 /notice/<번호>/ — 그 주소에만 그 공고의 링크 미리보기(제목·설명)가 있다. ?no=N 은 목록 미리보기만 붙는다(PW-2344).
+  const detailHref = (no) => `${LIST_URL}${no}/`;
 
   const badge = (text, mod) => `<span class="badge${mod ? ' badge--' + mod : ''}">${esc(text)}</span>`;
   const rowHtml = (n) => `<a class="notice__row" href="${detailHref(n.no)}">
@@ -74,12 +73,19 @@
   };
 
   // 라우팅 : ?no=N 또는 /notice/N/ 이면 상세, 아니면 목록 (?page=P)
-  const route = () => {
-    const q = new URLSearchParams(location.search);
-    const m = /\/notice\/([1-9]\d{0,8})\/?$/.exec(location.pathname);
+  // 옛 링크 ?no=N 도 계속 연다(이미 퍼진 주소).
+  const route = (pathname = location.pathname, search = location.search) => {
+    const q = new URLSearchParams(search);
+    const m = /\/notice\/([1-9]\d{0,8})\/?$/.exec(pathname);
     const no = q.get('no') || (m && m[1]);
     return no && /^[1-9]\d{0,8}$/.test(no) ? { view: 'detail', no: Number(no) } : { view: 'list', page: q.get('page') };
   };
+  if (typeof module !== 'undefined' && module.exports) module.exports = { PAGE_SIZE, TIMEOUT_MS, LIST_URL, detailHref, route, listHtml, detailHtml, sortItems };
+  if (typeof document === 'undefined') return;
+  const view = document.getElementById('view');
+  const title = view.querySelector('.legal__title');
+  const desc = view.querySelector('.notice__desc');
+  const body = view.querySelector('.notice__body');
   let listCache = null;
   const resolvePage = (raw, total) => { const pages = Math.max(1, Math.ceil(total / PAGE_SIZE)); const n = raw && /^\d+$/.test(raw) ? Number(raw) : 1; return { page: n >= 1 && n <= pages ? n : 1, pages }; };
   const backHref = () => { let page = null; try { page = sessionStorage.getItem('notice.listPage'); } catch (e) { /* 저장 불가 */ } return page && page !== '1' ? `${LIST_URL}?page=${page}` : LIST_URL; };

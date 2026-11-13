@@ -121,6 +121,15 @@ test('공고마다 주소 파일의 canonical 은 자기 주소, 설명은 그 �
   assert.doesNotMatch(h3, /공고 목록 설명|href="https:\/\/pivit\.work\/notice\/">/);
 });
 
+test('공고마다 주소 파일 머리 맨 앞에 <base href="/notice/"> — 셸의 상대 주소(../style.css · notice.js · data/)가 한 칸 아래 폴더에서도 목록과 같은 곳을 가리킨다', async () => {
+  const root = site();
+  const files = await plan({ api: API, root, fetchImpl: fakeApi([three, one]).fetchImpl });
+  const h3 = String(files.get('notice/3/index.html'));
+  assert.match(h3, /^<html><head>\n {2}<base href="\/notice\/">\n?<title>/);
+  assert.equal((h3.match(/<base /g) || []).length, 1);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, 'notice/index.html'), 'utf8'), /<base /);
+});
+
 test('여러 쪽을 받는 사이 새 공고가 게시돼 쪽 경계가 밀려도 같은 공고가 목록에 두 번 들어가지 않는다', async () => {
   const root = site();
   const r1 = row(one), r3 = row(three);
@@ -166,4 +175,15 @@ test('공고 제목에 따옴표 · $ 가 있어도 미리보기 태그가 깨�
   const h = String(files.get('notice/1/index.html'));
   assert.match(h, /<meta property="og:title" content="제1호 가&quot;나\$&amp;다 — 공고 — Pivit">/);
   assert.match(h, /<meta name="twitter:description" content="주식회사 피빗 제1호 공고\(일반 공고\) — 가&quot;나\$&amp;다">/);
+});
+
+test('셸 태그가 <meta … /> 로 닫혀도 공고 것으로 바뀐다(미리보기 저장소 셸)', async () => {
+  const root = site();
+  const shell = '<html><head><title>공고 — Pivit</title>\n<meta name="description" content="공고 목록 설명" />\n<link rel="canonical" href="https://pivit.work/notice/" />\n<meta property="og:title" content="공고 — Pivit" /></head></html>';
+  fs.writeFileSync(path.join(root, 'notice/index.html'), shell);
+  const h3 = String((await plan({ api: API, root, fetchImpl: fakeApi([three, one]).fetchImpl })).get('notice/3/index.html'));
+  assert.match(h3, /<meta name="description" content="주식회사 피빗 제3호 공고\(결산공고\) — 제1기 대차대조표 공고">/);
+  assert.match(h3, /<link rel="canonical" href="https:\/\/pivit\.work\/notice\/3\/">/);
+  assert.match(h3, /<meta property="og:title" content="제3호 /);
+  assert.doesNotMatch(h3, /공고 목록 설명|content="공고 — Pivit"/);
 });

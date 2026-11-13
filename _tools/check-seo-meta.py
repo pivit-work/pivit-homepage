@@ -65,7 +65,8 @@ for f in sorted(ROOT.glob('**/index.html')):
     if not desc: problems.append(f'{url} 설명 없음')
     if canon != url: problems.append(f'{url} canonical 이 {canon}')
     if 'noindex' in h: problems.append(f'{url} noindex 있음')
-    if '<html lang="ko">' not in h: problems.append(f'{url} html lang="ko" 아님')
+    # 11-11 새 셸은 <html lang="ko" class="no-js"> 라 속성이 더 붙어도 lang 만 본다.
+    if not re.search(r'<html\b[^>]*\blang="ko"', h): problems.append(f'{url} html lang="ko" 아님')
     if rel == '.' and '피빗' not in (title or ''):
         problems.append(f'{url} 제목에 한글 이름 «피빗» 없음')
     if title in seen_title: problems.append(f'{url} 제목이 {seen_title[title]} 와 같음')
