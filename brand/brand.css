@@ -1,0 +1,45 @@
+/* ===== 브랜드 스토리 (brand/) — 2026-11-20 · 디자인 확정 전 (PW-3152 John) =====
+   legal.css 틀 위에 얹는다. 새 시각 언어를 만들지 않고 첫 화면 기능 섹션(.feat__*) + 섹션 4 슬라이드 3 배경(s4-bg-3) +
+   흰 글자(s4__title 과 같은 textPrimaryOnBrand)를 조합했다. 컬러는 전부 토큰 변수. */
+.brand__lead { margin-top: 20px; text-align: center; color: var(--web-gray-600); }
+.brand__inner { margin-top: 64px; display: flex; flex-direction: column; gap: 48px; }
+.brand__visual { background: url("../assets/s4-bg-3.webp") center / cover no-repeat; display: flex; align-items: center; justify-content: center; }
+.brand__mark-word { position: relative; display: flex; flex-direction: column; align-items: center; gap: calc(12 * var(--u)); color: var(--colors-text-textPrimaryOnBrand); text-align: center; }
+.brand__word { font-size: calc(176 * var(--u)); line-height: 1; font-weight: 700; letter-spacing: -0.03em; text-shadow: 0 8px 40px rgba(16, 119, 77, 0.18); }
+/* o → i 전환: o 가 위로 사라지고 i 가 아래에서 올라온다. 글자 폭(o 0.6em → i 0.27em)도 함께 줄어 단어가 붙는다 */
+.brand__swap { position: relative; display: inline-block; vertical-align: top; height: 1em; overflow: hidden; animation: brand-swap-w 5s var(--ease) infinite; }
+.brand__o, .brand__i { position: absolute; left: 50%; top: 0; transform: translateX(-50%); }
+.brand__o { animation: brand-swap-o 5s var(--ease) infinite; }
+.brand__i { animation: brand-swap-i 5s var(--ease) infinite; }
+@keyframes brand-swap-w { 0%, 30% { width: 0.6em; } 45%, 90% { width: 0.27em; } 100% { width: 0.6em; } }
+@keyframes brand-swap-o { 0%, 30% { transform: translate(-50%, 0); opacity: 1; } 45%, 90% { transform: translate(-50%, -100%); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
+@keyframes brand-swap-i { 0%, 30% { transform: translate(-50%, 100%); opacity: 0; } 45%, 90% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 100%); opacity: 0; } }
+.brand__tagline { color: var(--colors-text-textPrimaryOnBrand); letter-spacing: 0; }
+.brand__tagline b { font-weight: 800; }
+.brand .body, .brand__quote .h3 { word-break: keep-all; }
+.brand__badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--colors-background-bgBrandSecondary); color: var(--colors-text-textBrandSecondary); font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.brand__terms { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.brand__terms li { display: flex; align-items: baseline; gap: 12px; }
+.brand__terms b { flex: none; min-width: 28px; font-size: 18px; font-weight: 700; color: var(--colors-text-textBrandSecondary); }
+.brand__journey { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px; }
+.brand__journey li { display: inline; white-space: nowrap; font-size: 15px; font-weight: 500; line-height: 1.63; letter-spacing: -0.3px; color: var(--web-gray-600); }
+.brand__journey li b { font-weight: 700; color: var(--colors-text-textBrandSecondary); }
+.brand__journey li + li::before { content: "→"; color: var(--colors-text-textTertiary); margin-right: 6px; }
+.brand__quote { margin: 16px 0 0; padding: 40px 0 0; border-top: 1px solid var(--colors-border-borderSecondary); text-align: center; }
+.brand__quote .h3 { color: var(--web-gray-900); }
+@media (prefers-reduced-motion: reduce) {
+  .brand__swap, .brand__o, .brand__i { animation: none; }
+  .brand__swap { width: 0.27em; }
+  .brand__o { opacity: 0; }
+  .brand__i { transform: translate(-50%, 0); opacity: 1; }
+}
+@media (max-width: 834px) {
+  .brand__inner { margin-top: 40px; }
+  .legal__main .brand__inner.wrap { padding-left: 0; padding-right: 0; }   /* 모바일 .legal__main 좌우 24 와 겹치지 않게 */
+  .brand__visual { aspect-ratio: 342 / 300; }
+  .brand__word { font-size: calc(92 * var(--mu)); }
+  .brand__mark-word { gap: 8px; }
+  .brand__tagline { font-size: 16px; }
+  .brand__quote { margin-top: 0; padding-top: 32px; text-align: left; }
+  .brand__quote .h3 br { display: none; }
+}
