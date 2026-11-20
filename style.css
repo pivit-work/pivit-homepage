@@ -762,3 +762,50 @@ html.is-locked { overflow: hidden; }
   .footer__logo { margin-top: 76px; height: auto; }
   .footer__logo img { height: auto; }
 }
+
+/* ==========================================================================
+   Section 11 : 브랜드 — 이름에 담긴 의미 (2026-11-20 시안 · 디자인 확정 전)
+   새 시각 언어를 만들지 않고 기능 섹션(.feat) 골격 + 섹션 4 슬라이드 3 배경(s4-bg-3) + 흰 글자(s4__title 과 같은 textPrimaryOnBrand)를 조합했다.
+   ========================================================================== */
+.feat--brand { margin-top: calc(277 * var(--u)); }
+.feat__head--brand .h1 { flex: 1; }
+.feat--brand .body, .brand__quote .h3 { word-break: keep-all; }
+.brand__visual { background: url("assets/s4-bg-3.webp") center / cover no-repeat; display: flex; align-items: center; justify-content: center; }
+.brand__mark-word { position: relative; display: flex; flex-direction: column; align-items: center; gap: calc(12 * var(--u)); color: var(--colors-text-textPrimaryOnBrand); text-align: center; }
+.brand__word { font-size: calc(176 * var(--u)); line-height: 1; font-weight: 700; letter-spacing: -0.03em; text-shadow: 0 8px 40px rgba(16, 119, 77, 0.18); }
+/* o → i 전환: o 가 위로 사라지고 i 가 아래에서 올라온다. 글자 폭(o 0.6em → i 0.26em)도 함께 줄어 단어가 붙는다 */
+.brand__swap { position: relative; display: inline-block; vertical-align: top; height: 1em; overflow: hidden; animation: brand-swap-w 5s var(--ease) infinite; }
+.brand__o, .brand__i { position: absolute; left: 50%; top: 0; transform: translateX(-50%); }
+.brand__o { animation: brand-swap-o 5s var(--ease) infinite; }
+.brand__i { color: var(--colors-text-textPrimaryOnBrand); animation: brand-swap-i 5s var(--ease) infinite; }
+@keyframes brand-swap-w { 0%, 30% { width: 0.6em; } 45%, 90% { width: 0.27em; } 100% { width: 0.6em; } }
+@keyframes brand-swap-o { 0%, 30% { transform: translate(-50%, 0); opacity: 1; } 45%, 90% { transform: translate(-50%, -100%); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
+@keyframes brand-swap-i { 0%, 30% { transform: translate(-50%, 100%); opacity: 0; } 45%, 90% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 100%); opacity: 0; } }
+.brand__tagline { color: var(--colors-text-textPrimaryOnBrand); letter-spacing: 0; }
+.brand__tagline b { font-weight: 800; }
+.brand__badge { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--colors-background-bgBrandSecondary); color: var(--colors-text-textBrandSecondary); font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.brand__terms { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.brand__terms li { display: flex; align-items: baseline; gap: 12px; }
+.brand__terms b { flex: none; min-width: 28px; font-size: 18px; font-weight: 700; color: var(--colors-text-textBrandSecondary); }
+.brand__journey { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px; }
+.brand__journey li { display: inline; white-space: nowrap; font-size: 15px; font-weight: 500; line-height: 1.63; letter-spacing: -0.3px; color: var(--web-gray-600); }
+.brand__journey li b { font-weight: 700; color: var(--colors-text-textBrandSecondary); }
+.brand__journey li + li::before { content: "→"; color: var(--colors-text-textTertiary); margin-right: 6px; }
+.brand__quote { margin: calc(32 * var(--u)) 0 0; padding: 40px 0 0; border-top: 1px solid var(--colors-border-borderSecondary); text-align: center; }
+.brand__quote .h3 { color: var(--web-gray-900); }
+@media (prefers-reduced-motion: reduce) {
+  .brand__swap, .brand__o, .brand__i { animation: none; }
+  .brand__swap { width: 0.27em; }
+  .brand__o { opacity: 0; }
+  .brand__i { transform: translate(-50%, 0); opacity: 1; }
+}
+@media (max-width: 834px) {
+  .feat--brand { margin-top: 171px; }
+  .feat__head--brand .h1 { flex: none; }
+  .brand__visual { aspect-ratio: 342 / 300; }
+  .brand__word { font-size: calc(92 * var(--mu)); }
+  .brand__mark-word { gap: 8px; }
+  .brand__tagline { font-size: 16px; }
+  .brand__quote { margin-top: 0; padding-top: 32px; text-align: left; }
+  .brand__quote .h3 br { display: none; }
+}
