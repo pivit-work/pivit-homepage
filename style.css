@@ -767,30 +767,3 @@ html.is-locked { overflow: hidden; }
   .footer__logo { margin-top: 76px; height: auto; }
   .footer__logo img { height: auto; }
 }
-
-/* ==========================================================================
-   요금제 (2026-11-24) — 기능 섹션(.feat) 골격 + FAQ 항목과 같은 흰 카드(bgPrimary · radius 16)
-   ========================================================================== */
-.feat--pricing { scroll-margin-top: 120px; }
-.pricing__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.pricing__card { display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: var(--colors-background-bgPrimary); border: 1px solid var(--colors-border-borderSecondary); word-break: keep-all; }
-.pricing__card--main { border-color: var(--colors-emerald-500); }
-.pricing__badge { display: inline-block; margin-left: 6px; padding: 2px 10px; border-radius: 999px; vertical-align: middle; background: var(--colors-emerald-100); color: var(--colors-emerald-700); font-weight: 700; }
-.pricing__price { display: flex; flex-direction: column; gap: 6px; padding-bottom: 24px; border-bottom: 1px solid var(--colors-border-borderSecondary); }
-.pricing__amount { font-size: 34px; line-height: 1.31; font-weight: 700; letter-spacing: -0.34px; color: var(--web-gray-900); }
-.pricing__amount .body { margin-left: 8px; white-space: nowrap; }
-.pricing__price b { font-weight: 700; color: var(--colors-emerald-700); }
-.pricing__list { list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
-.pricing__notes { list-style: disc; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; word-break: keep-all; font-size: 13px; color: var(--web-gray-600); }
-@media (max-width: 1100px) { .pricing__amount .body { display: block; margin-left: 0; } }
-@media (max-width: 834px) {
-  .feat--pricing { margin-top: 171px; scroll-margin-top: 90px; }
-  .pricing__cards { grid-template-columns: 1fr; gap: 14px; }
-  .pricing__card { padding: 28px 24px; border-radius: 20px; }
-  .pricing__amount { font-size: 30px; }
-}
-/* GNB 메뉴가 넷이 되어 좁은 화면(400px 이하)에서는 안쪽 여백 · 간격을 줄인다 */
-@media (max-width: 400px) {
-  .gnb { padding-left: 22px; padding-right: 22px; gap: 24px; }
-  .gnb__nav { gap: 17px; }
-}

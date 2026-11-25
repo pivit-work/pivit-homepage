@@ -103,7 +103,7 @@
      "name": "비용이 드나요?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "얼리 액세스 기간에는 무료입니다. 그 뒤에는 구성원 1명 기준으로 Starter 월 8,450원, Growth 월 14,150원이고, 연간 결제는 각각 월 5,900원, 월 9,900원입니다(부가세 별도). 5명까지는 무료인 Free 요금제를 쓸 수 있습니다."
+      "text": "얼리 액세스 기간에는 무료입니다."
      }
     },
     {
@@ -163,7 +163,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
   <link rel="stylesheet" href="tokens.css?v=20261114n" />
   <link rel="stylesheet" href="tokens-dark.css?v=20261114n" />
-  <link rel="stylesheet" href="style.css?v=20261125a" />
+  <link rel="stylesheet" href="style.css?v=20261126a" />
 </head>
 <body>
 
@@ -178,7 +178,6 @@
   <nav class="gnb__nav" aria-label="주요 메뉴">
     <a href="#how">작동방식</a>
     <a href="#features">기능</a>
-    <a href="#pricing">요금</a>
     <a href="#faq">FAQ</a>
   </nav>
 </header>
@@ -587,65 +586,6 @@
   </div>
 </section>
 
-<!-- ===== 요금제 (2026-11-24 David 지시 — 토스페이먼츠 입점 심사 «요금제 가격 명시» · 금액 정본 pricing-policy.md §1) ===== -->
-<section class="feat feat--pricing wrap" id="pricing">
-  <div class="feat__head reveal">
-    <h2 class="h1 split-lines">요금제<br />구성원 1명 기준 가격입니다</h2>
-    <p class="body feat__sub">얼리 액세스 기간에는 무료이고,<br />그 뒤에는 아래 요금이 적용됩니다.</p>
-  </div>
-  <div class="feat__body">
-    <div class="pricing__cards reveal">
-      <article class="pricing__card">
-        <h3 class="headline headline--bold">Free</h3>
-        <div class="pricing__price">
-          <p class="pricing__amount">0원</p>
-          <p class="body">5명까지 · 기간 제한 없음</p>
-        </div>
-        <ul class="body pricing__list">
-          <li>조직도 · 관리자 · 타임라인 (일부 제한)</li>
-          <li>1on1 · 데일리 스니핏 (일부 제한)</li>
-          <li>녹음 회사당 월 2시간</li>
-          <li>AI 실행 회사당 월 50회</li>
-        </ul>
-      </article>
-      <article class="pricing__card">
-        <h3 class="headline headline--bold">Starter</h3>
-        <div class="pricing__price">
-          <p class="pricing__amount">8,450원<span class="body">1명 · 월 (월간 결제)</span></p>
-          <p class="body"><b>5,900원</b> / 1명 · 월 (연간 결제 · 30% 할인)</p>
-        </div>
-        <ul class="body pricing__list">
-          <li>인원 제한 없음</li>
-          <li>조직도 · 관리자 · 타임라인 전체</li>
-          <li>1on1 · 데일리 스니핏</li>
-          <li>녹음 1명당 월 4시간</li>
-          <li>AI 실행 1명당 월 30회</li>
-        </ul>
-      </article>
-      <article class="pricing__card pricing__card--main">
-        <h3 class="headline headline--bold">Growth <span class="caption pricing__badge">추천</span></h3>
-        <div class="pricing__price">
-          <p class="pricing__amount">14,150원<span class="body">1명 · 월 (월간 결제)</span></p>
-          <p class="body"><b>9,900원</b> / 1명 · 월 (연간 결제 · 30% 할인)</p>
-        </div>
-        <ul class="body pricing__list">
-          <li>Starter 전체 포함 · 인원 제한 없음</li>
-          <li>OKR · 회의록 · 리포트</li>
-          <li>평가 (정기 평가 + AI 초안)</li>
-          <li>녹음 1명당 월 10시간</li>
-          <li>AI 실행 1명당 월 60회</li>
-        </ul>
-      </article>
-    </div>
-    <ul class="caption pricing__notes reveal">
-      <li>모든 금액은 부가세 별도입니다. 결제 금액은 1명 가격 × 결제일의 구성원 수에 부가세 10%를 더한 값입니다.</li>
-      <li>월간 결제는 1개월분, 연간 결제는 12개월분을 선결제합니다. 연간 결제 금액은 1명 기준 Starter 70,800원, Growth 118,800원입니다.</li>
-      <li>Starter · Growth 의 녹음 시간과 AI 실행 횟수는 회사 전체가 합쳐서 나눠 씁니다.</li>
-      <li>Free 요금제는 회사 사정에 따라 변경되거나 종료될 수 있습니다. 변경 · 종료 30일 전에 알려 드립니다.</li>
-    </ul>
-  </div>
-</section>
-
 <!-- ===== FAQ ===== -->
 <section class="faq wrap reveal" id="faq">
   <div class="faq__title"><img class="faq__title-d" src="assets/faq-title.svg" width="401" height="107" alt="Frequently asked questions" loading="lazy" decoding="async" /><img class="faq__title-m" src="assets/faq-title-m.svg" width="230" height="61" alt="Frequently asked questions" loading="lazy" decoding="async" /></div>
@@ -656,7 +596,7 @@
     </details>
     <details class="faq__item">
       <summary class="faq__q"><span>비용이 드나요?</span><img src="assets/icon-chevron-down.svg" width="24" height="24" alt="" loading="lazy" decoding="async" /></summary>
-      <p class="faq__a body">얼리 액세스 기간에는 무료입니다. 그 뒤에는 구성원 1명 기준으로 Starter 월 8,450원, Growth 월 14,150원이고, 연간 결제는 각각 월 5,900원, 월 9,900원입니다(부가세 별도). 5명까지는 무료인 Free 요금제를 쓸 수 있습니다.</p>
+      <p class="faq__a body">얼리 액세스 기간에는 무료입니다.</p>
     </details>
     <details class="faq__item">
       <summary class="faq__q"><span>전자결재와 휴가 관리도 쓸 수 있나요?</span><img src="assets/icon-chevron-down.svg" width="24" height="24" alt="" loading="lazy" decoding="async" /></summary>
