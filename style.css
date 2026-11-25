@@ -488,8 +488,8 @@ html.is-locked { overflow: hidden; }
 
 /* s8 */
 .s8__visual { background: url("assets/s8-bg.webp") center / cover no-repeat; }
-.s8__sources { position: absolute; left: calc(407 * var(--u)); top: calc(159 * var(--u)); width: calc(444 * var(--u)); height: calc(300 * var(--u)); }
-.s8__flow { position: absolute; left: calc(407 * var(--u)); top: calc(159 * var(--u)); width: calc(444 * var(--u)); height: auto; aspect-ratio: 444 / 300; pointer-events: none; overflow: visible; color: var(--colors-text-textWhite); }
+.s8__sources { position: absolute; left: calc(294.5 * var(--u)); top: calc(159 * var(--u)); width: calc(669 * var(--u)); height: calc(300 * var(--u)); }
+.s8__flow { position: absolute; left: calc(294.5 * var(--u)); top: calc(159 * var(--u)); width: calc(669 * var(--u)); height: auto; aspect-ratio: 669 / 300; pointer-events: none; overflow: visible; color: var(--colors-text-textWhite); }
 .s8__flow-dash { fill: url(#s8fg); filter: drop-shadow(0 0 3px var(--componentColors-alpha-alphaWhite80)); }
 @media (prefers-reduced-motion: reduce) { .s8__flow { display: none; } }
 
@@ -731,8 +731,8 @@ html.is-locked { overflow: hidden; }
   .feat__visual-m { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
   .s8__visual, .s10__visual { background-size: 100% 199%; background-position: center 50%; }
   .glow { width: 185.4%; height: auto; }
-  .s8__sources { left: 18.1%; top: 38.4%; width: 64%; height: auto; }
-  .s8__flow { left: 18.1%; top: 38.4%; width: 64%; }
+  .s8__sources { left: 4%; top: 39%; width: 92%; height: auto; }
+  .s8__flow { left: 4%; top: 39%; width: 92%; }
   /* Figma 30:4937 (342×643): 알약 top 159, padding 47.3/50, gap 34 — 라벨만(보조 문구 없음); 배지는 image 83 (83×37, top 140) */
   .s10__pill { flex-direction: column; align-items: center; top: 24.7%; gap: calc(34 * var(--mu)); padding: calc(47.3 * var(--mu)) calc(50 * var(--mu)); }
   .s10__item { width: calc(32.7 * var(--mu)); gap: 3.64px; } /* Figma 30:5035: 아이템 32.7 (라벨은 넘쳐서 중앙 정렬) */
