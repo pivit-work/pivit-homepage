@@ -549,6 +549,9 @@ html.is-locked { overflow: hidden; }
 .footer__msg .cta { align-self: flex-start; }
 .footer__legal { margin-top: 296px; display: flex; align-items: flex-end; justify-content: space-between; color: var(--colors-text-textPrimaryOnBrand); }
 .footer__company { width: calc(396 * var(--u)); display: flex; flex-direction: column; gap: 15px; }
+.footer__nav { display: flex; flex-direction: column; align-items: flex-end; gap: 15px; } /* 위 = 기능 둘러보기, 아래 = 정책 링크 */
+.footer__nav .footer__links { flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; } /* 좁은 폭에서 글자 중간이 아니라 항목 단위로 줄바꿈 */
+.footer__nav a { white-space: nowrap; }
 .footer__links { display: flex; gap: 20px; }
 .footer__logo { margin-top: 140px; width: 100%; height: calc(446 * var(--u)); } /* 하단 패딩을 98→54 로 줄인 만큼(44) 늘려 메시지·법적 고지는 Figma 위치(푸터 상단 554 / 1159) 유지, 로고만 아래로 */
 .footer__logo img { width: 100%; height: 100%; }
@@ -757,6 +760,8 @@ html.is-locked { overflow: hidden; }
   .footer__msg .cta { padding: 8px 20px; font-size: 16px; font-weight: 700; letter-spacing: -0.48px; }
   .footer__legal { margin-top: auto; padding-top: 40px; flex-direction: column; align-items: flex-start; gap: 40px; } /* 법적고지 + 로고는 항상 푸터 최하단에 붙는다 (393 기준 770 / 1041) */
   .footer__company { width: 100%; }
+  .footer__nav { align-items: flex-start; gap: 20px; }
+  .footer__nav .footer__links { justify-content: flex-start; }
   .footer__links { flex-wrap: wrap; row-gap: 8px; }  /* 링크 6개 — 한 줄에 안 들어가면 항목 단위로 줄바꿈 */
   .footer__links a { white-space: nowrap; }
   .footer__logo { margin-top: 76px; height: auto; }
